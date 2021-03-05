@@ -2,8 +2,7 @@
 const express = require('express');
 const { static } = express;
 const path = require('path');
-const { db, models: { User, Request, Game } } = require('../db');
-
+const { db, models: { User, Request, Game, User_Game } } = require('../db');
 
 const app = express();
 module.exports = app
@@ -28,18 +27,27 @@ app.get('/api/users', async(req, res, next)=> {
 //gets all request
 app.get('/api/requests', async(req, res, next)=> {
   try {
-    res.send(await Request.findAll());
+    res.send(await Request.findAll({ include: User}));
   }
   catch(ex){
     next(ex);
   }
 });
 
-
 //gets all games
 app.get('/api/games', async(req, res, next)=> {
   try {
     res.send(await Game.findAll());
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+//gets all user_games
+app.get('/api/user_games', async(req, res, next)=> {
+  try {
+    res.send(await User_Game.findAll({ include: [User, Game]}));
   }
   catch(ex){
     next(ex);
