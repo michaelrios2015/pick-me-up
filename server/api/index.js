@@ -27,7 +27,7 @@ app.get('/api/users', async(req, res, next)=> {
 //gets all request
 app.get('/api/requests', async(req, res, next)=> {
   try {
-    res.send(await Request.findAll({ include: User}));
+    res.send(await Request.findAll({ include: [ User, Game ]}));
   }
   catch(ex){
     next(ex);

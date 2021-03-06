@@ -24,7 +24,13 @@ const Request = db.define('request', {
   // just time date will be added back  
   time: { 
       type: INTEGER, 
-    }     
+    },
+  //it would be better if it just checked the time to see if it was an
+  //open and closed request but this should work for now 
+  open:{
+    type:BOOLEAN,
+    defaultValue: true
+  }       
 },{ timestamps: false });
 
 const Game = db.define('game', {
