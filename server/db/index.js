@@ -1,8 +1,8 @@
 //could be split into models and database
 const Sequelize = require('sequelize');
 const { INTEGER, STRING, BOOLEAN } = Sequelize;
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
-// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/basketball');
+// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/basketball');
 
 //So we can include a ton more personal information but just wanted to get
 // us started
