@@ -16,6 +16,7 @@ class _App extends Component{
     return (
         <div>
           hi
+          (adding this message for testing purposes)
         </div>
     );
   }
