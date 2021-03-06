@@ -3,13 +3,13 @@ import axios from 'axios';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-const LOAD_USER = 'LOAD_USER';
+const LOAD_USERS = 'LOAD_USERS';
 
 
 //segment of real data ************************
-const userReducer = (state = [], action) =>{
-    if (action.type === LOAD_USER){
-        state = action.user
+const usersReducer = (state = [], action) =>{
+    if (action.type === LOAD_USERS){
+        state = action.users
     }
 
     return state;
@@ -18,7 +18,7 @@ const userReducer = (state = [], action) =>{
 
 // the reducer
 const reducer = combineReducers({
-    user: userReducer
+    users: usersReducer
 })
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -26,19 +26,19 @@ const store = createStore(reducer, applyMiddleware(thunk, logger));
 
 //THUNKS****************************************
 
-const _loadUser = (user) =>{
+const _loadUsers = (users) =>{
     return {
-        type: LOAD_USER,
-        user
+        type: LOAD_USERS,
+        users
     };
 };
 
-const loadUser = () =>{
+const loadUsers = () =>{
     return async(dispatch)=>{
-        const data = (await axios.get('/api/users')).data;
-        dispatch(_loadUser(user));
+        const users = (await axios.get('/api/users')).data;
+        dispatch(_loadUsers(users));
     }
 };
 
 export default store;
-export { loadUser };
+export { loadUsers };
