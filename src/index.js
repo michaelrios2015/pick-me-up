@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import store, { loadRequests, loadUsers, loadGames } from './store';
+import store from './store';
+import { loadUsers, loadRequests, loadGames } from './reducers';
 
 class _App extends Component{
   constructor(){
