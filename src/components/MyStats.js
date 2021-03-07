@@ -26,8 +26,11 @@ export class MyStats extends Component{
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
+const mapStateToProps = ({ users, games, requests }) => {
+  console.log(users)
+  console.log('games', games)
+  console.log('requests', requests)
+  return {};
 }
 
 

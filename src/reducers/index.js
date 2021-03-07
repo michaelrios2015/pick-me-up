@@ -91,7 +91,6 @@ const createUser = (data, history)=>{
 const _destroyUser = user =>({ type: DESTROY_USER, user});
 
 const destroyUser = (user, history)=>{
-    //console.log(student);
     return async(dispatch)=>{
         await axios.delete(`/api/users/${user.id}`)
         dispatch(_destroyUser(user))
@@ -138,7 +137,6 @@ const _loadGames = (games) =>{
 const loadGames = () =>{
     return async(dispatch)=>{
         const games = (await axios.get('/api/games')).data;
-        // console.log(users);
         dispatch(_loadGames(games));
     }
 };
