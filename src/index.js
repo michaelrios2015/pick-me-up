@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import store, { loadUsers} from './store';
+import store, { loadRequests, loadUsers, loadGames } from './store';
 
 class _App extends Component{
   constructor(){
@@ -35,6 +35,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     bootstrap: ()=> {
       dispatch(loadUsers());
+      dispatch(loadRequests());
+      dispatch(loadGames());
     }
   };
 }
