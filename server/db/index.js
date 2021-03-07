@@ -1,8 +1,8 @@
 //could be split into models and database
 const Sequelize = require('sequelize');
-const { INTEGER, STRING, BOOLEAN } = Sequelize;
-// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/basketball');
+const { INTEGER, STRING, BOOLEAN, ENUM } = Sequelize;
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
+// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/basketball');
 
 //So we can include a ton more personal information but just wanted to get
 // us started
@@ -17,33 +17,37 @@ const User = db.define('user', {
 
 //Everything has been simplified to get us started :)
 const Request = db.define('request', {
+  // this will need to be changed starting off really restirctive to  make testing
+  // easier will need to replaced with LAT, LONG I assume
   location: {  
-    type: STRING, 
+    type: ENUM('COURT 1', 'COURT 2', 'COURT 3','COURT 4','COURT 5'), 
   },
   // I think date and time can go together, keeping it very simple at the moment
-  // just time date will be added back  
+  // just time date will be added back again very restrive for testing 
   time: { 
-      type: INTEGER, 
-    },
+      type: INTEGER
+  },
   //it would be better if it just checked the time to see if it was an
   //open and closed request but this should work for now 
   open:{
     type:BOOLEAN,
     defaultValue: true
+  },
+  team:{
+    type: STRING
+  },
+  waitlist:{
+    type: BOOLEAN,
+    defaultValue: false
+  },
+  baskets:{
+    type: INTEGER,
   }       
 },{ timestamps: false });
 
 const Game = db.define('game', {
-    // i think this data needs to be repeated as it can be different from the 
-    // requets 
-  location: {  
-    type: STRING, 
-  },
-  // I think date and time can go together, keeping it very simple at the moment
-  // just time date will be added back  
-  time: { 
-    type: INTEGER, 
-  },
+  //Once matching does not need to be exact time/date, and location will need 
+  //to be put back 
   winner: { 
     type: STRING, 
   },  
@@ -58,7 +62,8 @@ const Game = db.define('game', {
 
 },{ timestamps: false });  
 
-  //this is the through table to connect users to a game 
+// we are not using this for the moment but going to leave in just in case
+//this is the through table to connect users to a game 
 const User_Game = db.define(
   "user_game",
   {
