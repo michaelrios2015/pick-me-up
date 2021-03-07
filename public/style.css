@@ -12,3 +12,27 @@
   display: flex;
   justify-content: space-around;
 }
+
+.card {
+  display: flex;
+  justify-content: space-around;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid;
+  width: 300px;
+  height: 250px;
+}
+
+.game-card-header {
+  display: flex;
+  justify-content: center;
+}
+
+.game-card-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 50px;
+}
