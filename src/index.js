@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import store from './store';
+import { MyStats } from './components';
 
 class _App extends Component{
   constructor(){
@@ -15,8 +16,7 @@ class _App extends Component{
   render(){
     return (
         <div>
-          hi
-          (adding this message for testing purposes)
+          <MyStats />
         </div>
     );
   }

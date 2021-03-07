@@ -12,7 +12,7 @@ app.use(express.json());
 app.use('/dist', static(path.join(__dirname, '..', '..', 'dist')));
 
 // is this supposed to be here??
-app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, '..', '..', 'index.html')));
+app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, '..', '..', 'public/index.html')));
 
 //gets all users
 app.get('/api/users', async(req, res, next)=> {
