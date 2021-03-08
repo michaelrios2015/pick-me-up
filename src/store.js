@@ -1,7 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import {logger, createLogger } from 'redux-logger';
+import {composeWithDevTools} from 'redux-devtools-extension'
 import { usersReducer, requestsReducer, gamesReducer } from './reducers/index'
 
 
@@ -11,8 +12,10 @@ const reducer = combineReducers({
     requests: requestsReducer,
     games: gamesReducer,
 })
-
-const store = createStore(reducer, applyMiddleware(thunk, logger));
+const middleware = composeWithDevTools(
+    applyMiddleware(thunk, createLogger({collapsed: true}))
+  )
+const store = createStore(reducer, middleware);
 
 
 export default store;
