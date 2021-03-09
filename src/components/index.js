@@ -5,3 +5,4 @@
  */
 
 export {default as MyStats} from './MyStats'
+export {default as MyProfile} from './MyProfile'
