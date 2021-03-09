@@ -6,3 +6,4 @@
 
 export {default as MyStats} from './MyStats'
 export {default as MyProfile} from './MyProfile'
+export {default as RequestForm} from './RequestForm'
