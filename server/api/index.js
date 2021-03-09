@@ -16,6 +16,13 @@ async function authenticate(password, hash) {
 	return authStatus;
 }
 
+const jwt = require("jsonwebtoken");
+const jwtSecret = require("../../secrets");
+
+async function generateAccessToken(user) {
+	const token = await jwt.sign(user, jwtSecret);
+}
+
 const app = express();
 module.exports = app;
 
@@ -52,12 +59,13 @@ app.post("/login", async (req, res, next) => {
 	try {
 		const authStatus = await authenticate(req.body.password, hash);
 		if (authStatus) {
-			res.status(200).send("Login successful");
+			const token = await generateAccessToken(req.body.email);
+			res.status(200).json(token);
 		} else {
 			res.status(401).send("Invalid password");
 		}
 	} catch (er) {
-		throw new Error("Unable to login");
+		throw new Error(er);
 	}
 });
 
