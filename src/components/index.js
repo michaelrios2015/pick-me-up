@@ -5,3 +5,6 @@
  */
 
 export {default as MyStats} from './MyStats'
+export {default as NavBar} from './NavBar'
+export {default as RequestForm} from './RequestForm'
+export {default as Home} from './Home'

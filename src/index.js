@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
+import {Router} from 'react-router-dom';
 import store from './store';
-import { MyStats } from './components';
+import { NavBar } from './components';
+import Routes from './Routes';
 import { loadUsers, loadRequests, loadGames } from './reducers';
+import history from './history';
 
 class _App extends Component{
   constructor(){
@@ -21,7 +24,8 @@ class _App extends Component{
     // console.log(this.props)
     return (
         <div>
-          <MyStats />
+          <NavBar />
+          <Routes />
         </div>
     );
   }
@@ -44,4 +48,11 @@ const mapDispatchToProps = (dispatch) => {
 
 const App = connect(mapStateToProps, mapDispatchToProps)(_App);
 
-render(<Provider store = {store}><App /></Provider>, document.querySelector('#root'));
+render(
+  <Provider store = {store}>
+    <Router history = {history}>
+      <App />
+    </Router>
+  </Provider>, 
+  document.querySelector('#root')
+);

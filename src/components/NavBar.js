@@ -3,28 +3,30 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 export class Navbar extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = { 
-
-    }
-  }
-
+  // constructor(props){
+  //   super(props)
+  //   this.state = {
+  //   }
+  // }
   componentDidMount(){
-   
   }
-
-}
-
-const mapState = ({  }) => {
-  return {
-   
+  render(){
+    return(
+      <div>
+        <Link to='/'>PickMeUp</Link>
+        <Link to='/request'>Pick Up</Link>
+        <Link to='/stats'>My Stats</Link>
+        <Link to='/account'>My Account</Link>
+        <Link to='/'>Logout</Link>
+      </div>
+    )
   }
 }
-
+const mapState = state => {
+  return state
+}
 const mapDispatch = dispatch => {
   return {
-
   }
 }
 
