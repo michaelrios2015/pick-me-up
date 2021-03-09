@@ -5,6 +5,26 @@ const CREATE_USER = 'CREATE_USER';
 const DESTROY_USER = 'DESTROY_USER';
 const UPDATE_USER = 'UPDATE_USER';
 
+
+//so if the state is an object you can use different keys to save different
+// data not sure if it is need for users it might 
+
+// const usersReducer = (state = { ALL: {}, SINGLE: {}}, action) =>{
+//     if (action.type === LOAD_USERS){
+//         state['ALL'] = action.users
+//     }
+
+// so in components you need to check that the object has turned into an array
+// const mapState = ({users}) => {
+//     if (Object.keys(users['ALL']).length > 0){
+//     // const userR = users['ALL'].find( user => user.id === 11 ) || false;
+//     console.log(users['ALL'])}
+//     let user = {name: 'Mik', email: '123' } 
+//     return{
+//       user
+//     }
+//   };
+
 //*************************************************
 const usersReducer = (state = [], action) =>{
     if (action.type === LOAD_USERS){
