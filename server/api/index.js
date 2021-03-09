@@ -1,166 +1,191 @@
 //as this get's bigger you can seperate things out more
-const express = require('express');
+const express = require("express");
 const { static } = express;
-const path = require('path');
-const axios = require('axios');
-const { db, models: { User, Request, Game, User_Game } } = require('../db');
+const path = require("path");
+const axios = require("axios");
+const {
+	db,
+	models: { User, Request, Game, User_Game },
+} = require("../db");
+
+// Authentication
+const bcrypt = require("bcrypt");
+
+async function authenticate(password, hash) {
+	const authStatus = await bcrypt.compare(password, hash);
+	return authStatus;
+}
 
 const app = express();
-module.exports = app
+module.exports = app;
 
 app.use(express.json());
 
-app.use('/dist', static(path.join(__dirname, '..', '..', 'dist')));
+app.use("/dist", static(path.join(__dirname, "..", "..", "dist")));
 
 // is this supposed to be here??
-app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, '..', '..', 'public/index.html')));
+app.get("/", (req, res, next) =>
+	res.sendFile(path.join(__dirname, "..", "..", "public/index.html"))
+);
 
 // static file-serving middleware
-app.use(express.static(path.join(__dirname, '..', '..', 'public')))
+app.use(express.static(path.join(__dirname, "..", "..", "public")));
+
+// login user
+app.post("/login", async (req, res, next) => {
+	let hash = "";
+
+	// look up user
+	try {
+		user = await User.findOne({
+			where: {
+				email: req.body.email,
+			},
+		});
+
+		hash = user.password;
+	} catch (er) {
+		res.status(401).send("User not found");
+	}
+
+	// compare hash with submitted password
+	try {
+		const authStatus = await authenticate(req.body.password, hash);
+		if (authStatus) {
+			res.status(200).send("Login successful");
+		} else {
+			res.status(401).send("Invalid password");
+		}
+	} catch (er) {
+		throw new Error("Unable to login");
+	}
+});
 
 //gets all users
-app.get('/api/users', async(req, res, next)=> {
-  try {
-    res.send(await User.findAll());
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/users", async (req, res, next) => {
+	try {
+		res.send(await User.findAll());
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 //gets a user
-app.get('/api/users/:id', async(req, res, next)=> {
-  try {
-    res.send(await User.findByPk(req.params.id));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/users/:id", async (req, res, next) => {
+	try {
+		res.send(await User.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 // creates a user
-app.post('/api/users', async(req, res, next)=> {
-  try {
-    res.status(201).send(await User.create(req.body));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.post("/api/users", async (req, res, next) => {
+	try {
+		res.status(201).send(await User.create(req.body));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
-//deletes a user 
-app.delete('/api/users/:id', async(req, res, next)=> {
-  try {
-    const user = await User.findByPk(req.params.id);
-    await user.destroy();
-    res.sendStatus(204);
-  }  
-  catch(ex){
-    next(ex);
-  }
+//deletes a user
+app.delete("/api/users/:id", async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.params.id);
+		await user.destroy();
+		res.sendStatus(204);
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 //gets all request
-app.get('/api/requests', async(req, res, next)=> {
-  try {
-    res.send(await Request.findAll({ include: [ User, Game ]}));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/requests", async (req, res, next) => {
+	try {
+		res.send(await Request.findAll({ include: [User, Game] }));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 //gets a request not sure if we will need this but it's easy to write
-app.get('/api/requests/:id', async(req, res, next)=> {
-  try {
-    res.send(await Request.findByPk(req.params.id, { include: [ User, Game ]}));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/requests/:id", async (req, res, next) => {
+	try {
+		res.send(await Request.findByPk(req.params.id, { include: [User, Game] }));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 // creates a request
-app.post('/api/requests', async(req, res, next)=> {
-  try {
-    res.status(201).send(await Request.create(req.body));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.post("/api/requests", async (req, res, next) => {
+	try {
+		res.status(201).send(await Request.create(req.body));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
-//deletes a user 
-app.delete('/api/requests/:id', async(req, res, next)=> {
-  try {
-    const request = await Request.findByPk(req.params.id);
-    await request.destroy();
-    res.sendStatus(204);
-  }  
-  catch(ex){
-    next(ex);
-  }
+//deletes a user
+app.delete("/api/requests/:id", async (req, res, next) => {
+	try {
+		const request = await Request.findByPk(req.params.id);
+		await request.destroy();
+		res.sendStatus(204);
+	} catch (ex) {
+		next(ex);
+	}
 });
-
 
 //gets all games
-app.get('/api/games', async(req, res, next)=> {
-  try {
-    res.send(await Game.findAll());
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/games", async (req, res, next) => {
+	try {
+		res.send(await Game.findAll());
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 //gets a games
-app.get('/api/games/:id', async(req, res, next)=> {
-  try {
-    res.send(await Game.findByPk(req.params.id));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/games/:id", async (req, res, next) => {
+	try {
+		res.send(await Game.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 // creates a game
-app.post('/api/games', async(req, res, next)=> {
-  try {
-    res.status(201).send(await Game.create(req.body));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.post("/api/games", async (req, res, next) => {
+	try {
+		res.status(201).send(await Game.create(req.body));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
-//deletes a game 
-app.delete('/api/games/:id', async(req, res, next)=> {
-  try {
-    const game = await Game.findByPk(req.params.id);
-    await game.destroy();
-    res.sendStatus(204);
-  }  
-  catch(ex){
-    next(ex);
-  }
+//deletes a game
+app.delete("/api/games/:id", async (req, res, next) => {
+	try {
+		const game = await Game.findByPk(req.params.id);
+		await game.destroy();
+		res.sendStatus(204);
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 // again not using at the moment but will leave in
 //gets all user_games
-app.get('/api/user_games', async(req, res, next)=> {
-  try {
-    res.send(await User_Game.findAll({ include: [User, Game]}));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/user_games", async (req, res, next) => {
+	try {
+		res.send(await User_Game.findAll({ include: [User, Game] }));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
-
-//final error catcher 
-app.use((err, req, res, next)=>{
-  res.status(500).send({ error:err });
+//final error catcher
+app.use((err, req, res, next) => {
+	res.status(500).send({ error: err });
 });
-
-
-
