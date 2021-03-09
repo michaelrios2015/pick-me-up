@@ -12,6 +12,21 @@ const User = db.define('user', {
   },
   password: { 
     type: STRING, 
+  }, 
+  name:{
+    type: STRING,
+  },
+  age:{
+    type: INTEGER
+  },
+  height:{
+    type: STRING
+  },
+  description:{
+    type: STRING,
+  },
+  photo: {
+    type: STRING,
   }     
 },{ timestamps: false });
 

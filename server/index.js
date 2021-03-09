@@ -38,6 +38,10 @@ const syncAndSeed = async()=> {
     // let email = "test"+i+"@email.com";
     await Request.create({ location: 'COURT 1', time: 9-i, userId: i});
   }
+
+  //creating some data for user
+  await User.create({ email: "MichaelJordan@gmail.com", name: 'Michael Jordan', age: 21, height:'6\'6', description: "GOAT", photo: 'https://media.gq.com/photos/5e99bf6fe5102200088e8eb2/3:4/w_1107,h_1476,c_limit/GQ-MichaelJordan-041720.jpg' })
+
   // an almost full game
   await Request.create({ location: 'COURT 1', time: 3, userId: 10});
   await Request.create({ location: 'COURT 1', time: 3, userId: 9});
