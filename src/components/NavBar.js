@@ -13,7 +13,17 @@ export class Navbar extends React.Component {
   componentDidMount(){
    
   }
-
+  render(){
+    return(
+      <div>
+        <Link to='/'>PickMeUp</Link>
+        <Link to='/request'>Pick Up</Link>
+        <Link to='/stats'>My Stats</Link>
+        <Link to='/account'>My Account</Link>
+        <Link to='/'>Logout</Link>
+      </div>
+    )
+  }
 }
 
 const mapState = ({  }) => {
