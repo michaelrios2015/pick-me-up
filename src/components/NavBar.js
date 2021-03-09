@@ -16,7 +16,7 @@ export class Navbar extends React.Component {
 
 }
 
-const mapState = ({ books, auth, singleUser }) => {
+const mapState = ({  }) => {
   return {
    
   }
