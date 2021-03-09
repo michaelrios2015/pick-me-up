@@ -23,9 +23,9 @@ class _App extends Component{
     return (
         <div>
           <MyStats />
-          {/* <MyProfile/> */}
+          <MyProfile/>
           {/* so you need to be hooked  */}
-          {/* <RequestForm /> */}
+          <RequestForm />
         </div>
     );
   }

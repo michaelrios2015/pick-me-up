@@ -43,9 +43,10 @@ const mapState = ({users, games, requests, match}) => {
   const user = users.find( user => user.id === 4 ) || {};
   const request = requests.find( request => request.id === 24 ) || {};
   
-  const request2 = requests.find( request => request.userId === user.id && request.gameId !== null ) || {};
+  // something like this should be happening in the thunk  
+  // const request2 = requests.find( request => request.userId === user.id && request.gameId !== null ) || {};
+  // console.log(request2);
   
-  console.log(request2);
   const game = games.find( game => game.id * 1 === 1 ) || {};
 
   return {
