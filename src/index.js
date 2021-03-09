@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import store from './store';
+import store from './store/index';
 import { MyStats, MyProfile, RequestForm } from './components';
-import { loadUsers, loadRequests, loadGames } from './reducers';
+import { loadRequests, loadGames, loadUsers } from './store/';
+
 
 class _App extends Component{
   constructor(){
@@ -18,7 +19,7 @@ class _App extends Component{
 
   //this works fine now need to figure out how to put my data into Material UI table and add search
   render(){
-    // console.log(this.props)
+    console.log(this.props)
     return (
         <div>
           <MyStats />
