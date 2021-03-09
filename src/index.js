@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import store from './store/index';
 import { MyStats, MyProfile, RequestForm } from './components';
-import { loadRequests, loadGames, loadUsers } from './store/';
+import { loadRequests, loadRequestsForUser, loadGamesForUser, loadGamesOrWaitListForUser, loadGamesDataForUser, loadGames, loadUsers } from './store/';
 
 
 class _App extends Component{
@@ -14,6 +14,7 @@ class _App extends Component{
 
   componentDidMount(){
     this.props.bootstrap();
+   
   }
 
 
@@ -22,10 +23,10 @@ class _App extends Component{
     console.log(this.props)
     return (
         <div>
-          <MyStats />
-          <MyProfile/>
+          {/* <MyStats /> */}
+          {/* <MyProfile/> */}
           {/* so you need to be hooked  */}
-          <RequestForm />
+          {/* <RequestForm /> */}
         </div>
     );
   }
@@ -37,11 +38,16 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+  
   return {
+    
     bootstrap: ()=> {
       dispatch(loadUsers());
+      dispatch(loadRequestsForUser(4));
+      dispatch(loadGamesOrWaitListForUser(4));
       dispatch(loadRequests());
       dispatch(loadGames());
+      dispatch(loadGamesDataForUser(4));
     }
   };
 }
