@@ -6,6 +6,7 @@ const axios = require('axios');
 const { db, models: { User, Request, Game, User_Game } } = require('../db');
 // i think there is a way to get it from db...?
 const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 
 const app = express();
 module.exports = app
@@ -106,13 +107,15 @@ app.get('/api/requests/user/game/played/:userId', async(req, res, next)=> {
 });
 
 //trying to just get the games won by user
+// NOT WORKING, works with {winner: "TEAM A"}
 app.get('/api/requests/user/game/played/won/:userId', async(req, res, next)=> {
   try {
     res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
       { gameId:{[Op.not]: null}}, { waitlist: false}]}, 
-      include: [{ model: Game, where: {winner: models.sequelize.literal('Request.id')} }]} ));
+      include: [{ model: Game, where: {winner: Sequelize.col('request.team')} }]} ));
   }
   catch(ex){
+    console.log(ex)
     next(ex);
   }
 });

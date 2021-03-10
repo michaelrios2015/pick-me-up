@@ -76,8 +76,11 @@ export const loadGamesDataForUser = (userId) =>{
     return async(dispatch)=>{
         // could not get api working so will need to strip data here 
         const requests = (await axios.get(`/api/requests/user/game/played/${userId}`)).data;
-        console.log(requests[0].game.winner)
-        console.log(requests[0].team)
+        // const requests2 = (await axios.get(`/api/requests/user/game/played/won/${userId}`)).data;
+        // this will be enough to get winner and losers just loop through here
+        console.log(requests[0].game.winner);
+        console.log(requests[0].team);
+        // console.log(requests2);
     }
 };
  
