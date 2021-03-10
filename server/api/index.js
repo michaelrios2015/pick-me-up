@@ -85,7 +85,8 @@ app.get('/api/requests/user/:id', async(req, res, next)=> {
 //gets all requests for a user when they are associated with a game they might have been waitlisted
 app.get('/api/requests/user/game/:userId', async(req, res, next)=> {
   try {
-    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, { gameId:{[Op.not]: null}}]}, include: [ User, Game ]} ));
+    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
+      { gameId:{[Op.not]: null}}]}, include: [ User, Game ]} ));
   }
   catch(ex){
     next(ex);
@@ -93,21 +94,33 @@ app.get('/api/requests/user/game/:userId', async(req, res, next)=> {
 });
 
 
-//gets all requests for a user when they are associated with a game and were on a team so they most have played 
+//gets all requests for a user when they are associated with a game and were not waitlisted so they most have played (in theory should check if game is over) 
 app.get('/api/requests/user/game/played/:userId', async(req, res, next)=> {
   try {
-    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, { gameId:{[Op.not]: null}}, { waitlist: false}]}, include: [ User, Game ]} ));
+    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
+      { gameId:{[Op.not]: null}}, { waitlist: false}]}, include: [ User, Game ]} ));
   }
   catch(ex){
     next(ex);
   }
 });
 
+//trying to just get the games won by user
+app.get('/api/requests/user/game/played/won/:userId', async(req, res, next)=> {
+  try {
+    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
+      { gameId:{[Op.not]: null}}, { waitlist: false}]}, 
+      include: [{ model: Game, where: {winner: models.sequelize.literal('Request.id')} }]} ));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
 
 //gets a request not sure if we will need this but it's easy to write
 app.get('/api/requests/:id', async(req, res, next)=> {
   try {
-    res.send(await Request.findByPk(req.params.id, { include: [ User, Game ]}));
+    res.send(await Request.findByPk(req.params.id, { include: [ User, Game]}));
   }
   catch(ex){
     next(ex);

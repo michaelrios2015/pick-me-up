@@ -23,10 +23,10 @@ class _App extends Component{
     console.log(this.props)
     return (
         <div>
-          {/* <MyStats /> */}
-          {/* <MyProfile/> */}
+          <MyStats />
+          <MyProfile/>
           {/* so you need to be hooked  */}
-          {/* <RequestForm /> */}
+          <RequestForm />
         </div>
     );
   }

@@ -70,13 +70,17 @@ export const loadGamesForUser = (userId) =>{
     }
 };
 
+// probably don't need this but need a games won and games lost i mean i can just loop through it here but can probably get it from the 
+// database
 export const loadGamesDataForUser = (userId) =>{
     return async(dispatch)=>{
+        // could not get api working so will need to strip data here 
         const requests = (await axios.get(`/api/requests/user/game/played/${userId}`)).data;
-        console.log(requests)
+        console.log(requests[0].game.winner)
+        console.log(requests[0].team)
     }
 };
-// should I have something here that returns games won by 
+ 
 
 
 // export default store;

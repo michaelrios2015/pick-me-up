@@ -41,7 +41,7 @@ const mapState = ({users, games, requests, match}) => {
   //hardcoded user, request, and game to have data to work with;
   //need to setup url path for a specific user id
   const user = users.find( user => user.id === 4 ) || {};
-  const request = requests.find( request => request.id === 24 ) || {};
+  const request = requests['all'].find( request => request.id === 24 ) || {};
   
   // something like this should be happening in the thunk  
   // const request2 = requests.find( request => request.userId === user.id && request.gameId !== null ) || {};

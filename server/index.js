@@ -47,7 +47,7 @@ const syncAndSeed = async()=> {
   await Request.create({ location: 'COURT 1', time: 3, userId: 9});
 
   // a finished game
-  await Game.create({ winner: 'Team A', finalScore: '100 - 2', done: true});
+  await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true});
 
   // with scores and two people who were wait listed  
   await Request.create({ location: 'COURT 1', open: false, time: 1, userId: 1, gameId: 1, team: 'TEAM A', baskets: 98});
@@ -68,7 +68,7 @@ const syncAndSeed = async()=> {
   await Request.create({ location: 'COURT 1', time: 9, userId: 8, gameId: 2, waitlist: true});
 
   // another random game finished game
-  await Game.create({ winner: 'Team B', finalScore: '60 - 42', done: true});
+  await Game.create({ winner: 'TEAM B', finalScore: '60 - 42', done: true});
 
   // with scores and two people who were wait listed  
   await Request.create({ location: 'COURT 2', open: false, time: 2, userId: 10, gameId: 3, team: 'TEAM A', baskets: 32});
