@@ -6,16 +6,17 @@ class FindGame extends Component{
 
   render(){
     const { games, requests } = this.props;
-    // console.log(requests)
     return (
       <div>
         <div>
           {
             requests.map(request => {
-              const game = games.find( game => game.id * 1 === request.gameId ) || {};
-              return (
-                <GameCard game={game} request={request}/>
-              )
+              if(request.open){
+                const game = games.find( game => game.id === request.gameId ) || {};
+                return (
+                  <GameCard game={game} request={request}/>
+                )
+              }
             })
           }
         </div>
@@ -24,7 +25,8 @@ class FindGame extends Component{
   }
 }
 
-const mapState = ({games, requests}) => {
+const mapState = ({games, requests, users}) => {
+  console.log(users)
   return {
     games,
     requests: requests.all

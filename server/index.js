@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const { db, models: { User, Request, Game, User_Game } } = require('./db');
 const app = require('./api')
+const faker = require('faker');
 
 // should be able to add relationships here
 
@@ -25,8 +26,12 @@ const syncAndSeed = async()=> {
   await db.sync({ force: true });
   //10 generic users
   for (let i = 1; i<= 10; i++){
+    let age = Math.floor(Math.random() * 20 + 16);
+    let description = faker.lorem.sentence();
     let email = "test"+i+"@email.com";
-    await User.create({ email, password: '123'});
+    let height = Math.ceil(Math.random() * 3 + 4) + ' ft';
+    let name = faker.name.firstName();
+    await User.create({ age, description, email, height, name, password: '123'});
   }
   //10 generic requests closed request so past requests
   for (let i = 1; i<= 10; i++){
