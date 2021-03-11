@@ -16,7 +16,7 @@ class Routes extends Component {
         <Route path='/request' component={ RequestForm } />
         <Route path='/' component={ Home } />
         {/* <Route exact path='/account' component={ MyAccount } /> */}
-        {/* <Redirect to='/home' /> */}
+        <Redirect to='/home' />
       </Switch>
     )
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import {Router, BrowserRouter} from 'react-router-dom';
+import {Router, BrowserRouter, Route} from 'react-router-dom';
 import { NavBar } from './components';
 import Routes from './Routes';
 import history from './history';
@@ -27,7 +27,13 @@ class _App extends Component{
     return (
       <div>
         <NavBar />
-        <Routes />
+        <Route path='/stats' component={ MyStats } />
+        <Route path='/request' component={ RequestForm } />
+        <Route path='/' component={ Home } />
+        {/* <Route exact path='/account' component={ MyAccount } /> */}
+        <Redirect to='/home' />
+      {/* </Switch> */}
+        {/* <Routes /> */}
       </div>
     );
   }
