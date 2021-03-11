@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
  * COMPONENT
  */
 export const GameCard = props => {
-  const { game, request } = props
+  const { game, request, players } = props
 
   return (
     <div className='game-card'>
@@ -14,6 +14,15 @@ export const GameCard = props => {
       </div>
       <div className='game-card-content'>
         <h4>Score: { game.finalScore }</h4>
+        <h4>Players: 
+          { 
+            players.map(player => {
+              return (
+                player.name
+              )
+            }) 
+          }
+        </h4>
         <h4>Court: { request.location }</h4>
         {/* <h4>Date: { request.date }</h4> */}
         <h4>Time: { request.time }</h4>

@@ -5,7 +5,7 @@ import GameCard from './GameCard';
 class FindGame extends Component{
 
   render(){
-    const { games, requests } = this.props;
+    const { games, requests, users } = this.props;
     return (
       <div>
         <div>
@@ -13,8 +13,9 @@ class FindGame extends Component{
             requests.map(request => {
               if(request.open){
                 const game = games.find( game => game.id === request.gameId ) || {};
+                const players = users.filter(user => user.id === request.userId) || {};
                 return (
-                  <GameCard game={game} request={request}/>
+                  <GameCard game={game} request={request} players={players}/>
                 )
               }
             })
@@ -26,10 +27,10 @@ class FindGame extends Component{
 }
 
 const mapState = ({games, requests, users}) => {
-  console.log(users)
   return {
     games,
-    requests: requests.all
+    users,
+    requests: requests.all,
   }
 }
 
