@@ -1,31 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
-export class Navbar extends React.Component {
-  // constructor(props){
-  //   super(props)
-  //   this.state = {
-  //   }
-  // }
-  componentDidMount(){
-  }
-  render(){
-    return(
-      <div>
-        <Link to='/'>PickMeUp</Link>
-        <Link to='/request'>Pick Up</Link>
-        <Link to='/stats'>My Stats</Link>
-        <Link to='/account'>My Account</Link>
+const Navbar = () => {
+  // we got location is a different way in class but could not replicate so used this
+  let pathname = useLocation().pathname;
+  return (
+      <nav>
+        <Link to='/' className= { pathname === '/' ? 'selected': ''}>PickMeUp</Link>
+        <Link to='/request' className= { pathname === '/request' ? 'selected': ''}>Pick Up</Link>
+        <Link to='/stats' className= { pathname === '/stats' ? 'selected': ''}>My Stats</Link>
+        <Link to='/account' className= { pathname === '/account' ? 'selected': ''}>My Account</Link>
         <Link to='/'>Logout</Link>
-      </div>
+      </nav>
     )
   }
-}
+
 const mapState = state => {
   return state
 }
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
   }
 }

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import {Router, BrowserRouter, Route} from 'react-router-dom';
+import {HashRouter, Router, BrowserRouter} from 'react-router-dom';
 import { NavBar } from './components';
 import Routes from './Routes';
 import history from './history';
@@ -21,20 +21,17 @@ class _App extends Component{
   }
 
 
-  //this works fine now need to figure out how to put my data into Material UI table and add search
+  //hashrouter has the most functionality at the moment but has the hash that looks
+  // slightly funny.  Will use this for the moment
   render(){
-    console.log(this.props)
+    console.log(history)
     return (
+      <HashRouter>
       <div>
         <NavBar />
-        <Route path='/stats' component={ MyStats } />
-        <Route path='/request' component={ RequestForm } />
-        <Route path='/' component={ Home } />
-        {/* <Route exact path='/account' component={ MyAccount } /> */}
-        <Redirect to='/home' />
-      {/* </Switch> */}
-        {/* <Routes /> */}
+        <Routes />
       </div>
+     </HashRouter>
     );
   }
 }
@@ -49,23 +46,30 @@ const mapDispatchToProps = (dispatch) => {
   return {
     
     bootstrap: ()=> {
-      dispatch(loadUsers());
-      dispatch(loadRequestsForUser(4));
-      dispatch(loadGamesOrWaitListForUser(4));
-      dispatch(loadRequests());
-      dispatch(loadGames());
-      dispatch(loadGamesDataForUser(4));
+      // dispatch(loadUsers());
+      // dispatch(loadRequestsForUser(4));
+      // dispatch(loadGamesOrWaitListForUser(4));
+      // dispatch(loadRequests());
+      // dispatch(loadGames());
+      // dispatch(loadGamesDataForUser(4));
     }
   };
 }
 
 const App = connect(mapStateToProps, mapDispatchToProps)(_App);
 
+//so this just takes care of rendering and should be passing history but does not seem too
+
+console.log(history)
+
+//the router should have worked but does not and I have no way of testing it 
+// so we are using the simplier hashrouter 
 render(
   <Provider store = {store}>
-    <Router history = {history}>
+    {/* <Router history = {history}> */}
       <App />
-    </Router>
+    {/* </Router> */}
   </Provider>, 
   document.querySelector('#root')
 );
+
