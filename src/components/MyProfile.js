@@ -160,4 +160,3 @@ const mapState = ({users}) => {
 
 export default connect(mapState)(MyProfile);
 
-1
