@@ -65,7 +65,7 @@ app.post("/login", async (req, res, next) => {
 			res.status(401).send("Invalid password");
 		}
 	} catch (er) {
-		throw new Error(er);
+		// throw new Error(er);
 	}
 });
 
