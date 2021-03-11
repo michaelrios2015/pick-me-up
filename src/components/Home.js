@@ -7,7 +7,7 @@ class Home extends Component{
 
     return (
       <div>
-        Home
+        Pickup Sports made easy!
       </div>
     );
   }

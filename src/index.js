@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import {Router} from 'react-router-dom';
+import {Router, BrowserRouter} from 'react-router-dom';
 import store from './store';
 import { NavBar } from './components';
 import Routes from './Routes';
@@ -23,10 +23,10 @@ class _App extends Component{
   render(){
     // console.log(this.props)
     return (
-        <div>
-          <NavBar />
-          <Routes />
-        </div>
+      <BrowserRouter>
+        <NavBar />
+        <Routes />
+      </BrowserRouter>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { MyStats, Home, RequestForm } from './components';
 
 /**
@@ -11,15 +11,13 @@ class Routes extends Component {
   render() {
 
     return (
-      <div>
-          <Switch>
-            <Route exact path='/home' component={ Home } />
-            <Route exact path='/stats' component={ MyStats } />
-            <Route exact path='/request' component={ RequestForm } />
-            {/* <Route exact path='/account' component={ MyAccount } /> */}
-            <Redirect to='/home' />
-          </Switch>
-      </div>
+      <Switch>
+        <Route path='/stats' component={ MyStats } />
+        <Route path='/request' component={ RequestForm } />
+        <Route path='/' component={ Home } />
+        {/* <Route exact path='/account' component={ MyAccount } /> */}
+        {/* <Redirect to='/home' /> */}
+      </Switch>
     )
   }
 }
@@ -36,4 +34,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Routes)
+export default withRouter(connect(mapState, mapDispatch)(Routes))
