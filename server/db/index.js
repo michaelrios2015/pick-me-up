@@ -12,6 +12,21 @@ const User = db.define('user', {
   },
   password: { 
     type: STRING, 
+  }, 
+  name:{
+    type: STRING,
+  },
+  age:{
+    type: INTEGER
+  },
+  height:{
+    type: STRING
+  },
+  description:{
+    type: STRING,
+  },
+  photo: {
+    type: STRING,
   }     
 },{ timestamps: false });
 
@@ -28,7 +43,9 @@ const Request = db.define('request', {
       type: INTEGER
   },
   //it would be better if it just checked the time to see if it was an
-  //open and closed request but this should work for now 
+  //open and closed request but this should work for now.  
+  // I am using false to say the the request has already past the game may or may not have been played might not be
+  // the best 
   open:{
     type:BOOLEAN,
     defaultValue: true

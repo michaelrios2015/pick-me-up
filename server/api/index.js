@@ -4,6 +4,9 @@ const { static } = express;
 const path = require('path');
 const axios = require('axios');
 const { db, models: { User, Request, Game, User_Game } } = require('../db');
+// i think there is a way to get it from db...?
+const { Op } = require('sequelize');
+const Sequelize = require('sequelize');
 
 const app = express();
 module.exports = app
@@ -70,15 +73,63 @@ app.get('/api/requests', async(req, res, next)=> {
   }
 });
 
-//gets a request not sure if we will need this but it's easy to write
-app.get('/api/requests/:id', async(req, res, next)=> {
+//gets all requests for a user joined with user and game :)
+app.get('/api/requests/user/:id', async(req, res, next)=> {
   try {
-    res.send(await Request.findByPk(req.params.id, { include: [ User, Game ]}));
+    res.send(await Request.findAll({where: {userId : req.params.id},  include: [ User, Game ]} ));
   }
   catch(ex){
     next(ex);
   }
 });
+
+//gets all requests for a user when they are associated with a game they might have been waitlisted
+app.get('/api/requests/user/game/:userId', async(req, res, next)=> {
+  try {
+    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
+      { gameId:{[Op.not]: null}}]}, include: [ User, Game ]} ));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+
+//gets all requests for a user when they are associated with a game and were not waitlisted so they most have played (in theory should check if game is over) 
+app.get('/api/requests/user/game/played/:userId', async(req, res, next)=> {
+  try {
+    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
+      { gameId:{[Op.not]: null}}, { waitlist: false}]}, include: [ User, Game ]} ));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+//trying to just get the games won by user
+// NOT WORKING, works with {winner: "TEAM A"}
+app.get('/api/requests/user/game/played/won/:userId', async(req, res, next)=> {
+  try {
+    res.send(await Request.findAll({where: {[Op.and]: [{ userId : req.params.userId }, 
+      { gameId:{[Op.not]: null}}, { waitlist: false}]}, 
+      include: [{ model: Game, where: {winner: Sequelize.col('request.team')} }]} ));
+  }
+  catch(ex){
+    console.log(ex)
+    next(ex);
+  }
+});
+
+//gets a request not sure if we will need this but it's easy to write
+app.get('/api/requests/:id', async(req, res, next)=> {
+  try {
+    res.send(await Request.findByPk(req.params.id, { include: [ User, Game]}));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 
 // creates a request
 app.post('/api/requests', async(req, res, next)=> {
