@@ -14,6 +14,7 @@ export class Navbar extends React.Component {
     return(
       <div>
         <Link to='/'>PickMeUp</Link>
+        <Link to='/games'>Find a Game</Link>
         <Link to='/request'>Pick Up</Link>
         <Link to='/stats'>My Stats</Link>
         <Link to='/account'>My Account</Link>

@@ -19,7 +19,7 @@ export class MyProfile extends Component{
 	// 	// this.handleDestroy = this.handleDestroy.bind(this);
   }
   async handleSubmit(e, user) {
-    console.log(e)
+    // console.log(e)
     
     //console.log(e.target[0].defaultValue)
     //console.log(e.target[1].defaultValue);
@@ -50,11 +50,11 @@ export class MyProfile extends Component{
     
 	}
   async onChange(e) {
-     console.log("TARGET VALUE", e.target.value);
+    //  console.log("TARGET VALUE", e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     })
-     console.log("AFTER SETSTATE", this.state.email);
+    //  console.log("AFTER SETSTATE", this.state.email);
 		
 	}
 
