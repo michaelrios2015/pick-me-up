@@ -159,15 +159,6 @@ export class MyProfile extends Component{
   }
 }
 
-// const mapState = ({users}) => {
-//   const user = users['all'].find( user => user.id === 11 ) || false;
-//   // console.log(users['single']);
-//   console.log(users);
-//   return{
-//     user
-//   }
-// };
-
 const mapStateToProps = (state) => {
   // console.log(state.requests);
   return state;

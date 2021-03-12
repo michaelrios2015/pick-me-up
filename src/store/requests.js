@@ -20,18 +20,6 @@ const requestsReducer = (state = { all:[], individual: []}, action) => {
     return {...state};
 }
 
-// do I need two states??
-// const requestsReducer = (state = [], action) => {
-//     if (action.type === LOAD_REQUESTS){
-//         state = action.requests
-//     }
-//     if (action.type === LOAD_REQUESTS_IDV){
-//         state = action.requests
-//     }
-
-//     return state;
-// }
-
 
 //THUNKS****************************************
 
