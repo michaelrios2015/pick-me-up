@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { loadRequests, loadRequestsForUser, loadGamesForUser, loadGamesOrWaitListForUser, loadGamesDataForUser, loadGames, loadUsers, loadUser } from '../store/';
 
 
 export class MyProfile extends Component{
@@ -18,6 +19,12 @@ export class MyProfile extends Component{
 	  this.handleSubmit = this.handleSubmit.bind(this);
 	// 	// this.handleDestroy = this.handleDestroy.bind(this);
   }
+
+  componentDidMount(){
+    this.props.bootstrap();
+   
+  }
+
   async handleSubmit(e, user) {
     console.log(e)
     
@@ -63,7 +70,9 @@ export class MyProfile extends Component{
 
   render(){
    
-    const { user } = this.props;
+    const { users } = this.props;
+    let user = users.single;
+    console.log(users)
     const { email, name, age, height, description, photo } = this.state;
     return (
         <div className='container'>
@@ -150,13 +159,33 @@ export class MyProfile extends Component{
   }
 }
 
-const mapState = ({users}) => {
-  const user = users.find( user => user.id === 11 ) || false;
-  return{
-    user
-  }
-};
+// const mapState = ({users}) => {
+//   const user = users['all'].find( user => user.id === 11 ) || false;
+//   // console.log(users['single']);
+//   console.log(users);
+//   return{
+//     user
+//   }
+// };
+
+const mapStateToProps = (state) => {
+  // console.log(state.requests);
+  return state;
+}
 
 
-export default connect(mapState)(MyProfile);
+const mapDispatchToProps = (dispatch) => {
+  
+  return {
+    
+    bootstrap: ()=> {
+      dispatch(loadUser(4));
+
+    }
+  };
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
 

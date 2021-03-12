@@ -14,11 +14,23 @@ const requestsReducer = (state = { all:[], individual: []}, action) => {
         state['all'] = action.requests
     }
     if (action.type === LOAD_REQUESTS_IDV){
-        state['individual'] = action.requests
+        state['individual'] = action.request
     }
 
-    return state;
+    return {...state};
 }
+
+// do I need two states??
+// const requestsReducer = (state = [], action) => {
+//     if (action.type === LOAD_REQUESTS){
+//         state = action.requests
+//     }
+//     if (action.type === LOAD_REQUESTS_IDV){
+//         state = action.requests
+//     }
+
+//     return state;
+// }
 
 
 //THUNKS****************************************
@@ -37,10 +49,10 @@ export const loadRequests = () =>{
     }
 };
 
-const _loadRequestsIdv = (requests) =>{
+const _loadRequestsIdv = (request) =>{
     return {
         type: LOAD_REQUESTS_IDV,
-        requests
+        request
     };
 };
 

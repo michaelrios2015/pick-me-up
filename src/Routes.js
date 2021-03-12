@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { MyStats, Home, RequestForm } from './components';
+import { MyStats, Home, RequestForm, MyProfile } from './components';
 
 /**
  * COMPONENT
@@ -9,13 +9,15 @@ import { MyStats, Home, RequestForm } from './components';
 class Routes extends Component {
 // there was a router but I don't know how to use that router
   render() {
-console.log(location)
-console.log(history)
+// console.log(location)
+// console.log(history)
     return (
       <Switch>
         <Route path='/stats' component={ MyStats } />
         <Route path='/request' component={ RequestForm } />
+        <Route exact path='/account' component={ MyProfile } />
         <Route path='/' component={ Home } />
+        {/* <Route exact path='/account' component={ MyProfile } /> */}
         {/* <Route exact path='/account' component={ MyAccount } /> */}
         <Redirect to='/home' />
       </Switch>
