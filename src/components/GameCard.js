@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
  * COMPONENT
  */
 export const GameCard = props => {
-  const { game, request, players } = props
+  const { game, request, players, openGame } = props
 
   return (
     <div className='game-card'>
@@ -13,12 +13,18 @@ export const GameCard = props => {
         <h3>Game { game.id }</h3>
       </div>
       <div className='game-card-content'>
-        <h4>Score: { game.finalScore }</h4>
-        <h4>Players: 
+        {
+          openGame ? (
+            <h4>Player Count: {players.length}</h4>
+            ) : (
+            <h4>Score: { game.finalScore }</h4>
+          )
+        }
+        <h4>Player Names: 
           { 
             players.map(player => {
               return (
-                player.name
+                <span key={player.id}> {player.name} </span>
               )
             }) 
           }

@@ -130,6 +130,20 @@ app.get('/api/requests/:id', async(req, res, next)=> {
   }
 });
 
+//gets requests by game id
+app.get('/api/requests/game/:gameId', async(req, res, next)=> {
+  try{
+    res.send(await Request.findAll({
+      where: {
+        gameId: req.params.gameId
+      },
+      include: [ User, Game ]
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+})
 
 // creates a request
 app.post('/api/requests', async(req, res, next)=> {
@@ -173,6 +187,7 @@ app.get('/api/games/:id', async(req, res, next)=> {
     next(ex);
   }
 });
+
 
 // creates a game
 app.post('/api/games', async(req, res, next)=> {

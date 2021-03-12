@@ -23,7 +23,6 @@ class _App extends Component{
 
   //this works fine now need to figure out how to put my data into Material UI table and add search
   render(){
-    console.log(this.props)
     return (
       <div>
         <NavBar />
