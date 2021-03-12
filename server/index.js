@@ -59,7 +59,7 @@ const syncAndSeed = async()=> {
 
 
 
-  //an ongoing game with one player on wait list
+  //an ongoing game (or game about to happen) with one player on wait list
   await Game.create({});
   await Request.create({ location: 'COURT 1', time: 9, userId: 5, gameId: 2});
   await Request.create({ location: 'COURT 1', time: 9, userId: 6, gameId: 2});

@@ -14,10 +14,10 @@ const requestsReducer = (state = { all:[], individual: []}, action) => {
         state['all'] = action.requests
     }
     if (action.type === LOAD_REQUESTS_IDV){
-        state['individual'] = action.requests
+        state['individual'] = action.request
     }
 
-    return state;
+    return {...state};
 }
 
 
@@ -37,10 +37,10 @@ export const loadRequests = () =>{
     }
 };
 
-const _loadRequestsIdv = (requests) =>{
+const _loadRequestsIdv = (request) =>{
     return {
         type: LOAD_REQUESTS_IDV,
-        requests
+        request
     };
 };
 

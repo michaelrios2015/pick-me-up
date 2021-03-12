@@ -38,21 +38,38 @@
   padding-left: 50px;
 }
 
-.thumbnail{
+.thumbnail {
   width: 100px;
-  height: 100px
+  height: 100px;
 }
-.myprofile{
-    display: flex;
-    flex-direction: column;
-    margin-top: 100px;
-  
+.myprofile {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
 }
 
-.profile-border{
+.profile-border {
   display: flex;
   flex-direction: column;
   border: 2px solid;
   width: 300px;
   height: 250px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+}
+
+nav a {
+  padding: 0.5rem;
+}
+
+nav a.selected {
+  background-color: dodgerblue;
+  color: cornsilk;
+}
+
+h1 {
+  text-align: center;
 }

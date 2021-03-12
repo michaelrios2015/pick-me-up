@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
-import {Router, BrowserRouter} from 'react-router-dom';
+import {HashRouter, Router, BrowserRouter} from 'react-router-dom';
 import { NavBar } from './components';
 import Routes from './Routes';
 import history from './history';
 import store from './store/index';
-import { loadRequests, loadRequestsForUser, loadGamesForUser, loadGamesOrWaitListForUser, loadGamesDataForUser, loadGames, loadUsers } from './store/';
-
 
 class _App extends Component{
   constructor(){
@@ -15,20 +13,17 @@ class _App extends Component{
     this.state = {};
   }
 
-  componentDidMount(){
-    this.props.bootstrap();
-   
-  }
-
-
-  //this works fine now need to figure out how to put my data into Material UI table and add search
+  //hashrouter has the most functionality at the moment but has the hash that looks
+  // slightly funny.  Will use this for the moment
   render(){
-    console.log(this.props)
+    // console.log(history)
     return (
+      <HashRouter>
       <div>
         <NavBar />
         <Routes />
       </div>
+     </HashRouter>
     );
   }
 }
@@ -38,28 +33,21 @@ const mapStateToProps = (state) => {
   return state;
 }
 
-const mapDispatchToProps = (dispatch) => {
-  
-  return {
-    
-    bootstrap: ()=> {
-      dispatch(loadUsers());
-      dispatch(loadRequestsForUser(4));
-      dispatch(loadGamesOrWaitListForUser(4));
-      dispatch(loadRequests());
-      dispatch(loadGames());
-      dispatch(loadGamesDataForUser(4));
-    }
-  };
-}
 
-const App = connect(mapStateToProps, mapDispatchToProps)(_App);
+const App = connect(mapStateToProps)(_App);
 
+//so this just takes care of rendering and should be passing history but does not seem too
+
+// console.log(history)
+
+//the router should have worked but does not and I have no way of testing it 
+// so we are using the simplier hashrouter 
 render(
   <Provider store = {store}>
-    <Router history = {history}>
+    {/* <Router history = {history}> */}
       <App />
-    </Router>
+    {/* </Router> */}
   </Provider>, 
   document.querySelector('#root')
 );
+

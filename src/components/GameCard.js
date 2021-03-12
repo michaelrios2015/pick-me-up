@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
  */
 export const GameCard = props => {
   const { game, request } = props
-  console.log(game)
+  // console.log(game)
 
   return (
     <div className='game-card'>
