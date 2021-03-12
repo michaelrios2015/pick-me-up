@@ -145,6 +145,22 @@ app.get('/api/requests/game/:gameId', async(req, res, next)=> {
   }
 })
 
+//gets OPEN requests by game id
+app.get('/api/requests/open-game/:gameId', async(req, res, next)=> {
+  try{
+    res.send(await Request.findAll({
+      where: {
+        gameId: req.params.gameId,
+        open: true
+      },
+      include: [ User, Game ]
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+})
+
 // creates a request
 app.post('/api/requests', async(req, res, next)=> {
   try {

@@ -8,7 +8,7 @@ const UPDATE_REQUEST = 'UPDATE_REQUEST';
 
 
 //*************************************************
-// do I need two states??
+// do I need two states?? this can probably be separated into two different reducer files as 'requests' and 'singleRequest'
 const requestsReducer = (state = { all:[], individual: []}, action) => {
     if (action.type === LOAD_REQUESTS){
         state['all'] = action.requests
@@ -20,8 +20,7 @@ const requestsReducer = (state = { all:[], individual: []}, action) => {
     return state;
 }
 
-
-//THUNKS****************************************
+//ACTION CREATORS
 
 const _loadRequests = (requests) =>{
     return {
@@ -29,6 +28,10 @@ const _loadRequests = (requests) =>{
         requests
     };
 };
+
+
+//THUNKS****************************************
+
 
 export const loadRequests = () =>{
     return async(dispatch)=>{
@@ -83,6 +86,13 @@ export const loadGamesDataForUser = (userId) =>{
         // console.log(requests2);
     }
 };
+
+export const loadOpenRequests = ()=> {
+    return async(dispatch)=> {
+        const requests = (await axios.get(`/api/requests/open-game/${gameId}`)).data;
+        dispatch(_loadRequests(requests));
+    }
+}
  
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
+import { loadOpenRequests } from '../store/requests';
 
 class FindGame extends Component{
   constructor(){
@@ -56,6 +57,12 @@ const mapState = ({games, requests, users}) => {
   }
 }
 
+const mapDispatch = dispatch => {
+  return {
+    loadOpenRequests: ()=> dispatch(loadOpenRequests)
+  }
+}
 
-export default connect(mapState)(FindGame);
+
+export default connect(mapState, mapDispatch)(FindGame);
 
