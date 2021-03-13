@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import {HashRouter, Router, BrowserRouter} from 'react-router-dom';
-import { NavBar } from './components';
+import { NavBar, MapContainer } from './components';
 import Routes from './Routes';
 import history from './history';
 import store from './store/index';
@@ -22,6 +22,7 @@ class _App extends Component{
       <div>
         <NavBar />
         <Routes />
+        <MapContainer />
       </div>
      </HashRouter>
     );
