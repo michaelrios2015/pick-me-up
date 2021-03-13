@@ -35,7 +35,6 @@ import { apiKey } from '../../env';
 export class MapContainer extends Component {
   render() {
     console.log(this.props.google)
-    console.log(apiKey)
     // so I can load a map and I should be able to loop through ten places to set ten random courts and we can start with that
     return (  
       <Map google={this.props.google} initialCenter={{lat: 40.7485722, lng: -74.0068633}}
@@ -57,5 +56,5 @@ export class MapContainer extends Component {
 }
  
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyCVN7I_2Ha7s8fF2oR1-NxI58Dc57SO6fA'
+  apiKey: apiKey
 })(MapContainer)
