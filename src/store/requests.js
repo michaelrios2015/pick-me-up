@@ -14,13 +14,13 @@ const requestsReducer = (state = { all:[], individual: []}, action) => {
         state['all'] = action.requests
     }
     if (action.type === LOAD_REQUESTS_IDV){
-        state['individual'] = action.requests
+        state['individual'] = action.request
     }
     if (action.type === CREATE_REQUEST){
         state['all'] = [...state['all'], action.request]
     }
 
-    return state;
+    return {...state};
 }
 
 //ACTION CREATORS

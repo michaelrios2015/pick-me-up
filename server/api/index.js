@@ -1,3 +1,6 @@
+// THey put this top part in something app for grace shopper
+
+
 //as this get's bigger you can seperate things out more
 const express = require('express');
 const { static } = express;
@@ -21,6 +24,11 @@ app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, '..', '..', 'p
 
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, '..', '..', 'public')))
+
+// ------------------------------USERS--------------------------------------------
+// can these litterally just be seperated out?? can I just add a router having a
+// router would probably be the simpliest that is probably what I would try first 
+// but it can wait
 
 //gets all users
 app.get('/api/users', async(req, res, next)=> {
@@ -64,6 +72,9 @@ app.delete('/api/users/:id', async(req, res, next)=> {
     next(ex);
   }
 });
+
+
+// ------------------------------REQUESTS--------------------------------------------
 
 //gets all request
 app.get('/api/requests', async(req, res, next)=> {
@@ -184,6 +195,8 @@ app.delete('/api/requests/:id', async(req, res, next)=> {
     next(ex);
   }
 });
+
+// ------------------------------GAMES--------------------------------------------
 
 
 //gets all games
