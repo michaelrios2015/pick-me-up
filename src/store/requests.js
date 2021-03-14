@@ -29,6 +29,12 @@ const _loadRequests = (requests) =>{
     };
 };
 
+const _loadRequestsIdv = (requests) =>{
+    return {
+        type: LOAD_REQUESTS_IDV,
+        requests
+    };
+};
 
 //THUNKS****************************************
 
@@ -40,12 +46,6 @@ export const loadRequests = () =>{
     }
 };
 
-const _loadRequestsIdv = (requests) =>{
-    return {
-        type: LOAD_REQUESTS_IDV,
-        requests
-    };
-};
 
 //so this will load all the request for the user which is vaguely useful   
 export const loadRequestsForUser = (userId) =>{
@@ -87,9 +87,10 @@ export const loadGamesDataForUser = (userId) =>{
     }
 };
 
-export const loadOpenRequests = ()=> {
+export const loadOpenRequests = (gameId)=> {
     return async(dispatch)=> {
         const requests = (await axios.get(`/api/requests/open-game/${gameId}`)).data;
+        console.log('hit the thunk')
         dispatch(_loadRequests(requests));
     }
 }

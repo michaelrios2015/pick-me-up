@@ -15,8 +15,7 @@ const gamesReducer = (state = [], action) =>{
     return state;
 }
 
-//THUNKS****************************************
-
+//ACTION CREATORS****************************************
 const _loadGames = (games) =>{
     return {
         type: LOAD_GAMES,
@@ -24,9 +23,17 @@ const _loadGames = (games) =>{
     };
 };
 
+//THUNKS****************************************
 export const loadGames = () =>{
     return async(dispatch)=>{
         const games = (await axios.get('/api/games')).data;
+        dispatch(_loadGames(games));
+    }
+};
+
+export const loadOpenGames = () =>{
+    return async(dispatch)=>{
+        const games = (await axios.get('/api/games/open')).data;
         dispatch(_loadGames(games));
     }
 };
