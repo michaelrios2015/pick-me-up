@@ -1,4 +1,5 @@
-[{"Prop_ID":"X159","Name":"174th Street Playground","Location":"E 174 St. & Bronx River Ave.","Num_of_Courts":null,"Accessible":"N","lat":"40.8342","lon":"-73.8775"},
+module.exports = {
+  courts: [{"Prop_ID":"X159","Name":"174th Street Playground","Location":"E 174 St. & Bronx River Ave.","Num_of_Courts":null,"Accessible":"N","lat":"40.8342","lon":"-73.8775"},
   {"Prop_ID":"X179","Name":"52 Playground","Location":"Kelly St. & Ave. St. John","Num_of_Courts":null,"Accessible":"N","lat":"40.8149","lon":"-73.9021"},
   {"Prop_ID":"X216","Name":"Abigail Adams Playground","Location":"Tinton Ave. & E 156 St.","Num_of_Courts":null,"Accessible":"N","lat":"40.8172","lon":"-73.9044"},
   {"Prop_ID":"X169","Name":"Agnes Haywood Playground","Location":"Barnes Ave. & E 215 St.","Num_of_Courts":null,"Accessible":"N","lat":"40.8804","lon":"-73.8619"},
@@ -7,4 +8,6 @@
   {"Prop_ID":"X001","Name":"Aqueduct Lands Playground","Location":"W 183 St., Aqueduct Ave., W Tremont Ave. and University Ave.","Num_of_Courts":null,"Accessible":"N","lat":"40.8634","lon":"-73.9035"},
   {"Prop_ID":"X219","Name":"Arcilla Playground","Location":"E 164 St. & Teller Ave.","Num_of_Courts":null,"Accessible":"N","lat":"40.8271","lon":"-73.9145"},
   {"Prop_ID":"X150J","Name":"Bailey Playground", "Location":"Bailey Ave. & W 234-W 238 Sts.","Num_of_Courts":null,"Accessible":"N","lat":"40.8811","lon":"-73.9008"},
-    {"Prop_ID":"X166","Name":"Behagen Playground","Location":"E 166 St., Union Ave. and Tinton Ave.","Num_of_Courts":null,"Accessible":"N","lat":"40.8254","lon":"-73.9015"}]  
+  {"Prop_ID":"X166","Name":"Behagen Playground","Location":"E 166 St., Union Ave. and Tinton Ave.","Num_of_Courts":null,"Accessible":"N","lat":"40.8254","lon":"-73.9015"}]  
+  
+}

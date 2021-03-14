@@ -1,56 +1,120 @@
 // import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import {GoogleApiWrapper} from 'google-maps-react';
+// import { apiKey } from '../../env';
+// import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+ 
+// export class MapContainer extends Component {
 
-// class Maps extends Component{
-//   constructor(){
-//     super();
-//     this.state = {};
+//   onMapClicked(mapProps, map, clickEvent) {
+//     console.log('hi');
+//     // ...
 //   }
 
-//   componentDidMount(){
-   
+//   onMarkerClick(props, marker, e) {
+//     console.log(this);
+//     // ..
 //   }
 
-//   render(){
-//     return (
-//       <div>
-//         MAP
-//       </div>
-//     );
+//   render() {
+//     var points = [
+//       { lat: 42.02, lng: -77.01 },
+//       { lat: 42.03, lng: -77.02 },
+//       { lat: 41.03, lng: -77.04 },
+//       { lat: 42.05, lng: -77.02 }
+//   ]
+//   var bounds = new this.props.google.maps.LatLngBounds();
+//   for (var i = 0; i < points.length; i++) {
+//     bounds.extend(points[i]);
+//   }
+//   return (
+// <Map google={this.props.google}
+//     style={{width: '100%', height: '100%', position: 'relative'}}
+//     className={'map'}
+//     onClick={this.onMapClicked}  
+//     zoom={14}>
+    
+//   <Marker
+//     onClick={this.onMarkerClick}
+//     title={'The marker`s title will appear as a tooltip.'}
+//     name={'SOMA'}
+//     position={{lat: 37.778519, lng: -122.405640}} />
+//   <Marker
+//     name={'Dolores park'}
+//     position={{lat: 37.759703, lng: -122.428093}} />
+//   <Marker />
+//   <Marker
+//     name={'Your position'}
+//     position={{lat: 37.762391, lng: -122.439192}}
+//     icon={{
+//       url: "/path/to/custom_icon.png",
+//       anchor: new google.maps.Point(32,32),
+//       scaledSize: new google.maps.Size(64,64)
+//     }} />
+// </Map>
+//   );
 //   }
 // }
+ 
+// export default GoogleApiWrapper({
+//   apiKey: apiKey
+// })(MapContainer)
 
-
-// const mapStateToProps = ({users}) => {
-//   return {users};
-// }
-
-// export default connect(mapStateToProps, null)(Maps);
 
 import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { apiKey } from '../../env';
+import { courts } from '../../server/db/locations';
  
 export class MapContainer extends Component {
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     // showingInfoWindow: false,
+  //     // showCourtInfo: false,
+  //     // activeMarker: {},
+  //   }
+  //   // this.onMapClicked = this.onMapClicked.bind(this)
+  //   // this.onInfoClick = this.onInfoClick.bind(this)
+  // }
+
+  
+  
+  onMarkerClick(props, marker, e) {
+    // console.log(props);
+    console.log(marker);
+    // console.log(e);
+  }
+  
+  
+  
   render() {
     console.log(this.props.google)
+    console.log( courts);
     // so I can load a map and I should be able to loop through ten places to set ten random courts and we can start with that
-    return (  
-      <Map google={this.props.google} initialCenter={{lat: 40.7485722, lng: -74.0068633}}
-      zoom={12}>
-        
-        <Marker name={'Current location'} />
+    return ( 
+      <div>
+        <h1> Court Locator </h1>
+        {/* {!this.state.showingInfoWindow&&!this.state.showCourtInfo?<button className="w3-button w3-red" onClick={this.onInfoClick}>Court Info</button>:null} */}
+        <Map google={this.props.google}
+        onClick={this.onMapClicked}
+        initialCenter={{lat: 40.7485722, lng: -74.0068633}}
+        zoom={12}>
 
-      <Marker position={{lat: "40.8659", lng: "-73.8503"}}/>
+          
 
 
-        {/* <InfoWindow onClose={this.onInfoWindowClose}>
-            <div>
-              <h1>{this.state.selectedPlace.name}</h1>
-            </div>
-        </InfoWindow> */}
-      </Map>
+          {/* so this displays the courts just fine know to figure out how to interact with them */}
+          {
+          courts.map((court) => {
+            return <Marker position={{lat: court.lat, lng: court.lon}} key = { court.Prop_ID} 
+            title={court.Name}
+            icon={{ 
+              url: "http://www.clker.com/cliparts/j/N/m/m/d/2/glossy-red-icon-button-md.png",
+              anchor: new google.maps.Point(10,10),
+              scaledSize: new google.maps.Size(10,10)
+            }} onClick={this.onMarkerClick}/>
+          })}
+        </Map>
+      </div>
     );
   }
 }
