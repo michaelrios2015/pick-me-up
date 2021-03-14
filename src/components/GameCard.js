@@ -13,17 +13,15 @@ class GameCard extends Component{
   //   }
   // }
   // componentDidMount(){
-  //   this.props.loadOpenRequests(this.props.game.id);
+  //   // this.props.loadOpenRequests(this.props.game.id);
   //   this.setState({
-  //     players: this.props.requests.reduce((acc, request) => [...acc, request.user], [])
+  //     players: this.props.players.reduce((acc, user) => acc.includes(user) ? '' : [...acc, user], [])
   //   })
   // }
 
   render(){
     const { game, request, players } = this.props;
-    // const { players } = this.state;
 
-    // console.log(requests)
 
     return (
       <div className='game-card'>

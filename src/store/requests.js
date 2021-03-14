@@ -16,6 +16,9 @@ const requestsReducer = (state = { all:[], individual: []}, action) => {
     if (action.type === LOAD_REQUESTS_IDV){
         state['individual'] = action.requests
     }
+    if (action.type === CREATE_REQUEST){
+        state['all'] = [...state['all'], action.request]
+    }
 
     return state;
 }
@@ -35,6 +38,13 @@ const _loadRequestsIdv = (requests) =>{
         requests
     };
 };
+
+const _createRequest = (request) => {
+    return {
+        type: CREATE_REQUEST,
+        request
+    }
+}
 
 //THUNKS****************************************
 
@@ -90,11 +100,22 @@ export const loadGamesDataForUser = (userId) =>{
 export const loadOpenRequests = (gameId)=> {
     return async(dispatch)=> {
         const requests = (await axios.get(`/api/requests/open-game/${gameId}`)).data;
-        console.log('hit the thunk')
         dispatch(_loadRequests(requests));
     }
 }
- 
+
+export const createRequest = (request)=> {
+    return async(dispatch)=>{
+        let game = request.game;
+        let gameId = request.gameId;
+        let location = request.location;
+        let time = request.time;
+        let user = (await axios.get('/api/users/13')).data;
+        let userId = user.id;
+        let newRequest = (await axios.post('/api/requests', { game, gameId, location, time, user, userId })).data;
+        dispatch(_createRequest(newRequest));
+    }
+} 
 
 
 // export default store;

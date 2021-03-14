@@ -25,7 +25,7 @@ User_Game.belongsTo(Game);
 const syncAndSeed = async()=> {
   await db.sync({ force: true });
   //10 generic users
-  for (let i = 1; i<= 10; i++){
+  for (let i = 1; i<= 20; i++){
     let age = Math.floor(Math.random() * 20 + 16);
     let description = faker.lorem.sentence();
     let email = "test"+i+"@email.com";

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
 import { createRandomUser } from '../store/users';
+import { createRequest } from '../store/requests';
 
 import axios from 'axios';
 
@@ -19,8 +20,8 @@ class FindGame extends Component{
     this.props.loadOpenGames();
   }
 
-  joinGame(){
-    this.props.createRandomUser();
+  joinGame(request){
+    this.props.createRequest(request);
   }
 
   render(){
@@ -45,11 +46,9 @@ class FindGame extends Component{
 
                 return (
                   <div key={game.id} >
-                    <GameCard game={game} 
-                    request={gameRequests[0]} players={players} openGame={true}
-                    />
+                    <GameCard game={game} request={gameRequests[0]} players={players} openGame={true}/>
                     <div>
-                      <button onClick={()=>this.joinGame()}>Join this game</button>
+                      <button onClick={()=>this.joinGame(gameRequests[0])}>Join this game</button>
                     </div>
                   </div>
                 )
@@ -72,30 +71,11 @@ const mapState = ({games, requests, users}) => {
 const mapDispatch = dispatch => {
   return {
     loadOpenGames: ()=> dispatch(loadOpenGames()),
-    createRandomUser: ()=> dispatch(createRandomUser())
+    createRandomUser: ()=> dispatch(createRandomUser()),
+    createRequest: (request)=> dispatch(createRequest(request))
   }
 }
 
 
 export default connect(mapState, mapDispatch)(FindGame);
 
-
-
-
-// requests.map(request => {
-//   const openGame = games.find(game => request.gameId === game.id);
-//   const usersGame = users.find(user => request.userId === user.id);
-//   if(openGame){
-//     console.log('hello')
-//     console.log(openGame)
-//     console.log(usersGame)
-//   }
-//   return (
-//     <div key={request.id} >
-//       {/* <GameCard game={game} request={request} players={players} openGame={request.open}/> */}
-//       <div>
-//         <button>Join this game</button>
-//       </div>
-//     </div>
-//   )
-// })
