@@ -77,7 +77,7 @@ export class MapContainer extends Component {
   // }
 
   
-  
+  // this is console loging just fine need to open info window
   onMarkerClick(props, marker, e) {
     // console.log(props);
     console.log(marker);
@@ -102,7 +102,7 @@ export class MapContainer extends Component {
           
 
 
-          {/* so this displays the courts just fine know to figure out how to interact with them */}
+          {/* so this displays the courts just fine and we cab pass in title and I assume other info */}
           {
           courts.map((court) => {
             return <Marker position={{lat: court.lat, lng: court.lon}} key = { court.Prop_ID} 
