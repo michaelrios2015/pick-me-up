@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
+import { createRandomUser } from '../store/users';
+
 import axios from 'axios';
 
 class FindGame extends Component{
@@ -10,10 +12,15 @@ class FindGame extends Component{
     this.state = {
       games: []
     }
+    this.joinGame = this.joinGame.bind(this)
   }
 
   componentDidMount(){
     this.props.loadOpenGames();
+  }
+
+  joinGame(){
+    this.props.createRandomUser();
   }
 
   render(){
@@ -42,7 +49,7 @@ class FindGame extends Component{
                     request={gameRequests[0]} players={players} openGame={true}
                     />
                     <div>
-                      <button onClick={}>Join this game</button>
+                      <button onClick={()=>this.joinGame()}>Join this game</button>
                     </div>
                   </div>
                 )
@@ -64,7 +71,8 @@ const mapState = ({games, requests, users}) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: ()=> dispatch(loadOpenGames())
+    loadOpenGames: ()=> dispatch(loadOpenGames()),
+    createRandomUser: ()=> dispatch(createRandomUser())
   }
 }
 

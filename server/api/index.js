@@ -7,6 +7,7 @@ const { db, models: { User, Request, Game, User_Game } } = require('../db');
 // i think there is a way to get it from db...?
 const { Op } = require('sequelize');
 const Sequelize = require('sequelize');
+const faker = require('faker');
 
 const app = express();
 module.exports = app
@@ -50,6 +51,7 @@ app.post('/api/users', async(req, res, next)=> {
     next(ex);
   }
 });
+
 
 //deletes a user 
 app.delete('/api/users/:id', async(req, res, next)=> {
