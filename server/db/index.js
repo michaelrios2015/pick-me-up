@@ -81,13 +81,11 @@ const Game = db.define('game', {
 
 // we are not using this for the moment but going to leave in just in case
 //this is the through table to connect users to a game 
-const UserGame = db.define(
-  "usergame",
-  {
-    team: Sequelize.STRING,
-  },
-  { timestamps: false }
-);
+const UserGame = db.define('usergame', {
+  team: {
+    type: STRING,
+  }
+},{ timestamps: false });
 
 module.exports = {
   // Include your models in this exports object as well!
