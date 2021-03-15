@@ -212,22 +212,11 @@ app.get('/api/games', async(req, res, next)=> {
 //gets all open games
 app.get('/api/games/open', async(req, res, next)=> {
   try {
-    const openRequests = await Request.findAll({
+    res.send(await Game.findAll({
       where: {
         open: true
       }
-    })
-    const games = await Game.findAll();
-    const openGames = [];
-    openRequests.map(request => {
-      games.map(game => {
-        if(game.id === request.gameId && !openGames.includes(game)){
-          openGames.push(game);
-        }
-      })
-    })
-    res.send(openGames);
-
+    }));
   }
   catch(ex){
     next(ex);
@@ -267,6 +256,7 @@ app.delete('/api/games/:id', async(req, res, next)=> {
   }
 });
 
+// ------------------------------USER-GAMES--------------------------------------------
 // again not using at the moment but will leave in
 //gets all user_games
 app.get('/api/user_games', async(req, res, next)=> {
