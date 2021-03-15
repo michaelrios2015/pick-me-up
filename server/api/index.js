@@ -268,6 +268,23 @@ app.get('/api/user_games', async(req, res, next)=> {
   }
 });
 
+//gets players of a single game
+app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
+  try{
+    const gameUsers = await UserGame.findAll({
+      where: {
+        gameId: req.params.gameId
+      },
+      include: [ User ]
+    });
+    const players = gameUsers.map(user => user.user);
+    res.send(players);
+  }
+  catch(ex){
+    next(ex);
+  }
+})
+
 
 //final error catcher 
 app.use((err, req, res, next)=>{
