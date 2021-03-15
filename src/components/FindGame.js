@@ -13,6 +13,7 @@ class FindGame extends Component{
     this.state = {
       games: []
     }
+    this.getPlayers = this.getPlayers.bind(this)
     this.joinGame = this.joinGame.bind(this)
   }
 
@@ -21,12 +22,18 @@ class FindGame extends Component{
     this.props.loadRequests();
   }
 
+  async getPlayers(gameId){
+    return (await axios.get(`/api/user_games/${gameId}`)).data;
+  }
+
   joinGame(request){
     this.props.createRequest(request);
   }
 
   render(){
     const { games, users, allRequests } = this.props;
+    const { getPlayers } = this;
+    
     return (
       <div>
         <div>
@@ -35,23 +42,10 @@ class FindGame extends Component{
         <div>
           {
             games.map(game => {
-              // const gameRequests = allRequests.filter(request => request.gameId === game.id);
-              // const players = [];
-              // gameRequests.map(request => {
-              //   users.map(user => {
-              //     if(user.id === request.userId){
-              //       players.push(user);
-              //     }
-              //   })
-              // })
-
-              // console.log(allRequests)
-
+              const players = getPlayers(game.id);
                 return (
                   <div key={game.id} >
-                    <GameCard game={game} 
-                    request={allRequests} players={users} openGame={true}
-                    />
+                    <GameCard game={game} players={players} openGame={true}/>
                     <div>
                       <button onClick={()=>this.joinGame(gameRequests[0])}>Join this game</button>
                     </div>
