@@ -234,7 +234,7 @@ app.get('/api/games/open', async(req, res, next)=> {
   }
 });
 
-//gets a games
+//gets a game
 app.get('/api/games/:id', async(req, res, next)=> {
   try {
     res.send(await Game.findByPk(req.params.id));
