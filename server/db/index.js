@@ -75,8 +75,21 @@ const Game = db.define('game', {
   done:{
     type:BOOLEAN,
     defaultValue: false
+  },
+  open: {
+    type: BOOLEAN,
+    defaultValue: true
+  },
+  // this will need to be changed starting off really restirctive to  make testing
+  // easier will need to replaced with LAT, LONG I assume
+  location: {  
+    type: ENUM('COURT 1', 'COURT 2', 'COURT 3','COURT 4','COURT 5'), 
+  },
+  // I think date and time can go together, keeping it very simple at the moment
+  // just time date will be added back again very restrive for testing 
+  time: { 
+      type: INTEGER
   }
-
 },{ timestamps: false });  
 
 // we are not using this for the moment but going to leave in just in case
