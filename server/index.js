@@ -41,7 +41,7 @@ const syncAndSeed = async()=> {
   //8 generic open requests
   for (let i = 1; i<= 8; i++){
     // let email = "test"+i+"@email.com";
-    await Game.create({});
+    await Game.create({location: 'COURT 1', time: 9-i});
     await Request.create({ location: 'COURT 1', time: 9-i, userId: i, gameId: i});
   }
 
@@ -49,12 +49,12 @@ const syncAndSeed = async()=> {
   await User.create({ email: "MichaelJordan@gmail.com", name: 'Michael Jordan', age: 21, height:'6\'6', description: "GOAT", photo: 'https://media.gq.com/photos/5e99bf6fe5102200088e8eb2/3:4/w_1107,h_1476,c_limit/GQ-MichaelJordan-041720.jpg' })
 
   // an almost full game
-  await Game.create({});
+  await Game.create({location: 'COURT 1', time: 3});
   await Request.create({ location: 'COURT 1', time: 3, userId: 10, gameId: 9});
   await Request.create({ location: 'COURT 1', time: 3, userId: 9, gameId: 9});
 
   // a finished game
-  await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true});
+  await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true, location: 'COURT 1', open: false, time: 1 });
 
   // with scores and two people who were wait listed  
   await Request.create({ location: 'COURT 1', open: false, time: 1, userId: 1, gameId: 10, team: 'TEAM A', baskets: 98});
@@ -67,15 +67,16 @@ const syncAndSeed = async()=> {
 
 
   //an ongoing game (or game about to happen) with one player on wait list
-  await Game.create({});
+  await Game.create({ location: 'COURT 1', open: false, time: 9 });
   await Request.create({ location: 'COURT 1', open: false, time: 9, userId: 5, gameId: 11});
   await Request.create({ location: 'COURT 1', open: false, time: 9, userId: 6, gameId: 11});
   await Request.create({ location: 'COURT 1', open: false, time: 9, userId: 3, gameId: 11});
   await Request.create({ location: 'COURT 1', open: false, time: 9, userId: 1, gameId: 11});
   await Request.create({ location: 'COURT 1', open: false, time: 9, userId: 8, gameId: 11, waitlist: true});1
-  // another random game finished game
-  await Game.create({ winner: 'TEAM B', finalScore: '60 - 42', done: true});
 
+
+  // another random game finished game
+  await Game.create({ winner: 'TEAM B', finalScore: '60 - 42', done: true, location: 'COURT 2', open: false, time: 2 });
   // with scores and two people who were wait listed  
   await Request.create({ location: 'COURT 2', open: false, time: 2, userId: 10, gameId: 12, team: 'TEAM A', baskets: 32});
   await Request.create({ location: 'COURT 2', open: false, time: 2, userId: 9, gameId: 12, team: 'TEAM A', baskets: 10});
