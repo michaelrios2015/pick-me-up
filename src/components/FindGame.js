@@ -23,13 +23,13 @@ class FindGame extends Component{
   }
 
   async getPlayers(gameId){
-    return (await axios.get(`/api/user_games/${gameId}`)).data;
+    return (await axios.get(`/api/user_games/${gameId}/players`)).data;
   }
-
+  
   joinGame(request){
     this.props.createRequest(request);
   }
-
+  
   render(){
     const { games, users, allRequests } = this.props;
     const { getPlayers } = this;
@@ -43,6 +43,7 @@ class FindGame extends Component{
           {
             games.map(game => {
               const players = getPlayers(game.id);
+              // console.log(players)
                 return (
                   <div key={game.id} >
                     <GameCard game={game} players={players} openGame={true}/>

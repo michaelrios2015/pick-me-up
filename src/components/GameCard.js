@@ -23,20 +23,8 @@ class GameCard extends Component{
   }
   
   render(){
-    const { game, requests } = this.props;
-    
-    const gameRequests = requests.filter(request => request.gameId === game.id);
-    const players = [];
-    gameRequests.map(request => {
-      this.props.players.map(player => {
-        if(player.id === request.userId){
-          players.push(player);
-        }
-      })
-    })
-  
-    
-    console.log(gameRequests)
+    const { game, players, openGame } = this.props;
+    console.log(players)
     
     return (
       <div className='game-card'>
@@ -45,7 +33,7 @@ class GameCard extends Component{
         </div>
         {/* <div className='game-card-content'>
           {
-            request.open ? (
+            openGame ? (
               <h4>Player Count: {players.length}</h4>
               ) : (
               <h4>Score: { game.finalScore }</h4>
