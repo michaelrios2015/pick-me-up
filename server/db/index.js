@@ -81,8 +81,8 @@ const Game = db.define('game', {
 
 // we are not using this for the moment but going to leave in just in case
 //this is the through table to connect users to a game 
-const User_Game = db.define(
-  "user_game",
+const UserGame = db.define(
+  "usergame",
   {
     team: Sequelize.STRING,
   },
@@ -96,6 +96,6 @@ module.exports = {
     User, 
     Request,
     Game,
-    User_Game
+    UserGame
   }
 }

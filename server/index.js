@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { db, models: { User, Request, Game, User_Game } } = require('./db');
+const { db, models: { User, Request, Game, UserGame } } = require('./db');
 const app = require('./api')
 const faker = require('faker');
 
@@ -14,12 +14,12 @@ Request.belongsTo(Game);
 
 // not using for the moment leaving in just in case
 // sequelize makes us do this to use include 
-User.belongsToMany(Game, { through: User_Game });
-Game.belongsToMany(User, { through: User_Game });
-User.hasMany(User_Game);
-User_Game.belongsTo(User);
-Game.hasMany(User_Game);
-User_Game.belongsTo(Game);
+User.belongsToMany(Game, { through: UserGame });
+Game.belongsToMany(User, { through: UserGame });
+User.hasMany(UserGame);
+UserGame.belongsTo(User);
+Game.hasMany(UserGame);
+UserGame.belongsTo(Game);
 
 
 const syncAndSeed = async()=> {
