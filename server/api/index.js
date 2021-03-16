@@ -3,13 +3,15 @@
 //as this get's bigger you can seperate things out more
 const express = require("express");
 const { static } = express;
-const path = require('path');
-const axios = require('axios');
-const { db, models: { User, Request, Game, UserGame } } = require('../db');
+const path = require("path");
+const axios = require("axios");
+const {
+	db,
+	models: { User, Request, Game, User_Game },
+} = require("../db");
 // i think there is a way to get it from db...?
-const { Op } = require('sequelize');
-const Sequelize = require('sequelize');
-const faker = require('faker');
+const { Op } = require("sequelize");
+const Sequelize = require("sequelize");
 
 // Authentication
 const bcrypt = require("bcrypt");
@@ -77,6 +79,20 @@ app.post("/login", async (req, res, next) => {
 // router would probably be the simpliest that is probably what I would try first
 // but it can wait
 
+//Update user
+app.put('/api/users/update/:id', async (req,res,next) => {
+  try {
+		const user = await User.findByPk(req.params.id)
+		console.log(user);
+    res.send(await user.update({
+			email: req.body.email
+		}))
+  }
+  catch(error) {
+    next(error)
+  }
+})
+
 //gets all users
 app.get("/api/users", async (req, res, next) => {
 	try {
@@ -104,17 +120,15 @@ app.post("/api/users", async (req, res, next) => {
 	}
 });
 
-
-//deletes a user 
-app.delete('/api/users/:id', async(req, res, next)=> {
-  try {
-    const user = await User.findByPk(req.params.id);
-    await user.destroy();
-    res.sendStatus(204);
-  }  
-  catch(ex){
-    next(ex);
-  }
+//deletes a user
+app.delete("/api/users/:id", async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.params.id);
+		await user.destroy();
+		res.sendStatus(204);
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 // ------------------------------REQUESTS--------------------------------------------
@@ -217,37 +231,6 @@ app.get("/api/requests/:id", async (req, res, next) => {
 	}
 });
 
-//gets requests by game id
-app.get('/api/requests/game/:gameId', async(req, res, next)=> {
-  try{
-    res.send(await Request.findAll({
-      where: {
-        gameId: req.params.gameId
-      },
-      include: [ User, Game ]
-    }));
-  }
-  catch(ex){
-    next(ex);
-  }
-})
-
-//gets OPEN requests by game id
-app.get('/api/requests/open-game/:gameId', async(req, res, next)=> {
-  try{
-    res.send(await Request.findAll({
-      where: {
-        gameId: req.params.gameId,
-        open: true
-      },
-      include: [ User, Game ]
-    }));
-  }
-  catch(ex){
-    next(ex);
-  }
-})
-
 // creates a request
 app.post("/api/requests", async (req, res, next) => {
 	try {
@@ -279,30 +262,14 @@ app.get("/api/games", async (req, res, next) => {
 	}
 });
 
-//gets all open games
-app.get('/api/games/open', async(req, res, next)=> {
-  try {
-    res.send(await Game.findAll({
-      where: {
-        open: true
-      }
-    }));
-  }
-  catch(ex){
-    next(ex);
-  }
+//gets a games
+app.get("/api/games/:id", async (req, res, next) => {
+	try {
+		res.send(await Game.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
 });
-
-//gets a game
-app.get('/api/games/:id', async(req, res, next)=> {
-  try {
-    res.send(await Game.findByPk(req.params.id));
-  }
-  catch(ex){
-    next(ex);
-  }
-});
-
 
 // creates a game
 app.post("/api/games", async (req, res, next) => {
@@ -324,37 +291,17 @@ app.delete("/api/games/:id", async (req, res, next) => {
 	}
 });
 
-// ------------------------------USER-GAMES--------------------------------------------
 // again not using at the moment but will leave in
 //gets all user_games
-app.get('/api/user_games', async(req, res, next)=> {
-  try {
-    res.send(await UserGame.findAll({ include: [User, Game]}));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/user_games", async (req, res, next) => {
+	try {
+		res.send(await User_Game.findAll({ include: [User, Game] }));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
-//gets players of a single game
-app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
-  try{
-    const gameUsers = await UserGame.findAll({
-      where: {
-        gameId: req.params.gameId
-      },
-      include: [ User ]
-    });
-    const players = gameUsers.map(user => user.user);
-    res.send(players);
-  }
-  catch(ex){
-    next(ex);
-  }
-})
-
-
-//final error catcher 
-app.use((err, req, res, next)=>{
-  res.status(500).send({ error: err });
+//final error catcher
+app.use((err, req, res, next) => {
+	res.status(500).send({ error: err });
 });

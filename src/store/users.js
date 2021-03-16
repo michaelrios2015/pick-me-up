@@ -109,10 +109,10 @@ export const destroyUser = (user, history)=>{
 
 const _updateUser = user =>({ type: UPDATE_USER, user});
 
-export const updateUser = ( data )=>{
+export const updateUser = ( user )=>{
     return async(dispatch)=>{
-        const user = (await axios.put(`/api/user/${id}`, { user })).data;
-        dispatch(_updateUser(user));
+        const singleUser = (await axios.put(`/api/users/update/${user.id}`, user )).data;
+        dispatch(_updateUser(singleUser));
     }
 }
 
