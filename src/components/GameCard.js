@@ -1,28 +1,77 @@
-import React from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import { loadOpenRequests, loadRequests } from '../store/requests';
 
 /**
  * COMPONENT
  */
-export const GameCard = props => {
-  const { game, request } = props
-  // console.log(game)
+class GameCard extends Component{
+  constructor(){
+    super();
+    this.state = {
+      gameRequests: [],
+      players: []
+    }
+  }
+  componentDidMount(){
+    // this.props.loadRequests();
+  //   this.setState({
+  //     players: this.props.players.reduce((acc, user) => acc.includes(user) ? '' : [...acc, user], [])
+  //   })
 
-  return (
-    <div className='game-card'>
-      <div className='game-card-header'>
-        <h3>Game { game.id }</h3>
+    
+  }
+  
+  render(){
+    const { game, players, openGame } = this.props;
+    console.log(players)
+    
+    return (
+      <div className='game-card'>
+        <div className='game-card-header'>
+          <h3>Game { game.id }</h3>
+        </div>
+        {/* <div className='game-card-content'>
+          {
+            openGame ? (
+              <h4>Player Count: {players.length}</h4>
+              ) : (
+              <h4>Score: { game.finalScore }</h4>
+            )
+          }
+          <h4 className='name-list'>Player Names: 
+            { 
+            //maybe use reduce() here to list/join the names in a nicer way
+              players.map(player => {
+                return (
+                  <span key={player.id}> 
+                    {player.name} 
+                  </span>
+                )
+              }) 
+            }
+          </h4>
+          <h4>Court: { request.location }</h4>
+          <h4>Time: { request.time }</h4>
+        </div> */}
       </div>
-      <div className='game-card-content'>
-        <h4>Score: { game.finalScore }</h4>
-        <h4>Court: { request.location }</h4>
-        {/* <h4>Date: { request.date }</h4> */}
-        <h4>Time: { request.time }</h4>
-      </div>
-    </div>
-  )
+    )
+  }
+}
+
+const mapState = ({ requests, users }) => {
+  return {
+    requests: requests.all,
+    users: users.all
+  }
+}
+const mapDispatch = dispatch => {
+  return {
+    loadOpenRequests: (gameId)=> dispatch(loadOpenRequests(gameId)),
+    loadRequests: ()=> dispatch(loadRequests())
+  }
 }
 
 
-export default connect(state => state)(GameCard)
+export default connect(mapState, mapDispatch)(GameCard)
 

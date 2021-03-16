@@ -13,6 +13,7 @@ const Navbar = () => {
       <nav>
         <Link to='/' className= { pathname === '/' ? 'selected': ''}>Home</Link>
         <Link to='/request' className= { pathname === '/request' ? 'selected': ''}>Pick Up</Link>
+        <Link to='/games' className= { pathname === '/games' ? 'selected': ''}>Find a Game</Link>
         <Link to='/stats' className= { pathname === '/stats' ? 'selected': ''}>My Stats</Link>
         <Link to='/account' className= { pathname === '/account' ? 'selected': ''}>My Account</Link>
         <Link to='/'>Logout</Link>
