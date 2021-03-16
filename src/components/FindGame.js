@@ -4,6 +4,7 @@ import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
 import { createRandomUser } from '../store/users';
 import { loadRequests, createRequest } from '../store/requests';
+import axios from 'axios';
 
 class FindGame extends Component{
   constructor(){
@@ -20,8 +21,9 @@ class FindGame extends Component{
     this.props.loadRequests();
   };
   
-  joinGame(request){
-    this.props.createRequest(request);
+  async joinGame(gameId){
+    const joiningPlayer = (await axios.get('/api/users/13')).data;
+    await axios.post('')
   };
   
   render(){
@@ -41,7 +43,7 @@ class FindGame extends Component{
                   <div key={game.id} >
                     <GameCard game={game} players={players} openGame={true}/>
                     <div>
-                      <button onClick={()=>this.joinGame(gameRequests[0])}>Join this game</button>
+                      <button onClick={()=>this.joinGame(game.id)}>Join this game</button>
                     </div>
                   </div>
                 )
@@ -66,7 +68,7 @@ const mapDispatch = dispatch => {
     loadOpenGames: ()=> dispatch(loadOpenGames()),
     loadRequests: ()=> dispatch(loadRequests()),
     createRandomUser: ()=> dispatch(createRandomUser()),
-    createRequest: (request)=> dispatch(createRequest(request))
+    createUserGame: (gameId)=> dispatch(create(gameId))
   }
 };
 

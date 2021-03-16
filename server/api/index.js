@@ -354,6 +354,16 @@ app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
   }
 })
 
+//creates a user-game link
+app.post('/api/user_games', async(req, res, next)=> {
+	try{
+		res.status(201).send(await UserGame.create(req.body));
+	}
+	catch(ex){
+		next(ex);
+	}
+})
+
 
 //final error catcher 
 app.use((err, req, res, next)=>{
