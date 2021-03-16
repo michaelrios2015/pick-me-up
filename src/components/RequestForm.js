@@ -16,7 +16,10 @@ export class RequestForm extends React.Component {
     this.state = { 
       zipcode: '',
       showCourts: false,
-      courts: []
+      courts: [],
+      chosenCourt: '',
+      date: '',
+      time: ''
     }
     this.handleInputs = this.handleInputs.bind(this)
     this.courtSubmit = this.courtSubmit.bind(this)
@@ -28,6 +31,7 @@ export class RequestForm extends React.Component {
   handleInputs(ev){
     const {name, value} = ev.target
     this.setState({[name] : value})
+    console.log(this.state)
   }
   async courtSubmit(ev){
     ev.preventDefault()
@@ -51,15 +55,16 @@ export class RequestForm extends React.Component {
           ) : (
             <div>
               <label for='court'>Court:</label>
-              <select>
+              <select onChange={this.handleInputs} name='chosenCourt'>
+                <option>Select One</option>
                 {this.state.courts.map((court, idx)=>{
-                  return(<option value={court.gispropnu}>Court: {idx +1}</option>)
+                  return(<option value={idx} >Court: {idx +1}</option>)
                 })}
               </select>
               <label for='date'>Date:</label>
-              <input type="date" id="time" name="time"/>
+              <input type="date" id="time" name="time" onChange={this.handleInputs}/>
               <label for='time'>Time:</label>
-              <input type="time" id="time" name="time" min="06:00" max="20:00" />
+              <input type="time" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/>
               <button>Pick Up!</button>
             </div>
           )}
