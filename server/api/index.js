@@ -23,7 +23,7 @@ async function authenticate(password, hash) {
 
 const jwt = require("jsonwebtoken");
 //import { jwtSecret } from '../../secrets';
-const jwtSecret = require("../../secrets");
+const { jwtSecret } = require("../../secrets");
 //const jwtSecret = 'shh'
 
 async function generateAccessToken(user) {
