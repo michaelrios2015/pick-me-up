@@ -27,13 +27,12 @@ class _App extends Component{
      </HashRouter>
     );
   }
-}
 
+}
 // not sure if I need either of these maybe if I want length??
 const mapStateToProps = (state) => {
-  return state;
-}
-
+	return state;
+};
 
 const App = connect(mapStateToProps)(_App);
 
@@ -41,14 +40,13 @@ const App = connect(mapStateToProps)(_App);
 
 // console.log(history)
 
-//the router should have worked but does not and I have no way of testing it 
-// so we are using the simplier hashrouter 
+//the router should have worked but does not and I have no way of testing it
+// so we are using the simplier hashrouter
 render(
-  <Provider store = {store}>
-    {/* <Router history = {history}> */}
-      <App />
-    {/* </Router> */}
-  </Provider>, 
-  document.querySelector('#root')
+	<Provider store={store}>
+		{/* <Router history = {history}> */}
+		<App />
+		{/* </Router> */}
+	</Provider>,
+	document.querySelector("#root")
 );
-
