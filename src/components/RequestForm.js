@@ -3,11 +3,9 @@ import {connect} from 'react-redux';
 import axios from 'axios'
 
 
-const API_KEY = '2cnb57whnksvz6zk98c6wvf15'
-const API_SECRET = '5wirepjikw5adgo7pc6jj42sts5x050covnxrpvo4dkvv8fld1'
+
 
 const API_TOKEN = '49zH6hsPdt4lqmDwRRaoAvIfH'
-const TOKEN_SECRET = 'QIPBB7rOW9pGAirEn-KXYpBnCRm3eXHFKzTl'
 
 
 export class RequestForm extends React.Component {

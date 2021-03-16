@@ -3,8 +3,9 @@ import axios from 'axios';
 import thunk from 'redux-thunk';
 import {logger, createLogger } from 'redux-logger';
 import {composeWithDevTools} from 'redux-devtools-extension'
-import { usersReducer, requestsReducer, gamesReducer } from './reducers/index'
-
+import { usersReducer } from './users'
+import { requestsReducer } from './requests'
+import { gamesReducer } from './games'
 
 // the reducer
 const reducer = combineReducers({
@@ -19,3 +20,6 @@ const store = createStore(reducer, middleware);
 
 
 export default store;
+export * from './requests'
+export * from './games'
+export * from './users'
