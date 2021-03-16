@@ -1,66 +1,82 @@
 //could be split into models and database
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 const { INTEGER, STRING, BOOLEAN, ENUM } = Sequelize;
 // const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/basketball');
+const db = new Sequelize(
+	process.env.DATABASE_URL || "postgres://localhost/basketball"
+);
+
+// Auth
+const bcrypt = require("bcrypt");
 
 //So we can include a ton more personal information but just wanted to get
 // us started
-const User = db.define('user', {
-  email: { 
-    type: STRING, 
-  },
-  password: { 
-    type: STRING, 
-  }, 
-  name:{
-    type: STRING,
-  },
-  age:{
-    type: INTEGER
-  },
-  height:{
-    type: STRING
-  },
-  description:{
-    type: STRING,
-  },
-  photo: {
-    type: STRING,
-  }     
-},{ timestamps: false });
+const User = db.define(
+	"user",
+	{
+		email: {
+			type: STRING,
+		},
+		password: {
+			type: STRING,
+		},
+		name: {
+			type: STRING,
+		},
+		age: {
+			type: INTEGER,
+		},
+		height: {
+			type: STRING,
+		},
+		description: {
+			type: STRING,
+		},
+		photo: {
+			type: STRING,
+		},
+	},
+	{ timestamps: false }
+);
+
+// Salt passwords
+User.beforeCreate(async (user, options) => {
+	user.password = await bcrypt.hash(user.password, 10);
+});
 
 //Everything has been simplified to get us started :)
-const Request = db.define('request', {
-  // this will need to be changed starting off really restirctive to  make testing
-  // easier will need to replaced with LAT, LONG I assume
-  location: {  
-    type: ENUM('COURT 1', 'COURT 2', 'COURT 3','COURT 4','COURT 5'), 
-  },
-  // I think date and time can go together, keeping it very simple at the moment
-  // just time date will be added back again very restrive for testing 
-  time: { 
-      type: INTEGER
-  },
-  //it would be better if it just checked the time to see if it was an
-  //open and closed request but this should work for now.  
-  // I am using false to say the the request has already past the game may or may not have been played might not be
-  // the best 
-  open:{
-    type:BOOLEAN,
-    defaultValue: true
-  },
-  team:{
-    type: STRING
-  },
-  waitlist:{
-    type: BOOLEAN,
-    defaultValue: false
-  },
-  baskets:{
-    type: INTEGER,
-  }       
-},{ timestamps: false });
+const Request = db.define(
+	"request",
+	{
+		// this will need to be changed starting off really restirctive to  make testing
+		// easier will need to replaced with LAT, LONG I assume
+		location: {
+			type: ENUM("COURT 1", "COURT 2", "COURT 3", "COURT 4", "COURT 5"),
+		},
+		// I think date and time can go together, keeping it very simple at the moment
+		// just time date will be added back again very restrive for testing
+		time: {
+			type: INTEGER,
+		},
+		//it would be better if it just checked the time to see if it was an
+		//open and closed request but this should work for now
+		open: {
+			type: BOOLEAN,
+			defaultValue: true,
+		},
+		team: {
+			type: STRING,
+		},
+		waitlist: {
+			type: BOOLEAN,
+			defaultValue: false,
+		},
+		baskets: {
+			type: INTEGER,
+		},
+	},
+	{ timestamps: false }
+);
 
 const Game = db.define('game', {
   //Once matching does not need to be exact time/date, and location will need 

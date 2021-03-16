@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { MyStats, Home, RequestForm, MyProfile, FindGame } from './components';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import { MyStats, Home, RequestForm, MyProfile, Login, FindGame } from "./components";
 
 /**
  * COMPONENT
@@ -13,6 +13,7 @@ class Routes extends Component {
 // console.log(history)
     return (
       <Switch>
+				<Route path="/login" component={ Login } />
         <Route path='/games' component={ FindGame } />
         <Route path='/stats' component={ MyStats } />
         <Route path='/request' component={ RequestForm } />
@@ -29,13 +30,12 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
-  return state
-}
+const mapState = (state) => {
+	return state;
+};
 
-const mapDispatch = dispatch => {
-  return {
-  }
-}
+const mapDispatch = (dispatch) => {
+	return {};
+};
 
-export default withRouter(connect(mapState, mapDispatch)(Routes))
+export default withRouter(connect(mapState, mapDispatch)(Routes));

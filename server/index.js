@@ -5,7 +5,7 @@ const faker = require('faker');
 
 // should be able to add relationships here
 
-//one to many relationship 
+//one to many relationship
 User.hasMany(Request);
 Request.belongsTo(User);
 
@@ -47,7 +47,7 @@ const syncAndSeed = async()=> {
   }
 
   //creating some data for user
-  await User.create({ email: "MichaelJordan@gmail.com", name: 'Michael Jordan', age: 21, height:'6\'6', description: "GOAT", photo: 'https://media.gq.com/photos/5e99bf6fe5102200088e8eb2/3:4/w_1107,h_1476,c_limit/GQ-MichaelJordan-041720.jpg' })
+  await User.create({ email: "MichaelJordan@gmail.com", name: 'Michael Jordan', age: 21, height:'6\'6', description: "GOAT", photo: 'https://media.gq.com/photos/5e99bf6fe5102200088e8eb2/3:4/w_1107,h_1476,c_limit/GQ-MichaelJordan-041720.jpg', password: "helloworld", })
 
   // an almost full game
   await Game.create({location: 'COURT 1', time: 3});
@@ -104,16 +104,14 @@ const syncAndSeed = async()=> {
 
 };
 
-const init = async()=> {
-    try {
-      await syncAndSeed();
-      const port = process.env.PORT || 3000;
-      app.listen(port, ()=> console.log(`listening on port ${port}`));
-    }
-    catch(ex){
-      console.log(ex);
-    }
-  };
-
+const init = async () => {
+	try {
+		await syncAndSeed();
+		const port = process.env.PORT || 3000;
+		app.listen(port, () => console.log(`listening on port ${port}`));
+	} catch (ex) {
+		console.log(ex);
+	}
+};
 
 init();
