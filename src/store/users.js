@@ -1,4 +1,5 @@
 import axios from 'axios';
+import faker from 'faker';
 
 const LOAD_USERS = 'LOAD_USERS';
 const LOAD_USER = 'LOAD_USER';
@@ -76,6 +77,20 @@ export const createUser = (data, history)=>{
         let user = (await axios.post('/api/users', { data })).data;
         dispatch(_createUser(user));
         history.push(`/user/${user.id}`)
+    }
+}
+
+//using this for testing purposes. will need to remove when we can login as a user
+export const createRandomUser = ()=>{
+    return async(dispatch)=>{
+        let age = Math.floor(Math.random() * 20 + 16);
+        let description = faker.lorem.sentence();
+        let email = "test"+Math.ceil(Math.random() * 100)+"@email.com";
+        let height = Math.ceil(Math.random() * 3 + 4) + '\'';
+        let name = faker.name.lastName();
+        let user = (await axios.post('/api/users', { age, description, email, height, name })).data;
+        dispatch(_createUser(user));
+        // history.push(`/user/${user.id}`)
     }
 }
 

@@ -11,3 +11,4 @@ export {default as Home} from './Home'
 export {default as MyProfile} from './MyProfile'
 export {default as MapContainer} from './MapContainer'
 export { default as Login } from "./Login";
+export { default as FindGame } from './FindGame';
