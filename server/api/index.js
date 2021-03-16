@@ -83,9 +83,13 @@ app.post("/login", async (req, res, next) => {
 app.put('/api/users/update/:id', async (req,res,next) => {
   try {
 		const user = await User.findByPk(req.params.id)
-		console.log(user);
+		console.log(req.body);
     res.send(await user.update({
-			email: req.body.email
+			email: req.body.email,
+			name: req.body.name,
+			height: req.body.height,
+			description: req.body.description,
+			photo: req.body.photo
 		}))
   }
   catch(error) {
