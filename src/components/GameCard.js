@@ -24,14 +24,13 @@ class GameCard extends Component{
   
   render(){
     const { game, players, openGame } = this.props;
-    console.log(players)
     
     return (
       <div className='game-card'>
         <div className='game-card-header'>
           <h3>Game { game.id }</h3>
         </div>
-        {/* <div className='game-card-content'>
+        <div className='game-card-content'>
           {
             openGame ? (
               <h4>Player Count: {players.length}</h4>
@@ -45,15 +44,15 @@ class GameCard extends Component{
               players.map(player => {
                 return (
                   <span key={player.id}> 
-                    {player.name} 
+                    {' ' + player.name}
                   </span>
                 )
               }) 
             }
           </h4>
-          <h4>Court: { request.location }</h4>
-          <h4>Time: { request.time }</h4>
-        </div> */}
+          <h4>Court: { game.location }</h4>
+          <h4>Time: { game.time }</h4>
+        </div>
       </div>
     )
   }
