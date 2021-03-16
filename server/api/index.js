@@ -285,7 +285,8 @@ app.get('/api/games/open', async(req, res, next)=> {
     res.send(await Game.findAll({
       where: {
         open: true
-      }
+      },
+			include: [ User ]
     }));
   }
   catch(ex){
