@@ -25,7 +25,7 @@ const usersReducer = (state = intialState, action) =>{
         state['all'] = state.filter(user => user.id !== action.user.id);
     }
     if (action.type === UPDATE_USER){
-        state['all'] = state.map(user => user.id !== action.user.id ? user : action.user);
+        state['all'] = state['all'].map(user => user.id !== action.user.id ? user : action.user);
     }
 
     return {...state};
@@ -109,10 +109,10 @@ export const destroyUser = (user, history)=>{
 
 const _updateUser = user =>({ type: UPDATE_USER, user});
 
-export const updateUser = ( data )=>{
+export const updateUser = ( user )=>{
     return async(dispatch)=>{
-        const user = (await axios.put(`/api/user/${id}`, { user })).data;
-        dispatch(_updateUser(user));
+        const singleUser = (await axios.put(`/api/users/update/${user.id}`, user )).data;
+        dispatch(_updateUser(singleUser));
     }
 }
 

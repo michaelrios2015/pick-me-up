@@ -4,35 +4,38 @@ import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
 import { createRandomUser } from '../store/users';
 import { loadRequests, createRequest } from '../store/requests';
-
 import axios from 'axios';
 
 class FindGame extends Component{
   constructor(){
     super();
     this.state = {
-      games: []
-    }
-    this.getPlayers = this.getPlayers.bind(this)
-    this.joinGame = this.joinGame.bind(this)
-  }
+    };
+
+    this.joinGame = this.joinGame.bind(this);
+  };
 
   componentDidMount(){
     this.props.loadOpenGames();
-    this.props.loadRequests();
-  }
+    // this.props.loadRequests();
+  };
 
-  async getPlayers(gameId){
-    return (await axios.get(`/api/user_games/${gameId}/players`)).data;
-  }
+  // componentDidUpdate(prevProps){
+  //   if (prevProps.games !== this.props.games){
+  //     this.props.loadOpenGames();
+  //   }
+  // }
   
-  joinGame(request){
-    this.props.createRequest(request);
-  }
+  async joinGame(gameId){
+    const joiningPlayer = (await axios.get('/api/users/13')).data;
+    await axios.post('/api/user_games', { gameId: gameId, userId: joiningPlayer.id });
+    // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
+    this.props.loadOpenGames();
+  };
   
   render(){
-    const { games, users, allRequests } = this.props;
-    const { getPlayers } = this;
+    const { games } = this.props;
+    const { joinGame } = this;
     
     return (
       <div>
@@ -42,13 +45,12 @@ class FindGame extends Component{
         <div>
           {
             games.map(game => {
-              const players = getPlayers(game.id);
-              // console.log(players)
+              const players = game.users;
                 return (
                   <div key={game.id} >
                     <GameCard game={game} players={players} openGame={true}/>
                     <div>
-                      <button onClick={()=>this.joinGame(gameRequests[0])}>Join this game</button>
+                      <button onClick={()=>joinGame(game.id)}>Join this game</button>
                     </div>
                   </div>
                 )
@@ -58,25 +60,24 @@ class FindGame extends Component{
       </div>
     );
   }
-}
+};
 
 const mapState = ({games, requests, users}) => {
-  // console.log(requests)
   return {
     games,
     users: users.all,
-    allRequests: requests.all,
+    allRequests: requests.all
   }
-}
+};
 
 const mapDispatch = dispatch => {
   return {
     loadOpenGames: ()=> dispatch(loadOpenGames()),
     loadRequests: ()=> dispatch(loadRequests()),
     createRandomUser: ()=> dispatch(createRandomUser()),
-    createRequest: (request)=> dispatch(createRequest(request))
+    createUserGame: (gameId)=> dispatch(create(gameId))
   }
-}
+};
 
 
 export default connect(mapState, mapDispatch)(FindGame);
