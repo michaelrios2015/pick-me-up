@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios'
+import {createRequest} from '../store/requests'
+import {loadUser} from '../store/users'
 
 
 
@@ -21,9 +23,10 @@ export class RequestForm extends React.Component {
     }
     this.handleInputs = this.handleInputs.bind(this)
     this.courtSubmit = this.courtSubmit.bind(this)
+    this.submitRequest = this.submitRequest.bind(this)
   }
-  async componentDidMount(){
-  
+  componentDidMount(){
+    this.props.loadUser()
   }
 
   handleInputs(ev){
@@ -35,6 +38,35 @@ export class RequestForm extends React.Component {
     ev.preventDefault()
     const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${API_TOKEN}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
     this.setState({courts: courts, showCourts: true})
+  }
+  submitRequest(ev){
+    ev.preventDefault()
+    const user = this.props.user
+    const request = {
+      location: this.state.chosenCourt,
+      time: this.state.time,
+      date: this.state.date,
+      open: true,
+      team: 'waiting',
+      waitlist: false,
+      baskets: 0
+    }
+    const alerts = []
+    for(const [key,val] of Object.entries(request)){
+        if(val === ''){
+            alerts.push(key)
+        }
+    }
+    if(alerts.length > 0){
+        const string = alerts.reduce((acc,item)=>{
+            acc += `${item}\n`
+            return acc
+        },'Please fill out the following:\n')
+        alert(string)
+    }
+    if(alerts.length === 0){
+      this.props.createRequest(request)
+  }
   }
   render(){
     console.log(this.state)
@@ -63,7 +95,7 @@ export class RequestForm extends React.Component {
               <input type="date" id="time" name="time" onChange={this.handleInputs}/>
               <label for='time'>Time:</label>
               <input type="time" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/>
-              <button>Pick Up!</button>
+              <button onClick={this.submitRequest}>Pick Up!</button>
             </div>
           )}
         </form>
@@ -72,15 +104,16 @@ export class RequestForm extends React.Component {
   }
 }
 
-const mapState = ({  }) => {
+const mapState = ({ user }) => {
   return {
-   
+    user
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-
+    createRequest: (request)=> dispatch(createRequest(request)),
+    loadUser: ()=>dispatch(loadUser())
   }
 }
 

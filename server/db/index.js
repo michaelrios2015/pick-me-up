@@ -1,6 +1,6 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
-const { INTEGER, STRING, BOOLEAN, ENUM } = Sequelize;
+const { INTEGER, STRING, BOOLEAN, ENUM , DATE} = Sequelize;
 
 
 //to see logging, do 'npm run start:dev:logger'
@@ -85,6 +85,9 @@ const Request = db.define(
 		baskets: {
 			type: INTEGER,
 		},
+		date: {
+			type: DATE,
+		}
 	},
 	{ timestamps: false }
 );
