@@ -10,7 +10,6 @@ class FindGame extends Component{
   constructor(){
     super();
     this.state = {
-      games: []
     };
 
     this.joinGame = this.joinGame.bind(this);
@@ -18,17 +17,25 @@ class FindGame extends Component{
 
   componentDidMount(){
     this.props.loadOpenGames();
-    this.props.loadRequests();
+    // this.props.loadRequests();
   };
+
+  // componentDidUpdate(prevProps){
+  //   if (prevProps.games !== this.props.games){
+  //     this.props.loadOpenGames();
+  //   }
+  // }
   
   async joinGame(gameId){
     const joiningPlayer = (await axios.get('/api/users/13')).data;
-    await axios.post('')
+    await axios.post('/api/user_games', { gameId: gameId, userId: joiningPlayer.id });
+    // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
+    this.props.loadOpenGames();
   };
   
   render(){
-    const { games, users, allRequests } = this.props;
-    const { getPlayers } = this;
+    const { games } = this.props;
+    const { joinGame } = this;
     
     return (
       <div>
@@ -43,7 +50,7 @@ class FindGame extends Component{
                   <div key={game.id} >
                     <GameCard game={game} players={players} openGame={true}/>
                     <div>
-                      <button onClick={()=>this.joinGame(game.id)}>Join this game</button>
+                      <button onClick={()=>joinGame(game.id)}>Join this game</button>
                     </div>
                   </div>
                 )
