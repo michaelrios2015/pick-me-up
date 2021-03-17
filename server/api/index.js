@@ -7,7 +7,7 @@ const path = require("path");
 const axios = require("axios");
 const {
 	db,
-	models: { User, Request, Game, User_Game },
+	models: { User, Request, Game, UserGame },
 } = require("../db");
 // i think there is a way to get it from db...?
 const { Op } = require("sequelize");
@@ -22,9 +22,14 @@ async function authenticate(password, hash) {
 }
 
 const jwt = require("jsonwebtoken");
-const jwtSecret = require("../../secrets");
+const { jwtSecret } = require("../../secrets");
+
+
+// const jwtSecret2 = 'shh'
 
 async function generateAccessToken(user) {
+	// console.log('---------------------------');
+	// console.log(jwtSecret);
 	const token = await jwt.sign(user, jwtSecret);
 }
 
@@ -315,11 +320,12 @@ app.delete("/api/games/:id", async (req, res, next) => {
 //gets all user_games
 app.get("/api/user_games", async (req, res, next) => {
 	try {
-		res.send(await User_Game.findAll({ include: [User, Game] }));
+		res.send(await UserGame.findAll({ include: [User, Game] }));
 	} catch (ex) {
 		next(ex);
 	}
 });
+
 
 //gets players of a single game
 app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
