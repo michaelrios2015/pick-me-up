@@ -1,22 +1,10 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
 const { INTEGER, STRING, BOOLEAN, ENUM, DATE} = Sequelize;
-const Game2 = require("./games");
-
-
-//to see logging, do 'npm run start:dev:logger'
-const config = {
-  logging: false
-};
-
-if(process.env.LOGGING === 'true'){
-  delete config.logging
-}
-
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
-// const db = new Sequelize(
-// 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
-// );
+const db = require('./db');
+const Game = require('./models/Game');
+const Request = require('./models/Request');
+const UserGame = require('./models/UserGame');
 
 // Auth
 const bcrypt = require("bcrypt");
@@ -55,90 +43,6 @@ const User = db.define(
 User.beforeCreate(async (user, options) => {
 	user.password = await bcrypt.hash(user.password, 10);
 });
-
-//Everything has been simplified to get us started :)
-const Request = db.define(
-	"request",
-	{
-		// this will need to be changed starting off really restirctive to  make testing
-		// easier will need to replaced with LAT, LONG I assume
-		location: {
-			type: ENUM("COURT 1", "COURT 2", "COURT 3", "COURT 4", "COURT 5"),
-		},
-		// I think date and time can go together, keeping it very simple at the moment
-		// just time date will be added back again very restrive for testing
-		time: {
-			type: INTEGER,
-		},
-		//it would be better if it just checked the time to see if it was an
-		//open and closed request but this should work for now
-		open: {
-			type: BOOLEAN,
-			defaultValue: true,
-		},
-		team: {
-			type: STRING,
-		},
-		waitlist: {
-			type: BOOLEAN,
-			defaultValue: false,
-		},
-		baskets: {
-			type: INTEGER,
-		}
-	},
-	{ timestamps: false }
-);
-
-const Game = db.define('game', {
-  //Once matching does not need to be exact time/date, and location will need 
-  //to be put back 
-  winner: { 
-    type: STRING, 
-  },  
-  finalScore: { 
-    type: STRING, 
-  },
-  // this should not be necessary, but seems like a nice safety measure for the moment
-  done:{
-    type:BOOLEAN,
-    defaultValue: false
-  },
-  open: {
-    type: BOOLEAN,
-    defaultValue: true
-  },
-  // this will need to be changed starting off really restirctive to  make testing
-  // easier will need to replaced with LAT, LONG I assume
-  location: {  
-		type: STRING
-    // type: ENUM('COURT 1', 'COURT 2', 'COURT 3','COURT 4','COURT 5'), 
-  },
-  // I think date and time can go together, keeping it very simple at the moment
-  // just time date will be added back again very restrive for testing 
-  time: { 
-      type: STRING
-  },
-
-	date: {
-		type: DATE
-	},
-
-	host: {
-		type: STRING
-	}
-	
-},{ timestamps: false });  
-
-// we are not using this for the moment but going to leave in just in case
-//this is the through table to connect users to a game 
-const UserGame = db.define('usergame', {
-  team: {
-    type: STRING,
-  }
-},{ timestamps: false });
-
-exports.default = db;
 
 module.exports = {
   // Include your models in this exports object as well!
