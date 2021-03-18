@@ -2,18 +2,24 @@ import axios from 'axios';
 
 // can I just add a wins game here??
 const LOAD_GAMES = 'LOAD_GAMES';
+const LOAD_CLOSED_GAMES = 'LOAD_GAMES';
 const CREATE_GAME = 'CREATE_GAME';
 const DESTROY_GAME = 'DESTROY_GAME';
 const UPDATE_GAME = 'UPDATE_GAME';
 
 
 //*************************************************
-const gamesReducer = (state = [], action) =>{
+const intialState = {open: [], closed: []}
+
+const gamesReducer = (state = intialState, action) =>{
     if (action.type === LOAD_GAMES){
-        state = action.games
+        state.open = action.games
+    }
+    if (action.type === LOAD_CLOSED_GAMES){
+        state.closed = action.games
     }
     if (action.type === CREATE_GAME){
-        state = [...state, action.game]
+        state.open = [...state, action.game]
     }
     return state;
 }
@@ -25,6 +31,14 @@ const _loadGames = (games) =>{
         games
     };
 };
+
+const _loadClosedGames = (games) =>{
+    return {
+        type: LOAD_CLOSED_GAMES,
+        games
+    };
+};
+
 
 const _createGame = (game) => {
     return {
@@ -45,6 +59,14 @@ export const loadOpenGames = () =>{
     return async(dispatch)=>{
         const games = (await axios.get('/api/games/open')).data;
         dispatch(_loadGames(games));
+    }
+};
+
+export const loadClosedGames = () =>{
+    return async(dispatch)=>{
+        const games = (await axios.get('/api/games/closed')).data;
+        //can add a filter to check if user is in game 
+        dispatch(_loadClosedGames(games));
     }
 };
 

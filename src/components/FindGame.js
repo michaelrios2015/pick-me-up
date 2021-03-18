@@ -18,6 +18,7 @@ class FindGame extends Component{
   componentDidMount(){
     this.props.loadOpenGames();
     // this.props.loadRequests();
+    // console.log(this.props.games);
   };
 
   // componentDidUpdate(prevProps){
@@ -34,9 +35,10 @@ class FindGame extends Component{
   };
   
   render(){
-    const { games } = this.props;
+    const games = this.props.games.open;
     const { joinGame } = this;
-    
+    console.log(games);
+
     return (
       <div>
         <div>

@@ -22,14 +22,15 @@ async function authenticate(password, hash) {
 }
 
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../../secrets");
+const jwtSecret = require("../../secrets");
+console.log(jwtSecret)
 
 
 // const jwtSecret2 = 'shh'
 
 async function generateAccessToken(user) {
-	// console.log('---------------------------');
-	// console.log(jwtSecret);
+	console.log('---------------------------');
+	console.log(jwtSecret);
 	const token = await jwt.sign(user, jwtSecret);
 }
 
@@ -279,6 +280,26 @@ app.get('/api/games/open', async(req, res, next)=> {
         open: true
       },
 			include: [ User ]
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+//gets all closed games
+app.get('/api/games/closed', async(req, res, next)=> {
+  try {
+    res.send(await Game.findAll({
+			where: {
+				[Op.and]: [
+					{ open: false },
+					{ finalScore: { [Op.not]: null } }
+				],
+			},
+			include: { 
+				model: User,
+			} 
     }));
   }
   catch(ex){

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-import { loadGamesForUser, loadGames, loadUser } from '../store/';
+import { loadClosedGames, loadGames, loadUser } from '../store/';
 
 
 //so at this point we should have a user ID from being logged in
@@ -22,7 +22,7 @@ export class MyStats extends Component{
     // const { user, game, request } = this.props;
     console.log(this.props)
     let user = this.props.users.single;
-    // let games = this.props.games 
+    //let games = this.props.games 
 
     // let wins = games.filter(game => game.team === game.game.winner)
     // let loses = games.filter(game => game.team !== game.game.winner)
@@ -91,7 +91,7 @@ const mapDispatchToProps = (dispatch) => {
     
     bootstrap: ()=> {
       dispatch(loadUser(4));
-      dispatch(loadGamesForUser(4));
+      dispatch(loadClosedGames());
       // dispatch(loadGames());
     }
   };
