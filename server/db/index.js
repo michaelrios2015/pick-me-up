@@ -1,6 +1,7 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
-const { INTEGER, STRING, BOOLEAN, ENUM , DATE} = Sequelize;
+const { INTEGER, STRING, BOOLEAN, ENUM, DATE} = Sequelize;
+const Game2 = require("./games");
 
 
 //to see logging, do 'npm run start:dev:logger'
@@ -136,6 +137,8 @@ const UserGame = db.define('usergame', {
     type: STRING,
   }
 },{ timestamps: false });
+
+exports.default = db;
 
 module.exports = {
   // Include your models in this exports object as well!
