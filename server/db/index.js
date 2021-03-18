@@ -1,6 +1,6 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
-const { INTEGER, STRING, BOOLEAN, ENUM , DATE} = Sequelize;
+const { INTEGER, STRING, BOOLEAN, ENUM, DATE} = Sequelize;
 
 
 //to see logging, do 'npm run start:dev:logger'
@@ -12,10 +12,10 @@ if(process.env.LOGGING === 'true'){
   delete config.logging
 }
 
-const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
-// const db = new Sequelize(
-// 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
-// );
+// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
+const db = new Sequelize(
+	process.env.DATABASE_URL || "postgres://localhost/basketball", config
+);
 
 // Auth
 const bcrypt = require("bcrypt");
@@ -136,6 +136,8 @@ const UserGame = db.define('usergame', {
     type: STRING,
   }
 },{ timestamps: false });
+
+// exports.default = db;
 
 module.exports = {
   // Include your models in this exports object as well!
