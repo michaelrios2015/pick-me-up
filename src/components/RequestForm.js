@@ -69,7 +69,8 @@ export class RequestForm extends React.Component {
     }
     if(alerts.length === 0){
       const newGame = (await axios.post('/api/games', game)).data
-      // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
+      console.log(newGame)
+      await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
       this.setState({finished: true})
 
   }
@@ -84,22 +85,22 @@ export class RequestForm extends React.Component {
           <form>
             {!this.state.showCourts ? (
               <div>
-                <label for='zipcode'>Zipcode:</label>
+                <label htmlFor='zipcode'>Zipcode:</label>
                 <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
                 <button onClick={this.courtSubmit}>Find Courts</button>
               </div>
             ) : (
               <div>
-                <label for='court'>Court:</label>
+                <label htmlFor='court'>Court:</label>
                 <select onChange={this.handleInputs} name='chosenCourt'>
                   <option>Select One</option>
                   {this.state.courts.map((court, idx)=>{
                     return(<option key={idx} value={`Court ${idx}`} >Court: {idx +1}</option>)
                   })}
                 </select>
-                <label for='date'>Date:</label>
+                <label htmlFor='date'>Date:</label>
                 <input type="date" id="date" name="date" onChange={this.handleInputs}/>
-                <label for='time'>Time:</label>
+                <label htmlFor='time'>Time:</label>
                 <input type="time" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/>
                 <button onClick={this.submitRequest}>Pick Up!</button>
               </div>

@@ -7,7 +7,7 @@ const path = require("path");
 const axios = require("axios");
 const {
 	db,
-	models: { User, Request, Game, User_Game },
+	models: { User, Request, Game, UserGame },
 } = require("../db");
 // i think there is a way to get it from db...?
 const { Op } = require("sequelize");
