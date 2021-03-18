@@ -23,14 +23,14 @@ async function authenticate(password, hash) {
 
 const jwt = require("jsonwebtoken");
 const jwtSecret = require("../../secrets");
-console.log(jwtSecret)
+// console.log(jwtSecret)
 
 
 // const jwtSecret2 = 'shh'
 
 async function generateAccessToken(user) {
-	console.log('---------------------------');
-	console.log(jwtSecret);
+	// console.log('---------------------------');
+	// console.log(jwtSecret);
 	const token = await jwt.sign(user, jwtSecret);
 }
 

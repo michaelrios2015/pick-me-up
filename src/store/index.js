@@ -10,7 +10,7 @@ import { gamesReducer } from './games'
 // the reducer
 const reducer = combineReducers({
     users: usersReducer,
-    requests: requestsReducer,
+    // requests: requestsReducer,
     games: gamesReducer,
 })
 const middleware = composeWithDevTools(
