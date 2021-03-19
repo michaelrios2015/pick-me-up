@@ -2,14 +2,6 @@ const db = require('../db')
 const Sequelize = require('sequelize')
 const { STRING, FLOAT, INTEGER, ENUM, BOOLEAN, DATE } = Sequelize;
 
-// const test = () => {
-//     console.log('---------------------------------------')
-//     // console.log(db2)
-//     console.log(db)
-// };
-
-// test();
-
 const Game = db.define('game', {
     //Once matching does not need to be exact time/date, and location will need 
     //to be put back 
@@ -50,7 +42,5 @@ const Game = db.define('game', {
       
   },{ timestamps: false });  
 
-
-// console.log(db);
 
 module.exports = Game;
