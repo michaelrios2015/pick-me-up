@@ -27,6 +27,7 @@ class FindGame extends Component{
   // }
   
   async joinGame(gameId){
+    // this player is just for testing. Simulating logged-in user. REMOVE WHEN AUTH IS CONNECTED TO STORE
     const joiningPlayer = (await axios.get('/api/users/13')).data;
     await axios.post('/api/user_games', { gameId: gameId, userId: joiningPlayer.id });
     // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
