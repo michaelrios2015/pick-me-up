@@ -114,9 +114,14 @@ const Game = db.define('game', {
   },
   // I think date and time can go together, keeping it very simple at the moment
   // just time date will be added back again very restrive for testing 
+	// Jason: We can possibly use the integer in miliseconds to translate into standard time/date 
   time: { 
       type: INTEGER
-  }
+  },
+	playerMaximum: {
+		type: INTEGER,
+		defaultValue: 2
+	}
 },{ timestamps: false });  
 
 // we are not using this for the moment but going to leave in just in case

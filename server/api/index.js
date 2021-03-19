@@ -344,10 +344,13 @@ app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
   }
 })
 
-//creates a user-game link
+//creates a user-game link --- joins a player to a game
 app.post('/api/user_games', async(req, res, next)=> {
 	try{
-		res.status(201).send(await UserGame.create(req.body));
+		const userGameJoint = await UserGame.create(req.body);
+		const game = await Game.findByPk(userGameJoint.dataValues.gameId)
+		console.log(game);
+		// res.status(201).send(await UserGame.create(req.body));
 	}
 	catch(ex){
 		next(ex);
