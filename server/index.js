@@ -41,7 +41,7 @@ const syncAndSeed = async()=> {
   //8 generic open requests
   for (let i = 1; i<= 8; i++){
     // let email = "test"+i+"@email.com";
-    await Game.create({location: 'COURT 1', time: 9-i});
+    await Game.create({location: 'COURT 1', time: new Date()});
     await UserGame.create({ userId: i, gameId: i });
     await Request.create({ location: 'COURT 1', time: 9-i, userId: i, gameId: i});
   }
