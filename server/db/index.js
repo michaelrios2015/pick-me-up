@@ -118,7 +118,7 @@ const Game = db.define('game', {
   time: { 
       type: INTEGER
   },
-	playerMaximum: {
+	maxPlayerCount: {
 		type: INTEGER,
 		defaultValue: 2
 	}

@@ -347,10 +347,22 @@ app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
 //creates a user-game link --- joins a player to a game
 app.post('/api/user_games', async(req, res, next)=> {
 	try{
-		const userGameJoint = await UserGame.create(req.body);
-		const game = await Game.findByPk(userGameJoint.dataValues.gameId)
-		console.log(game);
-		// res.status(201).send(await UserGame.create(req.body));
+		const addPlayerToGame = await UserGame.create(req.body);
+		const gameInfo = (await UserGame.findAll({
+			where: {
+				gameId: req.body.gameId
+			},
+			include: [ Game ]
+		}));
+		const playerCount = gameInfo.length;
+		const game = await Game.findByPk(req.body.gameId);
+		
+		if(playerCount === game.maxPlayerCount){
+			await game.update({
+				open: false
+			})
+		}
+		res.status(201).send(addPlayerToGame);
 	}
 	catch(ex){
 		next(ex);

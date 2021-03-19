@@ -17,8 +17,8 @@ class FindGame extends Component{
 
   componentDidMount(){
     this.props.loadOpenGames();
-    // this.props.loadRequests();
   };
+  
 
   // componentDidUpdate(prevProps){
   //   if (prevProps.games !== this.props.games){
@@ -27,9 +27,8 @@ class FindGame extends Component{
   // }
   
   async joinGame(gameId){
-    // this player is just for testing. Simulating logged-in user. REMOVE WHEN AUTH IS CONNECTED TO STORE
-    const joiningPlayer = (await axios.get('/api/users/13')).data;
-    await axios.post('/api/user_games', { gameId: gameId, userId: joiningPlayer.id });
+    // using a fixed user Id to simulate logged-in user. UPDATE W/LOGGED-IN USERID WHEN AUTH IS CONNECTED TO STORE
+    await axios.post('/api/user_games', { gameId: gameId, userId: 13 });
     // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
     this.props.loadOpenGames();
   };
@@ -63,11 +62,10 @@ class FindGame extends Component{
   }
 };
 
-const mapState = ({games, requests, users}) => {
+const mapState = ({ games, users }) => {
   return {
     games,
-    users: users.all,
-    allRequests: requests.all
+    users: users.all
   }
 };
 
