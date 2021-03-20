@@ -23,15 +23,9 @@ async function authenticate(password, hash) {
 
 const jwt = require("jsonwebtoken");
 const jwtSecret = require("../../secrets");
-// console.log(jwtSecret)
-
-
-// const jwtSecret2 = 'shh'
 
 async function generateAccessToken(user) {
-	// console.log('---------------------------');
-	// console.log(jwtSecret);
-	const token = await jwt.sign(user, jwtSecret);
+	const token = await jwt.sign({ userId: user.id }, jwtSecret);
 }
 
 const app = express();
@@ -51,8 +45,6 @@ app.use(express.static(path.join(__dirname, "..", "..", "public")));
 
 // login user
 app.post("/login", async (req, res, next) => {
-	let hash = "";
-
 	// look up user
 	try {
 		user = await User.findOne({
@@ -61,23 +53,19 @@ app.post("/login", async (req, res, next) => {
 			},
 		});
 
-		hash = user.password;
+		const authStatus = await authenticate(req.body.password, user.password);
+
+		if (authStatus) {
+			const token = await generateAccessToken(user);
+			res.status(200).json({ token: token, userId: user.id });
+		} else {
+			res.status(401).send("Invalid password");
+		}
 	} catch (er) {
 		res.status(401).send("User not found");
 	}
 
 	// compare hash with submitted password
-	try {
-		const authStatus = await authenticate(req.body.password, hash);
-		if (authStatus) {
-			const token = await generateAccessToken(req.body.email);
-			res.status(200).json(token);
-		} else {
-			res.status(401).send("Invalid password");
-		}
-	} catch (er) {
-		// throw new Error(er);
-	}
 });
 
 // ------------------------------USERS--------------------------------------------
@@ -86,22 +74,23 @@ app.post("/login", async (req, res, next) => {
 // but it can wait
 
 //Update user
-app.put('/api/users/update/:id', async (req,res,next) => {
-  try {
-		const user = await User.findByPk(req.params.id)
+app.put("/api/users/update/:id", async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.params.id);
 		console.log(req.body);
-    res.send(await user.update({
-			email: req.body.email,
-			name: req.body.name,
-			height: req.body.height,
-			description: req.body.description,
-			photo: req.body.photo
-		}))
-  }
-  catch(error) {
-    next(error)
-  }
-})
+		res.send(
+			await user.update({
+				email: req.body.email,
+				name: req.body.name,
+				height: req.body.height,
+				description: req.body.description,
+				photo: req.body.photo,
+			})
+		);
+	} catch (error) {
+		next(error);
+	}
+});
 
 //gets all users
 app.get("/api/users", async (req, res, next) => {
@@ -273,18 +262,19 @@ app.get("/api/games", async (req, res, next) => {
 });
 
 //gets all open games
-app.get('/api/games/open', async(req, res, next)=> {
-  try {
-    res.send(await Game.findAll({
-      where: {
-        open: true
-      },
-			include: [ User ]
-    }));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/games/open", async (req, res, next) => {
+	try {
+		res.send(
+			await Game.findAll({
+				where: {
+					open: true,
+				},
+				include: [User],
+			})
+		);
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 //gets all closed games
@@ -308,13 +298,12 @@ app.get('/api/games/closed', async(req, res, next)=> {
 });
 
 //gets a game
-app.get('/api/games/:id', async(req, res, next)=> {
-  try {
-    res.send(await Game.findByPk(req.params.id));
-  }
-  catch(ex){
-    next(ex);
-  }
+app.get("/api/games/:id", async (req, res, next) => {
+	try {
+		res.send(await Game.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
 });
 
 // creates a game
@@ -347,36 +336,32 @@ app.get("/api/user_games", async (req, res, next) => {
 	}
 });
 
-
 //gets players of a single game
-app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
-  try{
-    const gameUsers = await UserGame.findAll({
-      where: {
-        gameId: req.params.gameId
-      },
-      include: [ User ]
-    });
-    const players = gameUsers.map(user => user.user);
-    res.send(players);
-  }
-  catch(ex){
-    next(ex);
-  }
-})
-
-//creates a user-game link
-app.post('/api/user_games', async(req, res, next)=> {
-	try{
-		res.status(201).send(await UserGame.create(req.body));
-	}
-	catch(ex){
+app.get("/api/user_games/:gameId/players", async (req, res, next) => {
+	try {
+		const gameUsers = await UserGame.findAll({
+			where: {
+				gameId: req.params.gameId,
+			},
+			include: [User],
+		});
+		const players = gameUsers.map((user) => user.user);
+		res.send(players);
+	} catch (ex) {
 		next(ex);
 	}
-})
+});
 
+//creates a user-game link
+app.post("/api/user_games", async (req, res, next) => {
+	try {
+		res.status(201).send(await UserGame.create(req.body));
+	} catch (ex) {
+		next(ex);
+	}
+});
 
-//final error catcher 
-app.use((err, req, res, next)=>{
-  res.status(500).send({ error: err });
+//final error catcher
+app.use((err, req, res, next) => {
+	res.status(500).send({ error: err });
 });
