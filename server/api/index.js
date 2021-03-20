@@ -57,7 +57,7 @@ app.post("/login", async (req, res, next) => {
 
 		if (authStatus) {
 			const token = await generateAccessToken(user);
-			res.status(200).json({ token: token });
+			res.status(200).json({ token: token, userId: user.id });
 		} else {
 			res.status(401).send("Invalid password");
 		}
