@@ -25,9 +25,7 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = require("../../secrets");
 
 async function generateAccessToken(user) {
-	// console.log('---------------------------');
-	// console.log(jwtSecret);
-	const token = await jwt.sign(user, jwtSecret);
+	const token = await jwt.sign({ userId: user.id }, jwtSecret);
 }
 
 const app = express();
@@ -46,8 +44,6 @@ app.get("/", (req, res, next) =>
 
 // login user
 app.post("/login", async (req, res, next) => {
-	let hash = "";
-
 	// look up user
 	try {
 		user = await User.findOne({
@@ -56,44 +52,41 @@ app.post("/login", async (req, res, next) => {
 			},
 		});
 
-		hash = user.password;
+		const authStatus = await authenticate(req.body.password, user.password);
+
+		if (authStatus) {
+			const token = await generateAccessToken(user);
+			res.status(200).json({ token: token, userId: user.id });
+		} else {
+			res.status(401).send("Invalid password");
+		}
 	} catch (er) {
 		res.status(401).send("User not found");
 	}
 
 	// compare hash with submitted password
-	try {
-		const authStatus = await authenticate(req.body.password, hash);
-		if (authStatus) {
-			const token = await generateAccessToken(req.body.email);
-			res.status(200).json(token);
-		} else {
-			res.status(401).send("Invalid password");
-		}
-	} catch (er) {
-		// throw new Error(er);
-	}
 });
 
 // ------------------------------USERS--------------------------------------------
 
 //Update user
-app.put('/api/users/update/:id', async (req,res,next) => {
-  try {
-		const user = await User.findByPk(req.params.id)
+app.put("/api/users/update/:id", async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.params.id);
 		console.log(req.body);
-    res.send(await user.update({
-			email: req.body.email,
-			name: req.body.name,
-			height: req.body.height,
-			description: req.body.description,
-			photo: req.body.photo
-		}))
-  }
-  catch(error) {
-    next(error)
-  }
-})
+		res.send(
+			await user.update({
+				email: req.body.email,
+				name: req.body.name,
+				height: req.body.height,
+				description: req.body.description,
+				photo: req.body.photo,
+			})
+		);
+	} catch (error) {
+		next(error);
+	}
+});
 
 //gets all users
 app.get("/api/users", async (req, res, next) => {
@@ -136,7 +129,7 @@ app.delete("/api/users/:id", async (req, res, next) => {
 
 app.use('/api', require('./routes'))
 
-//final error catcher 
-app.use((err, req, res, next)=>{
-  res.status(500).send({ error: err });
+//final error catcher
+app.use((err, req, res, next) => {
+	res.status(500).send({ error: err });
 });
