@@ -7,6 +7,8 @@ router.use('/games', require('./games'));
 
 router.use('/user_games', require('./user_games'));
 
+router.use('/users', require('./users'));
+
 router.use((req, res, next) => {
   const error = new Error('Not Found')
   error.status = 404
