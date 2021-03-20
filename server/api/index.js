@@ -67,65 +67,6 @@ app.post("/login", async (req, res, next) => {
 	// compare hash with submitted password
 });
 
-// ------------------------------USERS--------------------------------------------
-
-//Update user
-app.put("/api/users/update/:id", async (req, res, next) => {
-	try {
-		const user = await User.findByPk(req.params.id);
-		console.log(req.body);
-		res.send(
-			await user.update({
-				email: req.body.email,
-				name: req.body.name,
-				height: req.body.height,
-				description: req.body.description,
-				photo: req.body.photo,
-			})
-		);
-	} catch (error) {
-		next(error);
-	}
-});
-
-//gets all users
-app.get("/api/users", async (req, res, next) => {
-	try {
-		res.send(await User.findAll());
-	} catch (ex) {
-		next(ex);
-	}
-});
-
-//gets a user
-app.get("/api/users/:id", async (req, res, next) => {
-	try {
-		res.send(await User.findByPk(req.params.id));
-	} catch (ex) {
-		next(ex);
-	}
-});
-
-// creates a user
-app.post("/api/users", async (req, res, next) => {
-	try {
-		res.status(201).send(await User.create(req.body));
-	} catch (ex) {
-		next(ex);
-	}
-});
-
-//deletes a user
-app.delete("/api/users/:id", async (req, res, next) => {
-	try {
-		const user = await User.findByPk(req.params.id);
-		await user.destroy();
-		res.sendStatus(204);
-	} catch (ex) {
-		next(ex);
-	}
-});
-
 
 app.use('/api', require('./routes'))
 
