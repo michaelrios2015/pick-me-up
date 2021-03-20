@@ -25,7 +25,7 @@ const jwt = require("jsonwebtoken");
 const jwtSecret = require("../../secrets");
 
 async function generateAccessToken(user) {
-	const token = await jwt.sign(user, jwtSecret);
+	const token = await jwt.sign({ userId: user.id }, jwtSecret);
 }
 
 const app = express();
@@ -45,8 +45,6 @@ app.use(express.static(path.join(__dirname, "..", "..", "public")));
 
 // login user
 app.post("/login", async (req, res, next) => {
-	let hash = "";
-
 	// look up user
 	try {
 		user = await User.findOne({
@@ -55,23 +53,19 @@ app.post("/login", async (req, res, next) => {
 			},
 		});
 
-		hash = user.password;
+		const authStatus = await authenticate(req.body.password, user.password);
+
+		if (authStatus) {
+			const token = await generateAccessToken(user);
+			res.status(200).json({ token: token });
+		} else {
+			res.status(401).send("Invalid password");
+		}
 	} catch (er) {
 		res.status(401).send("User not found");
 	}
 
 	// compare hash with submitted password
-	try {
-		const authStatus = await authenticate(req.body.password, hash);
-		if (authStatus) {
-			const token = await generateAccessToken(req.body.email);
-			res.status(200).json(token);
-		} else {
-			res.status(401).send("Invalid password");
-		}
-	} catch (er) {
-		// throw new Error(er);
-	}
 });
 
 // ------------------------------USERS--------------------------------------------
