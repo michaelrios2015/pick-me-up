@@ -19,7 +19,7 @@ const Login = () => {
 		} else {
 			try {
 				const request = { email, password };
-				const response = await axios.post("./login", request);
+				const response = await axios.post("/api/login", request);
 				console.log(response);
 				dispatch(loadUser(response.data.userId));
 				setError("Success");
