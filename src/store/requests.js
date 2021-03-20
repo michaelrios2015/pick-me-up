@@ -1,4 +1,5 @@
-// not being used at the moment
+
+// import axios from 'axios';
 
 // import axios from 'axios';
 
@@ -8,6 +9,8 @@
 // const DESTROY_REQUEST = 'DESTROY_REQUEST';
 // const UPDATE_REQUEST = 'UPDATE_REQUEST';
 
+//     return {...state};
+// }
 
 // //*************************************************
 // // do I need two states?? this can probably be separated into two different reducer files as 'requests' and 'singleRequest'

@@ -86,7 +86,6 @@ export class MyStats extends Component{
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state.requests);
   return state;
 }
 
