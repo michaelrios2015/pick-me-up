@@ -13,7 +13,7 @@ async function authenticate(password, hash) {
 }
 
 const jwt = require("jsonwebtoken");
-const jwtSecret = require("../../../secrets");
+const jwtSecret = process.env.JWT;
 
 async function generateAccessToken(user) {
 	const token = await jwt.sign({ userId: user.id }, jwtSecret);
