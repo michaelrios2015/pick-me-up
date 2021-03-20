@@ -1,6 +1,6 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
-const { INTEGER, STRING, BOOLEAN, ENUM, DATE } = Sequelize;
+const { INTEGER, STRING, BOOLEAN, ENUM, DATE, BIGINT } = Sequelize;
 
 
 //to see logging, do 'npm run start:dev:logger'
@@ -84,7 +84,7 @@ const Request = db.define(
 		},
 		baskets: {
 			type: INTEGER,
-		},
+		}
 	},
 	{ timestamps: false }
 );
@@ -116,7 +116,7 @@ const Game = db.define('game', {
   // just time date will be added back again very restrive for testing 
 	// Jason: We can possibly use the integer in miliseconds to translate into standard time/date 
   time: { 
-      type: DATE
+      type: BIGINT
   },
 	maxPlayerCount: {
 		type: INTEGER,

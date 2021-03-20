@@ -32,10 +32,18 @@ class FindGame extends Component{
     // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
     this.props.loadOpenGames();
   };
+
+  async checkIfGameExpired(game){
+    if(game.time * 1 >= Date.now() * 1){
+      await game.update({
+        open: false
+      })
+    }
+  }
   
   render(){
     const { games } = this.props;
-    const { joinGame } = this;
+    const { joinGame, checkIfGameExpired } = this;
     
     return (
       <div>
@@ -45,6 +53,7 @@ class FindGame extends Component{
         <div>
           {
             games.map(game => {
+              checkIfGameExpired(game);
               const players = game.users;
                 return (
                   <div key={game.id} >
@@ -71,10 +80,7 @@ const mapState = ({ games, users }) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: ()=> dispatch(loadOpenGames()),
-    loadRequests: ()=> dispatch(loadRequests()),
-    createRandomUser: ()=> dispatch(createRandomUser()),
-    createUserGame: (gameId)=> dispatch(create(gameId))
+    loadOpenGames: ()=> dispatch(loadOpenGames())
   }
 };
 
