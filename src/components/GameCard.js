@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { loadOpenRequests, loadRequests } from '../store/requests';
 
 /**
  * COMPONENT
@@ -12,14 +11,6 @@ class GameCard extends Component{
       gameRequests: [],
       players: []
     }
-  }
-  componentDidMount(){
-    // this.props.loadRequests();
-  //   this.setState({
-  //     players: this.props.players.reduce((acc, user) => acc.includes(user) ? '' : [...acc, user], [])
-  //   })
-
-    
   }
   
   render(){
@@ -58,19 +49,12 @@ class GameCard extends Component{
   }
 }
 
-const mapState = ({ requests, users }) => {
+const mapState = ({ users }) => {
   return {
-    requests: requests.all,
     users: users.all
   }
 }
-const mapDispatch = dispatch => {
-  return {
-    loadOpenRequests: (gameId)=> dispatch(loadOpenRequests(gameId)),
-    loadRequests: ()=> dispatch(loadRequests())
-  }
-}
 
 
-export default connect(mapState, mapDispatch)(GameCard)
+export default connect(mapState, null)(GameCard)
 

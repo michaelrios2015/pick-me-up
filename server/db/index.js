@@ -1,5 +1,6 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
+<<<<<<< HEAD
 const { INTEGER, STRING, BOOLEAN, ENUM, DATE, BIGINT } = Sequelize;
 
 
@@ -16,6 +17,13 @@ if(process.env.LOGGING === 'true'){
 const db = new Sequelize(
 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
 );
+=======
+const { INTEGER, STRING, BOOLEAN, ENUM, DATE} = Sequelize;
+const db = require('./db');
+const Game = require('./models/Game');
+const Request = require('./models/Request');
+const UserGame = require('./models/UserGame');
+>>>>>>> master
 
 // Auth
 const bcrypt = require("bcrypt");
@@ -55,6 +63,7 @@ User.beforeCreate(async (user, options) => {
 	user.password = await bcrypt.hash(user.password, 10);
 });
 
+<<<<<<< HEAD
 //Everything has been simplified to get us started :)
 const Request = db.define(
 	"request",
@@ -132,6 +141,8 @@ const UserGame = db.define('usergame', {
   }
 },{ timestamps: false });
 
+=======
+>>>>>>> master
 module.exports = {
   // Include your models in this exports object as well!
   db,

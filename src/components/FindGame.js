@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
-import { createRandomUser } from '../store/users';
-import { loadRequests, createRequest } from '../store/requests';
 import axios from 'axios';
 
 class FindGame extends Component{
@@ -42,7 +40,7 @@ class FindGame extends Component{
   }
   
   render(){
-    const { games } = this.props;
+    const games = this.props.games.open;
     const { joinGame, checkIfGameExpired } = this;
     
     return (

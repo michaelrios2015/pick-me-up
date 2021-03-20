@@ -7,7 +7,7 @@ const path = require("path");
 const axios = require("axios");
 const {
 	db,
-	models: { User, Request, Game, UserGame },
+	models: { User , Request, Game, UserGame },
 } = require("../db");
 // i think there is a way to get it from db...?
 const { Op } = require("sequelize");
@@ -22,15 +22,10 @@ async function authenticate(password, hash) {
 }
 
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../../secrets");
-
-
-// const jwtSecret2 = 'shh'
+const jwtSecret = require("../../secrets");
 
 async function generateAccessToken(user) {
-	// console.log('---------------------------');
-	// console.log(jwtSecret);
-	const token = await jwt.sign(user, jwtSecret);
+	const token = await jwt.sign({ userId: user.id }, jwtSecret);
 }
 
 const app = express();
@@ -39,19 +34,16 @@ module.exports = app;
 app.use(express.json());
 
 app.use("/dist", static(path.join(__dirname, "..", "..", "dist")));
+// static file-serving middleware
+app.use(express.static(path.join(__dirname, "..", "..", "public")));
 
 // is this supposed to be here??
 app.get("/", (req, res, next) =>
 	res.sendFile(path.join(__dirname, "..", "..", "public/index.html"))
 );
 
-// static file-serving middleware
-app.use(express.static(path.join(__dirname, "..", "..", "public")));
-
 // login user
 app.post("/login", async (req, res, next) => {
-	let hash = "";
-
 	// look up user
 	try {
 		user = await User.findOne({
@@ -60,47 +52,41 @@ app.post("/login", async (req, res, next) => {
 			},
 		});
 
-		hash = user.password;
+		const authStatus = await authenticate(req.body.password, user.password);
+
+		if (authStatus) {
+			const token = await generateAccessToken(user);
+			res.status(200).json({ token: token, userId: user.id });
+		} else {
+			res.status(401).send("Invalid password");
+		}
 	} catch (er) {
 		res.status(401).send("User not found");
 	}
 
 	// compare hash with submitted password
-	try {
-		const authStatus = await authenticate(req.body.password, hash);
-		if (authStatus) {
-			const token = await generateAccessToken(req.body.email);
-			res.status(200).json(token);
-		} else {
-			res.status(401).send("Invalid password");
-		}
-	} catch (er) {
-		// throw new Error(er);
-	}
 });
 
 // ------------------------------USERS--------------------------------------------
-// can these litterally just be seperated out?? can I just add a router having a
-// router would probably be the simpliest that is probably what I would try first
-// but it can wait
 
 //Update user
-app.put('/api/users/update/:id', async (req,res,next) => {
-  try {
-		const user = await User.findByPk(req.params.id)
+app.put("/api/users/update/:id", async (req, res, next) => {
+	try {
+		const user = await User.findByPk(req.params.id);
 		console.log(req.body);
-    res.send(await user.update({
-			email: req.body.email,
-			name: req.body.name,
-			height: req.body.height,
-			description: req.body.description,
-			photo: req.body.photo
-		}))
-  }
-  catch(error) {
-    next(error)
-  }
-})
+		res.send(
+			await user.update({
+				email: req.body.email,
+				name: req.body.name,
+				height: req.body.height,
+				description: req.body.description,
+				photo: req.body.photo,
+			})
+		);
+	} catch (error) {
+		next(error);
+	}
+});
 
 //gets all users
 app.get("/api/users", async (req, res, next) => {
@@ -140,6 +126,7 @@ app.delete("/api/users/:id", async (req, res, next) => {
 	}
 });
 
+<<<<<<< HEAD
 // ------------------------------REQUESTS--------------------------------------------
 
 //gets all request
@@ -368,9 +355,12 @@ app.post('/api/user_games', async(req, res, next)=> {
 		next(ex);
 	}
 })
+=======
+>>>>>>> master
 
+app.use('/api', require('./routes'))
 
-//final error catcher 
-app.use((err, req, res, next)=>{
-  res.status(500).send({ error: err });
+//final error catcher
+app.use((err, req, res, next) => {
+	res.status(500).send({ error: err });
 });
