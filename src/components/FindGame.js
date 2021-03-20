@@ -32,10 +32,8 @@ class FindGame extends Component{
   };
 
   async checkIfGameExpired(game){
-    if(game.time * 1 >= Date.now() * 1){
-      await game.update({
-        open: false
-      })
+    if(game.time * 1 <= Date.now()){
+      await axios.put(`/api/games/${game.id}`, { open: false });
     }
   }
   
