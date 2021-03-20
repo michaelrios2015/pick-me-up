@@ -30,7 +30,7 @@ router.get('/:gameId/players', async(req, res, next)=> {
 
 
 //creates a user-game link --- joins a player to a game
-app.post('/api/user_games', async(req, res, next)=> {
+router.post('/', async(req, res, next)=> {
 	try{
 		const addPlayerToGame = await UserGame.create(req.body);
 		const gameInfo = (await UserGame.findAll({
