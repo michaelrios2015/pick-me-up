@@ -1,6 +1,6 @@
 //could be split into models and database
 const Sequelize = require("sequelize");
-const { INTEGER, STRING, BOOLEAN, ENUM } = Sequelize;
+const { INTEGER, STRING, BOOLEAN, ENUM, DATE} = Sequelize;
 
 
 //to see logging, do 'npm run start:dev:logger'
@@ -84,7 +84,7 @@ const Request = db.define(
 		},
 		baskets: {
 			type: INTEGER,
-		},
+		}
 	},
 	{ timestamps: false }
 );
@@ -110,13 +110,23 @@ const Game = db.define('game', {
   // this will need to be changed starting off really restirctive to  make testing
   // easier will need to replaced with LAT, LONG I assume
   location: {  
-    type: ENUM('COURT 1', 'COURT 2', 'COURT 3','COURT 4','COURT 5'), 
+		type: STRING
+    // type: ENUM('COURT 1', 'COURT 2', 'COURT 3','COURT 4','COURT 5'), 
   },
   // I think date and time can go together, keeping it very simple at the moment
   // just time date will be added back again very restrive for testing 
   time: { 
-      type: INTEGER
-  }
+      type: STRING
+  },
+
+	date: {
+		type: DATE
+	},
+
+	host: {
+		type: STRING
+	}
+	
 },{ timestamps: false });  
 
 // we are not using this for the moment but going to leave in just in case
@@ -126,6 +136,8 @@ const UserGame = db.define('usergame', {
     type: STRING,
   }
 },{ timestamps: false });
+
+// exports.default = db;
 
 module.exports = {
   // Include your models in this exports object as well!

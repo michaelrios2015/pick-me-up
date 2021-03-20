@@ -11,6 +11,7 @@ const UPDATE_USER = 'UPDATE_USER';
 const intialState = {all: [], single: {}}
 
 const usersReducer = (state = intialState, action) =>{
+    // console.log(action.type);
     if (action.type === LOAD_USERS){
         state.all = action.users
     }

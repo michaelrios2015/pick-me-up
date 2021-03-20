@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
-import { createRandomUser } from '../store/users';
-import { loadRequests, createRequest } from '../store/requests';
 import axios from 'axios';
 
 class FindGame extends Component{
@@ -17,7 +15,7 @@ class FindGame extends Component{
 
   componentDidMount(){
     this.props.loadOpenGames();
-    // this.props.loadRequests();
+    // console.log(this.props.games);
   };
 
   // componentDidUpdate(prevProps){
@@ -34,9 +32,10 @@ class FindGame extends Component{
   };
   
   render(){
-    const { games } = this.props;
+    const games = this.props.games.open;
     const { joinGame } = this;
-    
+    console.log(games);
+
     return (
       <div>
         <div>
@@ -62,20 +61,16 @@ class FindGame extends Component{
   }
 };
 
-const mapState = ({games, requests, users}) => {
+const mapState = ({games, users}) => {
   return {
     games,
     users: users.all,
-    allRequests: requests.all
   }
 };
 
 const mapDispatch = dispatch => {
   return {
     loadOpenGames: ()=> dispatch(loadOpenGames()),
-    loadRequests: ()=> dispatch(loadRequests()),
-    createRandomUser: ()=> dispatch(createRandomUser()),
-    createUserGame: (gameId)=> dispatch(create(gameId))
   }
 };
 
