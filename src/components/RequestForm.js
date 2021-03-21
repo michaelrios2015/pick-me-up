@@ -33,7 +33,6 @@ export class RequestForm extends React.Component {
   handleInputs(ev){
     const {name, value} = ev.target
     this.setState({[name] : value})
-    console.log(this.state)
   }
   async courtSubmit(ev){
     ev.preventDefault()
@@ -69,14 +68,12 @@ export class RequestForm extends React.Component {
     }
     if(alerts.length === 0){
       const newGame = (await axios.post('/api/games', game)).data
-      console.log(newGame)
       await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
       this.setState({finished: true})
 
   }
   }
   render(){
-    console.log(this.state)
     if(!this.state.finished){
       return(
         <div id='requestBox'>

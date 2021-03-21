@@ -29,8 +29,8 @@ const Game = db.define('game', {
     // I think date and time can go together, keeping it very simple at the moment
     // just time date will be added back again very restrive for testing 
     time: { 
-      type: STRING
-      //type: BIGINT
+      // type: STRING
+      type: BIGINT
     },
     date: {
       type: DATE

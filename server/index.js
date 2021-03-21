@@ -43,7 +43,7 @@ const syncAndSeed = async()=> {
   //8 generic open requests
   for (let i = 1; i<= 8; i++){
     // let email = "test"+i+"@email.com";
-    await Game.create({location: 'COURT 1', time: Date.now() + (100000 * i)});
+    await Game.create({location: 'COURT 1', time: Date.now() + (10000 * i)});
     await UserGame.create({ userId: i, gameId: i });
     // await Request.create({ location: 'COURT 1', time: 9-i, userId: i, gameId: i});
   }
@@ -52,7 +52,7 @@ const syncAndSeed = async()=> {
   await User.create({ email: "MichaelJordan@gmail.com", name: 'Michael Jordan', age: 21, height:'6\'6', description: "GOAT", photo: 'https://media.gq.com/photos/5e99bf6fe5102200088e8eb2/3:4/w_1107,h_1476,c_limit/GQ-MichaelJordan-041720.jpg', password: "helloworld", })
 
   // an almost full game
-  await Game.create({location: 'COURT 1', time: Date.now() + 86400000});// adding time to the game start-time to simulate a future game 
+  await Game.create({location: 'COURT 1', time: Date.now() + 86400000, maxPlayers: 4});// adding time to the game start-time to simulate a future game 
   await UserGame.create({ userId: 10, gameId: 9 });
   await UserGame.create({ userId: 9, gameId: 9 });
   // await Request.create({ location: 'COURT 1', time: 3, userId: 10, gameId: 9});

@@ -12,7 +12,6 @@ const UPDATE_GAME = 'UPDATE_GAME';
 const intialState = {open: [], closed: []}
 
 const gamesReducer = (state = intialState, action) =>{
-  // console.log(action.type);
   if (action.type === LOAD_GAMES){
       state.open = action.games
   }
@@ -59,7 +58,6 @@ export const loadGames = () =>{
 export const loadOpenGames = () =>{
   return async(dispatch)=>{
       const games = (await axios.get('/api/games/open')).data;
-      console.log(games)
       dispatch(_loadGames(games));
   }
 };
@@ -77,24 +75,19 @@ export const loadClosedGamesForUser = (userId) =>{
   return async(dispatch)=>{
     const games = (await axios.get('/api/games/closed')).data;
     //can add a filter to check if user is in game 
-    // console.log(games);
-    // games.forEach(game => console.log(game.users    ));
     
     let gamesForUser = []
 
     //sure this can be done with less code
     for (let i = 0; i<games.length; i++){
-      // console.log(games[i]);
       if (games[i].finalScore !== null){
           for (let j = 0; j < games[i].users.length; j++){
-              // console.log(games[i].users[j].id)
           if (games[i].users[j].id === userId){
               gamesForUser.push(games[i])
           }
       }
     }
   }  
-    // console.log(gamesForUser)
 
    dispatch(_loadClosedGames(gamesForUser));
   }

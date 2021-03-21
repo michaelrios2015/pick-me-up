@@ -7,8 +7,6 @@ import axios from 'axios';
 class FindGame extends Component{
   constructor(){
     super();
-    this.state = {
-    };
 
     this.joinGame = this.joinGame.bind(this);
   };
@@ -19,26 +17,36 @@ class FindGame extends Component{
   
 
   // componentDidUpdate(prevProps){
-  //   if (prevProps.games !== this.props.games){
-  //     this.props.loadOpenGames();
-  //   }
+    // if (prevProps.games !== this.props.games){
+    //   this.props.loadOpenGames();
+    // }
+    // this.props.games.map(game => this.checkIfGameExpired(game))
   // }
   
-  async joinGame(gameId){
+  async joinGame(game){
+    if(Date.now() < game.time * 1){
     // using a fixed user Id to simulate logged-in user. UPDATE W/LOGGED-IN USERID WHEN AUTH IS CONNECTED TO STORE
-    await axios.post('/api/user_games', { gameId: gameId, userId: 13 });
+      const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: 13 })).data;
+      if(!addPlayer.created){
+        window.alert('You have already joined this game.');
+      }
+    } else {
+      window.alert('Sorry this game has already started. Please select another game.');
+      await axios.put(`/api/games/${game.id}`, { open: false });
+    }
     // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
     this.props.loadOpenGames();
   };
 
   async checkIfGameExpired(game){
-    if(game.time * 1 <= Date.now()){
+    if(Date.now() > game.time * 1){
       await axios.put(`/api/games/${game.id}`, { open: false });
     }
+    this.props.loadOpenGames();
   }
   
   render(){
-    const games = this.props.games.open;
+    const { games } = this.props;
     const { joinGame, checkIfGameExpired } = this;
     
     return (
@@ -49,13 +57,14 @@ class FindGame extends Component{
         <div>
           {
             games.map(game => {
-              checkIfGameExpired(game);
               const players = game.users;
+              // checkIfGameExpired(game);
+
                 return (
                   <div key={game.id} >
                     <GameCard game={game} players={players} openGame={true}/>
                     <div>
-                      <button onClick={()=>joinGame(game.id)}>Join this game</button>
+                      <button onClick={()=>joinGame(game)}>Join this game</button>
                     </div>
                   </div>
                 )
@@ -69,7 +78,7 @@ class FindGame extends Component{
 
 const mapState = ({ games, users }) => {
   return {
-    games,
+    games: games.open,
     users: users.all
   }
 };
