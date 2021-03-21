@@ -8,8 +8,11 @@
 		"build": "webpack",
 		"build:dev": "npm run build -- --watch --mode=development",
 		"start:dev:logger": "LOGGING=true npm run start:dev",
+		"start:dev:seed": "SEED=true npm run start:dev",
 		"start:dev": "npm run build:dev & npm run start",
-		"start:devForMe": "nodemon server --ignore dist/ --ignore src/",
+		"start:devForPC": "nodemon server --ignore dist/ --ignore src/",
+		"start:devForPC:logger": "set LOGGING=true && nodemon server --ignore dist/ --ignore src/",
+		"start:devForPC:seed": "set SEED=true && nodemon server --ignore dist/ --ignore src/",
 		"start": "node server"
 	},
 	"repository": {
@@ -25,6 +28,7 @@
 	"dependencies": {
 		"axios": "^0.21.1",
 		"bcrypt": "^5.0.1",
+		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"faker": "^5.4.0",
 		"jsonwebtoken": "^8.5.1",

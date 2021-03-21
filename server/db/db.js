@@ -1,7 +1,6 @@
-//could be split into models and database
-//could be split into models and database
 const Sequelize = require("sequelize");
 
+//taken from Nick
 let config;
 if (process.env.DATABASE_URL) {
   config = {
@@ -23,18 +22,15 @@ if (process.env.DATABASE_URL) {
     // operatorsAliases: false,
   }
 }
-// const client = new Sequelize(dbUrl, config)
 
-//to see logging, do 'npm run start:dev:logger'
-// const config = {
-//   logging: false
-// };
+// console.log(process.env.LOGGING)
 
-if(process.env.LOGGING === 'true'){
+if(process.env.LOGGING){
+  // console.log('in this if statement ---------------------------')
   delete config.logging
 }
 
-// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
+// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
 const db = new Sequelize(
 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
 );

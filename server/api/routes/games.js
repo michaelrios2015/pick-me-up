@@ -1,9 +1,6 @@
 const router = require('express').Router();
-const { models: {Request, User, Game}  } = require('../../db');
+const { models: {User, Game}  } = require('../../db');
 const { Op } = require("sequelize");
-
-
-// ------------------------------GAMES--------------------------------------------
 
 //gets all games
 router.get("/", async (req, res, next) => {
