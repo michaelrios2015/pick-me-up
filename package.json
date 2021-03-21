@@ -9,7 +9,8 @@
 		"build:dev": "npm run build -- --watch --mode=development",
 		"start:dev:logger": "LOGGING=true npm run start:dev",
 		"start:dev": "npm run build:dev & npm run start",
-		"start:devForMe": "nodemon server --ignore dist/ --ignore src/",
+		"start:devForPC": "nodemon server --ignore dist/ --ignore src/",
+		"start:devForPC:logger": "set LOGGING=true && nodemon server --ignore dist/ --ignore src/",
 		"start": "node server"
 	},
 	"repository": {

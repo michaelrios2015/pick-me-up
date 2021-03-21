@@ -1,7 +1,5 @@
-const Sequelize = require('sequelize');
-const { db, models: { User, Request, Game, UserGame } } = require('./db');
+const { models: { User, Request, Game, UserGame } } = require('./db');
 const app = require('./api')
-const faker = require('faker');
 const syncAndSeed = require('./synchAndSeed')
 
 //one to many relationship
@@ -22,7 +20,6 @@ UserGame.belongsTo(Game);
 
 const init = async () => {
 	try {
-    // console.log(db)
 		await syncAndSeed();
 		const port = process.env.PORT || 3000;
 		app.listen(port, () => console.log(`listening on port ${port}`));
