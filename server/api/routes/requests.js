@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { models: {Request, User, Game}  } = require('../../db');
 
+// not being used at the moment but could be if we have enough time
 
 //gets all request
 router.get("/", async (req, res, next) => {

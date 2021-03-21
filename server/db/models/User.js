@@ -1,6 +1,6 @@
 const db = require("../db");
 const Sequelize = require("sequelize");
-const { STRING, FLOAT, INTEGER, ENUM, BOOLEAN, DATE } = Sequelize;
+const { STRING, INTEGER } = Sequelize;
 
 // Auth
 const bcrypt = require("bcrypt");
@@ -10,9 +10,15 @@ const User = db.define(
 	{
 		email: {
 			type: STRING,
+			unique: true,
+			allowNull: false, 
+			validate: {
+				isEmail: true
+			}
 		},
 		password: {
 			type: STRING,
+			allowNull: false
 		},
 		name: {
 			type: STRING,
@@ -29,8 +35,7 @@ const User = db.define(
 		photo: {
 			type: STRING,
 		},
-	},
-	{ timestamps: false }
+	}
 );
 
 // Salt passwords

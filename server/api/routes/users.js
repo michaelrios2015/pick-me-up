@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { models: {User, Game, UserGame}  } = require('../../db');
+const { models: { User }  } = require('../../db');
 
 
 //gets all users

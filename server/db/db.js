@@ -1,5 +1,3 @@
-//could be split into models and database
-//could be split into models and database
 const Sequelize = require("sequelize");
 
 let config;
@@ -34,9 +32,9 @@ if(process.env.LOGGING === 'true'){
   delete config.logging
 }
 
-// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
-const db = new Sequelize(
-	process.env.DATABASE_URL || "postgres://localhost/basketball", config
-);
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball');
+// const db = new Sequelize(
+// 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
+// );
 
 module.exports = db;

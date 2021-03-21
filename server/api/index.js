@@ -1,6 +1,3 @@
-// THey put this top part in something app for grace shopper
-
-//as this get's bigger you can seperate things out more
 const express = require("express");
 const { static } = express;
 const path = require("path");
