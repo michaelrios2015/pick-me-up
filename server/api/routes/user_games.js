@@ -29,10 +29,36 @@ router.get('/:gameId/players', async(req, res, next)=> {
 })
 
 
-//creates a user-game link
+//creates a user-game link --- joins a player to a game
 router.post('/', async(req, res, next)=> {
 	try{
-		res.status(201).send(await UserGame.create(req.body));
+		const [addPlayerToGame, created] = await UserGame.findOrCreate({
+			where: {
+				gameId: req.body.gameId,
+				userId: req.body.userId
+			},
+			defauls: req.body
+		});
+
+		if(created){
+			const gameInfo = (await UserGame.findAll({
+				where: {
+					gameId: req.body.gameId
+				},
+				include: [ Game ]
+			}));
+			const playerCount = gameInfo.length;
+			const game = await Game.findByPk(req.body.gameId);
+			
+			if(playerCount === game.maxPlayerCount){
+				await game.update({
+					open: false
+				})
+			}
+			res.status(201).send({created, addPlayerToGame});
+		} else {
+			res.send({created, addPlayerToGame});
+		}
 	}
 	catch(ex){
 		next(ex);

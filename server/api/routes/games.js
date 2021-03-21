@@ -68,6 +68,17 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
+// updates a game
+router.put("/:id", async (req, res, next)=> {
+	try{
+		const game = await Game.findByPk(req.params.id);
+		res.status(201).send(await game.update(req.body));
+	}
+	catch(ex){
+		next(ex);
+	}
+})
+
 //deletes a game
 router.delete("/:id", async (req, res, next) => {
 	try {

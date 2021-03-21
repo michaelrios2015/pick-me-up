@@ -33,7 +33,6 @@ export class RequestForm extends React.Component {
   handleInputs(ev){
     const {name, value} = ev.target
     this.setState({[name] : value})
-    console.log(this.state)
   }
   async courtSubmit(ev){
     ev.preventDefault()
@@ -46,8 +45,8 @@ export class RequestForm extends React.Component {
     const user = (await axios.get('/api/users/13')).data
     const game = {
       location: this.state.chosenCourt,
-      time: this.state.time,
-      date: this.state.date,
+      // time: new Date(this.state.time).getTime(),
+      dateAndTime: this.state.date,
       open: true,
       winner: 'tbd',
       finalScore: 'tbd',
@@ -69,14 +68,12 @@ export class RequestForm extends React.Component {
     }
     if(alerts.length === 0){
       const newGame = (await axios.post('/api/games', game)).data
-      console.log(newGame)
       await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
       this.setState({finished: true})
 
   }
   }
   render(){
-    console.log(this.state)
     if(!this.state.finished){
       return(
         <div id='requestBox'>
@@ -98,10 +95,11 @@ export class RequestForm extends React.Component {
                     return(<option key={idx} value={`Court ${idx}`} >Court: {idx +1}</option>)
                   })}
                 </select>
-                <label htmlFor='date'>Date:</label>
-                <input type="date" id="date" name="date" onChange={this.handleInputs}/>
-                <label htmlFor='time'>Time:</label>
-                <input type="time" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/>
+                {/* Jason- changed Game model to take date and time as game.dateAndTime and use that to calculate milliseconds for game.time so we can expire old games */}
+                <label htmlFor='date'>Date and Time:</label>
+                <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>
+                {/* <label htmlFor='time'>Time:</label>
+                <input type="datetime-local" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/> */}
                 <button onClick={this.submitRequest}>Pick Up!</button>
               </div>
             )}

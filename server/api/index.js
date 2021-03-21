@@ -5,9 +5,9 @@ const express = require("express");
 const { static } = express;
 const path = require("path");
 
-// i think there is a way to get it from db...?
-const { Op } = require("sequelize");
-const Sequelize = require("sequelize");
+const {
+	models: { User },
+} = require("../db");
 
 const app = express();
 module.exports = app;
