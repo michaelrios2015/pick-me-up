@@ -29,10 +29,9 @@ const Game = db.define('game', {
     // I think date and time can go together, keeping it very simple at the moment
     // just time date will be added back again very restrive for testing 
     time: { 
-      // type: STRING
       type: BIGINT
     },
-    date: {
+    dateAndTime: {
       type: DATE
     },
     host: {
@@ -45,5 +44,11 @@ const Game = db.define('game', {
       
   },{ timestamps: false });  
 
+  // setting milliseconds to time 
+  Game.beforeCreate(game => {
+    if(game.dateAndTime){
+      game.time = new Date(game.dateAndTime).getTime();
+    }
+  });
 
 module.exports = Game;

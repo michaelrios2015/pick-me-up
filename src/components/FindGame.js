@@ -47,27 +47,32 @@ class FindGame extends Component{
   
   render(){
     const { games } = this.props;
-    const { joinGame, checkIfGameExpired } = this;
+    const { joinGame } = this;
     
     return (
       <div>
         <div>
-          <h1>{games.length} Games are currently open</h1>
+          {
+            games.length > 0 ? (
+              <h1>{games.length} Games are currently open!</h1>
+            ) : (
+              <h1>Sorry, there are no open games. Please Check back later.</h1>
+            )
+          }
         </div>
         <div>
           {
             games.map(game => {
               const players = game.users;
-              // checkIfGameExpired(game);
 
-                return (
-                  <div key={game.id} >
-                    <GameCard game={game} players={players} openGame={true}/>
-                    <div>
-                      <button onClick={()=>joinGame(game)}>Join this game</button>
-                    </div>
+              return (
+                <div key={game.id} >
+                  <GameCard game={game} players={players} openGame={true}/>
+                  <div>
+                    <button onClick={()=>joinGame(game)}>Join this game</button>
                   </div>
-                )
+                </div>
+              )
             })
           }
         </div>
