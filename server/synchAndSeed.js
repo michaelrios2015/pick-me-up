@@ -1,22 +1,7 @@
-const Sequelize = require('sequelize');
-const { db, models: { User, Request, Game, UserGame } } = require('./db');
-const app = require('./api')
+// const Sequelize = require('sequelize');
+const { db, models: { User, Game, UserGame } } = require('./db');
+// const app = require('./api')
 const faker = require('faker');
-
-// //one to many relationship
-// User.hasMany(Request);
-// Request.belongsTo(User);
-
-// Game.hasMany(Request);
-// Request.belongsTo(Game);
-
-// // sequelize makes us do this to use include 
-// User.belongsToMany(Game, { through: UserGame });
-// Game.belongsToMany(User, { through: UserGame });
-// User.hasMany(UserGame);
-// UserGame.belongsTo(User);
-// Game.hasMany(UserGame);
-// UserGame.belongsTo(Game);
 
 
 const syncAndSeed = async()=> {

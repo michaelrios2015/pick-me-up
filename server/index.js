@@ -4,8 +4,6 @@ const app = require('./api')
 const faker = require('faker');
 const syncAndSeed = require('./synchAndSeed')
 
-console.log(syncAndSeed)
-
 //one to many relationship
 User.hasMany(Request);
 Request.belongsTo(User);
