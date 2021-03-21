@@ -15,13 +15,6 @@ class FindGame extends Component{
     this.props.loadOpenGames();
   };
   
-
-  // componentDidUpdate(prevProps){
-    // if (prevProps.games !== this.props.games){
-    //   this.props.loadOpenGames();
-    // }
-    // this.props.games.map(game => this.checkIfGameExpired(game))
-  // }
   
   async joinGame(game){
     if(Date.now() < game.time * 1){
@@ -34,7 +27,6 @@ class FindGame extends Component{
       window.alert('Sorry this game has already started. Please select another game.');
       await axios.put(`/api/games/${game.id}`, { open: false });
     }
-    // loading open games here seems to work as apposed to calling on compDidUp .. not sure why compDidUp had issues
     this.props.loadOpenGames();
   };
 
