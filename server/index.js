@@ -1,26 +1,16 @@
-const { models: { User, Request, Game, UserGame } } = require('./db');
+const { db, models: { User, Request, Game, UserGame } } = require('./db');
 const app = require('./api')
-const syncAndSeed = require('./synchAndSeed')
-
-//one to many relationship
-User.hasMany(Request);
-Request.belongsTo(User);
-
-Game.hasMany(Request);
-Request.belongsTo(Game);
-
-// sequelize makes us do this to use include 
-User.belongsToMany(Game, { through: UserGame });
-Game.belongsToMany(User, { through: UserGame });
-User.hasMany(UserGame);
-UserGame.belongsTo(User);
-Game.hasMany(UserGame);
-UserGame.belongsTo(Game);
-
+const syncAndSeed = require('./db/syncAndSeed')
 
 const init = async () => {
 	try {
-		await syncAndSeed();
+    if (process.env.SEED){
+		  await syncAndSeed();
+    }
+    //no clue what this is doing but was in the Grace Shopper boiler plate should ask
+    else {
+      await db.sync()
+    }
 		const port = process.env.PORT || 3000;
 		app.listen(port, () => console.log(`listening on port ${port}`));
 	} catch (ex) {

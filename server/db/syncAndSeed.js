@@ -1,8 +1,7 @@
-// const Sequelize = require('sequelize');
-const { db, models: { User, Game, UserGame } } = require('./db');
-// const app = require('./api')
+const { db, models: { User, Game, UserGame } } = require('./index');
 const faker = require('faker');
 
+//I am sure there us a more elegant way of doing this 
 
 const syncAndSeed = async()=> {
   await db.sync({ force: true });
