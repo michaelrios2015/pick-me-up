@@ -42,8 +42,8 @@ class GameCard extends Component{
             }
           </h4>
           <h4>Court: { game.location }</h4>
-          <h4>Date: { game.dateAndTime }</h4>
-          {/* <h4>Time: { game.dateAndTime.toLocaleTimeString('en-US') }</h4> */}
+          <h4>Date: { game.dateAndTime.slice(0, 10) }</h4>
+          <h4>Time: { game.dateAndTime.slice(11, 16) }</h4>
         </div>
       </div>
     )

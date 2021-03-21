@@ -47,7 +47,7 @@ const Game = db.define('game', {
   // setting milliseconds to time 
   Game.beforeCreate(game => {
     if(game.dateAndTime){
-      game.time = new Date(game.dateAndTime).getTime();
+      game.time = game.dateAndTime.getTime();
     }
   });
 
