@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import axios from 'axios'
 import {createRequest} from '../store/requests'
 import {loadUser} from '../store/users'
-
+import CourtMap from './CourtMap'
 
 
 
@@ -37,6 +37,7 @@ export class RequestForm extends React.Component {
   async courtSubmit(ev){
     ev.preventDefault()
     const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${API_TOKEN}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
+    console.log(courts)
     this.setState({courts: courts, showCourts: true})
   }
   async submitRequest(ev){
@@ -51,7 +52,7 @@ export class RequestForm extends React.Component {
       winner: 'tbd',
       finalScore: 'tbd',
       done: false,
-      host: user.name
+      host: user.id
     }
     const alerts = []
     for(const [key,val] of Object.entries(game)){
@@ -87,20 +88,25 @@ export class RequestForm extends React.Component {
                 <button onClick={this.courtSubmit}>Find Courts</button>
               </div>
             ) : (
-              <div>
-                <label htmlFor='court'>Court:</label>
-                <select onChange={this.handleInputs} name='chosenCourt'>
-                  <option>Select One</option>
-                  {this.state.courts.map((court, idx)=>{
-                    return(<option key={idx} value={`Court ${idx}`} >Court: {idx +1}</option>)
-                  })}
-                </select>
-                {/* Jason- changed Game model to take date and time as game.dateAndTime and use that to calculate milliseconds for game.time so we can expire old games */}
-                <label htmlFor='date'>Date and Time:</label>
-                <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>
-                {/* <label htmlFor='time'>Time:</label>
-                <input type="datetime-local" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/> */}
-                <button onClick={this.submitRequest}>Pick Up!</button>
+              <div className='courtFinder'>
+                <div className= 'courtForm'>
+                  <label htmlFor='court'>Court:</label>
+                  <select onChange={this.handleInputs} name='chosenCourt'>
+                    <option>Select One</option>
+                    {this.state.courts.map((court, idx)=>{
+                      return(<option key={idx} value={`Court ${idx}`} >Court: {idx +1}</option>)
+                    })}
+                  </select>
+                  {/* Jason- changed Game model to take date and time as game.dateAndTime and use that to calculate milliseconds for game.time so we can expire old games */}
+                  <label htmlFor='date'>Date and Time:</label>
+                  <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>
+                  {/* <label htmlFor='time'>Time:</label>
+                  <input type="datetime-local" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/> */}
+                  <button onClick={this.submitRequest}>Pick Up!</button>
+                </div>
+                <div className='courtMap'>
+                  <CourtMap courts={this.state.courts}/>
+                </div>
               </div>
             )}
           </form>
