@@ -95,10 +95,10 @@ export const loadClosedGamesForUser = (userId) =>{
 
 export const loadOpenGamesForUser = (userId)=> {
   return async(dispatch)=> {
-    const games = (await axios.get('/api/user_games/open/:userId')).data;
+    const games = (await axios.get(`/api/user_games/open/${userId}`)).data;
     dispatch(_loadGames(games));
   }
-}
+};
 
 export const createGame = () => {
   return async(dispatch) => {

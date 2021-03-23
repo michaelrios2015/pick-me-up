@@ -16,18 +16,18 @@ const syncAndSeed = async()=> {
     await User.create({ age, description, email, height, name, password: '123'});
   }
   
-  //4 generic open games with UserGame -- these will be expired at runtime
+  //4 generic open games with UserGame -- these will be open for varying minutes from start of runtime
   for (let i = 1; i<= 4; i++){
     // let email = "test"+i+"@email.com";
-    await Game.create({location: 'COURT 1', dateAndTime: moment()._d});
+    await Game.create({location: 'COURT 1', dateAndTime: moment().add((i * 3), 'minutes')._d});
     await UserGame.create({ userId: i, gameId: i });
     // await Request.create({ location: 'COURT 1', time: 9-i, userId: i, gameId: i});
   }
- 
-  //4 generic open games with UserGame -- these will be open for varying minutes from start of runtime
+  
+  //4 generic open games with UserGame -- these will be expired at runtime
   for (let i = 5; i<= 8; i++){
     // let email = "test"+i+"@email.com";
-    await Game.create({location: 'COURT 1', dateAndTime: moment().add((i * 3), 'minutes')._d});
+    await Game.create({location: 'COURT 1', dateAndTime: moment()._d});
     await UserGame.create({ userId: i, gameId: i });
     // await Request.create({ location: 'COURT 1', time: 9-i, userId: i, gameId: i});
   }
