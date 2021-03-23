@@ -2,7 +2,7 @@ import React from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
 
 
-const MAP_API = 'AIzaSyCFzP7I4cuVp_WwRX3q4kuprLcjwDYywhI'
+const MAP_API = process.env.MAP_API
 
 const Map = withScriptjs(withGoogleMap((props) =>{
   const courts = props.courts

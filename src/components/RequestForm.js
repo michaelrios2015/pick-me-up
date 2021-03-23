@@ -7,7 +7,7 @@ import CourtMap from './CourtMap'
 
 
 
-const API_TOKEN = '49zH6hsPdt4lqmDwRRaoAvIfH'
+const COURT_API = process.env.COURT_API
 
 
 export class RequestForm extends React.Component {
@@ -28,6 +28,7 @@ export class RequestForm extends React.Component {
   }
   componentDidMount(){
     // this.props.loadUser()
+    console.log(COURT_API)
   }
 
   handleInputs(ev){
@@ -36,7 +37,7 @@ export class RequestForm extends React.Component {
   }
   async courtSubmit(ev){
     ev.preventDefault()
-    const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${API_TOKEN}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
+    const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${COURT_API}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
     console.log(courts)
     this.setState({courts: courts, showCourts: true})
   }
