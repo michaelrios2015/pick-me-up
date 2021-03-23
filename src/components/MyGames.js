@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-import { loadOpenGames } from '../store/games';
+import { loadUsersOpenGames } from '../store/games';
 import axios from 'axios';
 
-class FindGame extends Component{
+class MyGames extends Component{
   constructor(){
     super();
 
@@ -12,7 +12,7 @@ class FindGame extends Component{
   };
 
   componentDidMount(){
-    this.props.loadOpenGames();
+    this.props.loadUsersOpenGames();
   };
   
   
@@ -22,27 +22,24 @@ class FindGame extends Component{
       const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: 13 })).data;
       if(!addPlayer.created){
         window.alert('You have already joined this game.');
-      } else {
-        window.alert(`You\'ve joined game ${game.id}!`)
       }
     } else {
       window.alert('Sorry this game has already started. Please select another game.');
       await axios.put(`/api/games/${game.id}`, { open: false });
     }
-    this.props.loadOpenGames();
+    this.props.loadUsersOpenGames();
   };
 
   async checkIfGameExpired(game){
     if(Date.now() > game.time * 1){
       await axios.put(`/api/games/${game.id}`, { open: false });
     }
-    this.props.loadOpenGames();
+    this.props.loadUsersOpenGames();
   }
   
   render(){
     const { games } = this.props;
-    const { joinGame } = this;
-    
+    const { leaveGame } = this;
     
     return (
       <div>
@@ -64,7 +61,7 @@ class FindGame extends Component{
                 <div key={game.id} >
                   <GameCard game={game} players={players} openGame={true}/>
                   <div>
-                    <button onClick={()=>joinGame(game)}>Join this game</button>
+                    <button onClick={()=>leaveGame(game)}>Leave this game</button>
                   </div>
                 </div>
               )
@@ -85,10 +82,10 @@ const mapState = ({ games, users }) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: ()=> dispatch(loadOpenGames())
+    loadUsersOpenGames: (userId)=> dispatch(loadUsersOpenGames(userId))
   }
 };
 
 
-export default connect(mapState, mapDispatch)(FindGame);
+export default connect(mapState, mapDispatch)(MyGames);
 

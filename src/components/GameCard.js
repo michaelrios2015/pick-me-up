@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import moment from 'moment';
+// moment().format(); 
 
 /**
  * COMPONENT
@@ -15,6 +17,7 @@ class GameCard extends Component{
   
   render(){
     const { game, players, openGame } = this.props;
+    console.log(moment(game.dateAndTime).format('h:mm a'));
     
     return (
       <div className='game-card'>
@@ -42,8 +45,8 @@ class GameCard extends Component{
             }
           </h4>
           <h4>Court: { game.location }</h4>
-          <h4>Date: { game.dateAndTime.slice(0, 10) }</h4>
-          <h4>Time: { game.dateAndTime.slice(11, 16) }</h4>
+          <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
+          <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
         </div>
       </div>
     )
