@@ -1,44 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-import { loadUsersOpenGames } from '../store/games';
+import { loadOpenGamesForUser } from '../store/games';
 import axios from 'axios';
 
 class MyGames extends Component{
   constructor(){
     super();
 
-    this.joinGame = this.joinGame.bind(this);
+    this.leaveGame = this.leaveGame.bind(this);
   };
 
   componentDidMount(){
-    this.props.loadUsersOpenGames();
+    this.props.loadOpenGamesForUser(this.props.user.id);
   };
   
   
-  async joinGame(game){
-    if(Date.now() < game.time * 1){
-    // using a fixed user Id to simulate logged-in user. UPDATE W/LOGGED-IN USERID WHEN AUTH IS CONNECTED TO STORE
-      const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: 13 })).data;
-      if(!addPlayer.created){
-        window.alert('You have already joined this game.');
-      }
-    } else {
-      window.alert('Sorry this game has already started. Please select another game.');
-      await axios.put(`/api/games/${game.id}`, { open: false });
-    }
-    this.props.loadUsersOpenGames();
+  async leaveGame(game){
+    await axios.delete('/api/user_games', { gameId: game.id, userId: this.props.user.id });
+    this.props.loadOpenGamesForUser(this.props.user.id);
   };
 
-  async checkIfGameExpired(game){
-    if(Date.now() > game.time * 1){
-      await axios.put(`/api/games/${game.id}`, { open: false });
-    }
-    this.props.loadUsersOpenGames();
-  }
   
   render(){
-    const { games } = this.props;
+    const { games, user } = this.props;
     const { leaveGame } = this;
     
     return (
@@ -46,9 +31,9 @@ class MyGames extends Component{
         <div>
           {
             games.length > 0 ? (
-              <h1>{games.length} Games are currently open!</h1>
+              <h1>You have {games.length} upcoming games!</h1>
             ) : (
-              <h1>Sorry, there are no open games. Please Check back later.</h1>
+              <h1>You have no upcoming games.</h1>
             )
           }
         </div>
@@ -76,13 +61,13 @@ class MyGames extends Component{
 const mapState = ({ games, users }) => {
   return {
     games: games.open,
-    users: users.all
+    user: users.single
   }
 };
 
 const mapDispatch = dispatch => {
   return {
-    loadUsersOpenGames: (userId)=> dispatch(loadUsersOpenGames(userId))
+    loadOpenGamesForUser: (userId)=> dispatch(loadOpenGamesForUser(userId))
   }
 };
 
