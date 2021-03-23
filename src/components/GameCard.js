@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import moment from 'moment';
 // moment().format(); 
 
@@ -14,10 +15,16 @@ class GameCard extends Component{
       players: []
     }
   }
+
+  async componentDidMount(){
+    const game = this.props.game;
+    if(Date.now() > game.time * 1){
+      await axios.put(`/api/games/${game.id}`, { open: false });
+    }
+  }
   
   render(){
     const { game, players, openGame } = this.props;
-    console.log(moment(game.dateAndTime).format('h:mm a'));
     
     return (
       <div className='game-card'>

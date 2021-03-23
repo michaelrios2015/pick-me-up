@@ -32,12 +32,6 @@ class FindGame extends Component{
     this.props.loadOpenGames();
   };
 
-  async checkIfGameExpired(game){
-    if(Date.now() > game.time * 1){
-      await axios.put(`/api/games/${game.id}`, { open: false });
-    }
-    this.props.loadOpenGames();
-  }
   
   render(){
     const { games } = this.props;
