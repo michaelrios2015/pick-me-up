@@ -2,6 +2,7 @@ const express = require("express");
 const { static } = express;
 const path = require("path");
 
+
 const app = express();
 module.exports = app;
 
