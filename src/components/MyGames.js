@@ -25,7 +25,7 @@ class MyGames extends Component{
   
   render(){
     const { games, user } = this.props;
-    console.log(games)
+    console.log('games', games)
     const { leaveGame } = this;
     
     return (

@@ -24,6 +24,7 @@ class GameCard extends Component{
   
   render(){
     const { game, players, openGame } = this.props;
+    // console.log(game);
     
     return (
       <div className='game-card'>
@@ -33,12 +34,20 @@ class GameCard extends Component{
         <div className='game-card-content'>
           {
             openGame ? (
-              <h4>Player Count: {players.length}</h4>
+              <h4>
+                {
+                  players ? (
+                    <span>Player Count: {players.length}</span>
+                  ) : (
+                    ''
+                  )
+                }
+              </h4>
               ) : (
               <h4>Score: { game.finalScore }</h4>
             )
           }
-          <h4 className='name-list'>Player Names: 
+          {/* <h4 className='name-list'>Player Names: 
             { 
             //maybe use reduce() here to list/join the names in a nicer way
               players.map(player => {
@@ -49,7 +58,7 @@ class GameCard extends Component{
                 )
               }) 
             }
-          </h4>
+          </h4> */}
           <h4>Court: { game.location }</h4>
           <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
           <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
