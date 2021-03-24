@@ -28,6 +28,23 @@ router.get('/:gameId/players', async(req, res, next)=> {
   }
 })
 
+//gets all games for a single user
+router.get('/open/:userId', async(req, res, next)=> {
+	try{
+		const gameLinksForUser = await UserGame.findAll({
+			where: {
+				userId: req.params.userId
+			},
+			include: [ User, Game ]
+		});
+		const games = gameLinksForUser.map(link => link.game);
+		res.send(games);
+	}
+	catch(ex){
+		next(ex);
+	}
+})
+
 
 //creates a user-game link --- joins a player to a game
 router.post('/', async(req, res, next)=> {
@@ -64,6 +81,7 @@ router.post('/', async(req, res, next)=> {
 		next(ex);
 	}
 })
+
 
 module.exports = router;
 

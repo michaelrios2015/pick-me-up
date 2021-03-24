@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack');
 require('dotenv').config();
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const config = {
   devtool: 'source-map',
@@ -23,6 +24,8 @@ const config = {
         COURT_API: JSON.stringify(process.env.COURT_API),
       },
     }),
+    // To strip all locales except “en”
+    new MomentLocalesPlugin(),
   ],
 };
 
