@@ -37,8 +37,9 @@ router.get('/open/:userId', async(req, res, next)=> {
 			},
 			include: [ User, Game ]
 		});
+		// console.log('GAME LINKS FOR USER', gameLinksForUser)
 		const games = gameLinksForUser.map(link => link.game);
-		res.send(games);
+		res.send(games, gameLinksForUser);
 	}
 	catch(ex){
 		next(ex);
@@ -76,6 +77,16 @@ router.post('/', async(req, res, next)=> {
 		} else {
 			res.send({created, addPlayerToGame});
 		}
+	}
+	catch(ex){
+		next(ex);
+	}
+});
+
+// deletes a user-game link
+router.delete('/', async(req, res, next)=> {
+	try{
+		res.send()
 	}
 	catch(ex){
 		next(ex);

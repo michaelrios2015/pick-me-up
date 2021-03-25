@@ -13,7 +13,6 @@ class MyGames extends Component{
 
   componentDidMount(){
     this.props.loadOpenGamesForUser(this.props.user.id);
-    // console.log(this.props.user.id)
   };
   
   
@@ -25,7 +24,6 @@ class MyGames extends Component{
   
   render(){
     const { games, user } = this.props;
-    console.log('games', games)
     const { leaveGame } = this;
     
     return (
