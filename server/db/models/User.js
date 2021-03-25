@@ -38,6 +38,11 @@ const User = db.define(
 	}
 );
 
+User.prototype.validatePassword = function (password) {
+	const authStatus = await bcrypt.compare(this.password, password);
+	return authStatus;
+}
+
 // Salt passwords
 User.beforeCreate(async (user, options) => {
 	user.password = await bcrypt.hash(user.password, 10);
