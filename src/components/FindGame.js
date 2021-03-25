@@ -18,8 +18,7 @@ class FindGame extends Component{
   
   async joinGame(game){
     if(Date.now() < game.time * 1){
-    // using a fixed user Id to simulate logged-in user. UPDATE W/LOGGED-IN USERID WHEN AUTH IS CONNECTED TO STORE
-      const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: 13 })).data;
+      const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id })).data;
       if(!addPlayer.created){
         window.alert('You have already joined this game.');
       } else {
@@ -73,7 +72,7 @@ class FindGame extends Component{
 const mapState = ({ games, users }) => {
   return {
     games: games.open,
-    users: users.all
+    user: users.single
   }
 };
 
