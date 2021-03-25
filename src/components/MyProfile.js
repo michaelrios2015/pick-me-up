@@ -21,7 +21,7 @@ export class MyProfile extends Component{
   }
 
   componentDidMount(){
-    this.props.bootstrap();
+    // this.props.bootstrap();
    
   }
 

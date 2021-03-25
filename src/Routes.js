@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
-import { MyStats, Home, RequestForm, MyProfile, Login, FindGame, MyGames } from "./components";
+import { MyStats, GamesHosted, Home, RequestForm, MyProfile, Login, FindGame, MyGames } from "./components";
 
 /**
  * COMPONENT
@@ -15,6 +15,7 @@ class Routes extends Component {
       <Switch>
 				<Route path="/login" component={ Login } />
         <Route path='/mygames' component={ MyGames } />
+        <Route path='/gameshosted' component={ GamesHosted } />
         <Route path='/games' component={ FindGame } />
         <Route path='/stats' component={ MyStats } />
         <Route path='/request' component={ RequestForm } />

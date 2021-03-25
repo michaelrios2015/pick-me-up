@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import GameCard from './GameCard';
 import { loadUsers } from '../store/';
 
-export class MyStats extends Component{
+//the plan is to make this into a generic admin user component, so an admin would see all the users 
+//be able to click on them edit them delete them etc.  right now this is on hold  
+
+export class AdminUsers extends Component{
   constructor(){
     super();
     this.state = {};
@@ -22,23 +24,7 @@ export class MyStats extends Component{
             HELLO
           </div>
           <div className='sub-header'>
-            {/* <div>
-              {
-                // need to calculate total wins and losses
-              }
-              <h3>Wins: { wins.length }</h3>
-              {  
-                wins.map( game => { 
-                  const players = game.users;
-                  return (
-        
-                      <div key={game.id}>
-                   <GameCard game={game} players={players} openGame={false}/>
-                    </div>
-                  );
-                })
-              }
-            </div> */}
+
           </div>
         </div>
     );
@@ -58,5 +44,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyStats);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminUsers);
 
