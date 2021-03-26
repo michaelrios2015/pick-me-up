@@ -37,9 +37,8 @@ router.get('/open/:userId', async(req, res, next)=> {
 			},
 			include: [ User, Game ]
 		});
-		// console.log('GAME LINKS FOR USER', gameLinksForUser)
 		const games = gameLinksForUser.map(link => link.game);
-		res.send(games, gameLinksForUser);
+		res.send(games);
 	}
 	catch(ex){
 		next(ex);
@@ -84,9 +83,19 @@ router.post('/', async(req, res, next)=> {
 });
 
 // deletes a user-game link
-router.delete('/', async(req, res, next)=> {
+router.delete('/:gameId/:userId', async(req, res, next)=> {
 	try{
-		res.send()
+		const userGame = await UserGame.findOne({
+			where: {
+				gameId: req.params.gameId,
+				userId: req.params.userId
+			},
+			include: Game
+		})
+		userGame.game.open = true;
+		await userGame.game.save();
+		await userGame.destroy();
+		res.sendStatus(204);
 	}
 	catch(ex){
 		next(ex);

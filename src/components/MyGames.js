@@ -17,7 +17,7 @@ class MyGames extends Component{
   
   
   async leaveGame(game){
-    await axios.delete('/api/user_games', { gameId: game.id, userId: this.props.user.id });
+    await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
     this.props.loadOpenGamesForUser(this.props.user.id);
   };
 
