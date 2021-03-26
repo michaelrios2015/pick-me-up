@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadRequests, loadRequestsForUser, loadGamesForUser, loadGamesOrWaitListForUser, loadGamesDataForUser, loadGames, loadUsers, loadUser } from '../store/';
+import { loadUser, updateUser } from '../store/';
 
 
 export class MyProfile extends Component{
@@ -25,43 +25,47 @@ export class MyProfile extends Component{
    
   }
 
-  async handleSubmit(e, user) {
-    console.log(e)
+  async handleSubmit(e) {
+    // console.log(e)
     
+
     //console.log(e.target[0].defaultValue)
     //console.log(e.target[1].defaultValue);
-    if(e.target[0].defaultValue !== ""){
-    user.email = e.target[0].defaultValue;  
-    }
-    if(e.target[1].defaultValue !== ""){
-    user.name = e.target[1].defaultValue;
-    }
-    if(e.target[2].defaultValue !== ""){
-    user.height = e.target[2].defaultValue;
-    }
-    if(e.target[3].defaultValue !== ""){
-    user.description = e.target[3].defaultValue;
-    }
-    if(e.target[4].defaultValue !== ""){
-    user.photo = e.target[4].defaultValue;
-    }
+    // if(e.target[0].defaultValue !== ""){
+    // user.email = e.target[0].defaultValue;  
+    // }
+    // if(e.target[1].defaultValue !== ""){
+    // user.name = e.target[1].defaultValue;
+    // }
+    // if(e.target[2].defaultValue !== ""){
+    // user.height = e.target[2].defaultValue;
+    // }
+    // if(e.target[3].defaultValue !== ""){
+    // user.description = e.target[3].defaultValue;
+    // }
+    // if(e.target[4].defaultValue !== ""){
+    // user.photo = e.target[4].defaultValue;
+    // }
     //console.log(user);
     
     e.preventDefault();
-    this.setState({
-      ...user
-    })
+    
+    const { users, history } = this.props;
+    let user = users.single;
+    console.log(history);
     
     //TODO : perform some sort of update to selected user through redux thunks
     //await axios.update("/user/:id", {...this.state})
+    await this.props.updateUser({...this.state, id: user.id});
+    history.push("/");
     
 	}
   async onChange(e) {
-     console.log("TARGET VALUE", e.target.value);
+      // console.log("TARGET VALUE", e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     })
-     console.log("AFTER SETSTATE", this.state.email);
+    //  console.log("AFTER SETSTATE", this.state.email);
 		
 	}
 
@@ -70,12 +74,12 @@ export class MyProfile extends Component{
 
   render(){
    
-    const { users } = this.props;
+     const { users } = this.props;
     let user = users.single;
     console.log(users)
     const { email, name, age, height, description, photo } = this.state;
     return (
-        <div className='container'>
+        <div  id='user-form' className='container justify-content-center'>
           <div> 
           <h2 className='display-1 text-dark text-center'>Update My Profile</h2>
           <form onSubmit={(e) => this.handleSubmit(e, user)} >
@@ -160,7 +164,7 @@ export class MyProfile extends Component{
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state.requests);
+ 
   return state;
 }
 
@@ -168,10 +172,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   
   return {
-    
+    updateUser: (user) => dispatch(updateUser(user)),
     bootstrap: ()=> {
       dispatch(loadUser(4));
-
     }
   };
 }

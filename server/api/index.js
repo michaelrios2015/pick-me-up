@@ -7,7 +7,7 @@ const path = require("path");
 const axios = require("axios");
 const {
 	db,
-	models: { User, Request, Game, User_Game },
+	models: { User, Request, Game, UserGame },
 } = require("../db");
 // i think there is a way to get it from db...?
 const { Op } = require("sequelize");
@@ -22,9 +22,14 @@ async function authenticate(password, hash) {
 }
 
 const jwt = require("jsonwebtoken");
-// const jwtSecret = require("../../secrets");
+const jwtSecret  = require("../../secrets");
+
+
+// const jwtSecret2 = 'shh'
 
 async function generateAccessToken(user) {
+	// console.log('---------------------------');
+	// console.log(jwtSecret);
 	const token = await jwt.sign(user, jwtSecret);
 }
 
@@ -78,6 +83,24 @@ app.post("/login", async (req, res, next) => {
 // can these litterally just be seperated out?? can I just add a router having a
 // router would probably be the simpliest that is probably what I would try first
 // but it can wait
+
+//Update user
+app.put('/api/users/update/:id', async (req,res,next) => {
+  try {
+		const user = await User.findByPk(req.params.id)
+		console.log(req.body);
+    res.send(await user.update({
+			email: req.body.email,
+			name: req.body.name,
+			height: req.body.height,
+			description: req.body.description,
+			photo: req.body.photo
+		}))
+  }
+  catch(error) {
+    next(error)
+  }
+})
 
 //gets all users
 app.get("/api/users", async (req, res, next) => {
@@ -248,13 +271,29 @@ app.get("/api/games", async (req, res, next) => {
 	}
 });
 
-//gets a games
-app.get("/api/games/:id", async (req, res, next) => {
-	try {
-		res.send(await Game.findByPk(req.params.id));
-	} catch (ex) {
-		next(ex);
-	}
+//gets all open games
+app.get('/api/games/open', async(req, res, next)=> {
+  try {
+    res.send(await Game.findAll({
+      where: {
+        open: true
+      },
+			include: [ User ]
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+//gets a game
+app.get('/api/games/:id', async(req, res, next)=> {
+  try {
+    res.send(await Game.findByPk(req.params.id));
+  }
+  catch(ex){
+    next(ex);
+  }
 });
 
 // creates a game
@@ -281,13 +320,42 @@ app.delete("/api/games/:id", async (req, res, next) => {
 //gets all user_games
 app.get("/api/user_games", async (req, res, next) => {
 	try {
-		res.send(await User_Game.findAll({ include: [User, Game] }));
+		res.send(await UserGame.findAll({ include: [User, Game] }));
 	} catch (ex) {
 		next(ex);
 	}
 });
 
-//final error catcher
-app.use((err, req, res, next) => {
-	res.status(500).send({ error: err });
+
+//gets players of a single game
+app.get('/api/user_games/:gameId/players', async(req, res, next)=> {
+  try{
+    const gameUsers = await UserGame.findAll({
+      where: {
+        gameId: req.params.gameId
+      },
+      include: [ User ]
+    });
+    const players = gameUsers.map(user => user.user);
+    res.send(players);
+  }
+  catch(ex){
+    next(ex);
+  }
+})
+
+//creates a user-game link
+app.post('/api/user_games', async(req, res, next)=> {
+	try{
+		res.status(201).send(await UserGame.create(req.body));
+	}
+	catch(ex){
+		next(ex);
+	}
+})
+
+
+//final error catcher 
+app.use((err, req, res, next)=>{
+  res.status(500).send({ error: err });
 });

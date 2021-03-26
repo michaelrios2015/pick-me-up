@@ -1,4 +1,5 @@
 import axios from 'axios';
+import faker from 'faker';
 
 const LOAD_USERS = 'LOAD_USERS';
 const LOAD_USER = 'LOAD_USER';
@@ -24,7 +25,7 @@ const usersReducer = (state = intialState, action) =>{
         state['all'] = state.filter(user => user.id !== action.user.id);
     }
     if (action.type === UPDATE_USER){
-        state['all'] = state.map(user => user.id !== action.user.id ? user : action.user);
+        state['all'] = state['all'].map(user => user.id !== action.user.id ? user : action.user);
     }
 
     return {...state};
@@ -79,6 +80,20 @@ export const createUser = (data, history)=>{
     }
 }
 
+//using this for testing purposes. will need to remove when we can login as a user
+export const createRandomUser = ()=>{
+    return async(dispatch)=>{
+        let age = Math.floor(Math.random() * 20 + 16);
+        let description = faker.lorem.sentence();
+        let email = "test"+Math.ceil(Math.random() * 100)+"@email.com";
+        let height = Math.ceil(Math.random() * 3 + 4) + '\'';
+        let name = faker.name.lastName();
+        let user = (await axios.post('/api/users', { age, description, email, height, name })).data;
+        dispatch(_createUser(user));
+        // history.push(`/user/${user.id}`)
+    }
+}
+
 
 //might want to stop people from completely deleting the account as it will mess up 
 // the records of the games they have played, not really sure
@@ -94,10 +109,10 @@ export const destroyUser = (user, history)=>{
 
 const _updateUser = user =>({ type: UPDATE_USER, user});
 
-export const updateUser = ( data )=>{
+export const updateUser = ( user )=>{
     return async(dispatch)=>{
-        const user = (await axios.put(`/api/user/${id}`, { user })).data;
-        dispatch(_updateUser(user));
+        const singleUser = (await axios.put(`/api/users/update/${user.id}`, user )).data;
+        dispatch(_updateUser(singleUser));
     }
 }
 
