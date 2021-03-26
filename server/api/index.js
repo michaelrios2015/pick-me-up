@@ -1,9 +1,7 @@
-// THey put this top part in something app for grace shopper
-
-//as this get's bigger you can seperate things out more
 const express = require("express");
 const { static } = express;
 const path = require("path");
+<<<<<<< HEAD
 const axios = require("axios");
 const {
 	db,
@@ -32,6 +30,9 @@ async function generateAccessToken(user) {
 	// console.log(jwtSecret);
 	const token = await jwt.sign(user, jwtSecret);
 }
+=======
+
+>>>>>>> master
 
 const app = express();
 module.exports = app;
@@ -39,15 +40,10 @@ module.exports = app;
 app.use(express.json());
 
 app.use("/dist", static(path.join(__dirname, "..", "..", "dist")));
-
-// is this supposed to be here??
-app.get("/", (req, res, next) =>
-	res.sendFile(path.join(__dirname, "..", "..", "public/index.html"))
-);
-
 // static file-serving middleware
 app.use(express.static(path.join(__dirname, "..", "..", "public")));
 
+<<<<<<< HEAD
 // login user
 app.post("/login", async (req, res, next) => {
 	let hash = "";
@@ -325,6 +321,14 @@ app.get("/api/user_games", async (req, res, next) => {
 		next(ex);
 	}
 });
+=======
+app.get("/", (req, res, next) =>
+	res.sendFile(path.join(__dirname, "..", "..", "public/index.html"))
+);
+
+//the router :)
+app.use("/api", require("./routes"));
+>>>>>>> master
 
 
 //gets players of a single game

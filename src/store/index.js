@@ -10,7 +10,6 @@ import { gamesReducer } from './games'
 // the reducer
 const reducer = combineReducers({
     users: usersReducer,
-    requests: requestsReducer,
     games: gamesReducer,
 })
 const middleware = composeWithDevTools(
@@ -20,6 +19,5 @@ const store = createStore(reducer, middleware);
 
 
 export default store;
-export * from './requests'
 export * from './games'
 export * from './users'

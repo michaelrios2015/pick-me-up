@@ -1,4 +1,8 @@
 dist
 node_modules
 secrets.js
+<<<<<<< HEAD
 env.js
+=======
+.env
+>>>>>>> master

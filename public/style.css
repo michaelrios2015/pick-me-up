@@ -82,3 +82,18 @@ nav a {
 h1 {
   text-align: center;
 }
+
+.courtFinder {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.courtForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.courtMap {
+  width: 50%;
+}
