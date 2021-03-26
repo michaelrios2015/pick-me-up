@@ -9,18 +9,6 @@ const UPDATE_GAME = 'UPDATE_GAME';
 
 
 //*************************************************
-<<<<<<< HEAD
-const gamesReducer = (state = [], action) =>{
-    if (action.type === LOAD_GAMES){
-        state = action.games
-    }
-    if (action.type === CREATE_GAME){
-        state = [...state, action.game]
-    }
-    return state;
-}
-
-=======
 const intialState = {open: [], closed: []}
 
 const gamesReducer = (state = intialState, action) =>{
@@ -36,7 +24,6 @@ const gamesReducer = (state = intialState, action) =>{
   return {...state};
 }
 
->>>>>>> master
 //ACTION CREATORS****************************************
 const _loadGames = (games) =>{
   return {
@@ -52,20 +39,12 @@ const _loadClosedGames = (games) =>{
   };
 };
 
-<<<<<<< HEAD
-const _createGame = (game) => {
-    return {
-        type: CREATE_GAME,
-        game
-    }
-=======
 
 const _createGame = (game) => {
   return {
       type: CREATE_GAME,
       game
   }
->>>>>>> master
 }
 
 //THUNKS****************************************
@@ -121,26 +100,11 @@ export const loadOpenGamesForUser = (userId)=> {
   }
 };
 
-<<<<<<< HEAD
-export const loadOpenGames = () =>{
-    return async(dispatch)=>{
-        const games = (await axios.get('/api/games/open')).data;
-        dispatch(_loadGames(games));
-    }
-};
-
-export const createGame = () => {
-    return async(dispatch) => {
-        const game = (await axios.post('/api/games')).data;
-        dispatch(_createGame(game));
-    }
-=======
 export const createGame = () => {
   return async(dispatch) => {
     const game = (await axios.post('/api/games')).data;
     dispatch(_createGame(game));
   }
->>>>>>> master
 }
 
 

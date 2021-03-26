@@ -11,7 +11,4 @@ export { default as Home } from "./Home";
 export { default as MyProfile } from "./MyProfile";
 export { default as Login } from "./Login";
 export { default as FindGame } from './FindGame';
-<<<<<<< HEAD
-=======
 export { default as MyGames } from './MyGames';
->>>>>>> master

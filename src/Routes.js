@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
-<<<<<<< HEAD
-import { MyStats, Home, RequestForm, MyProfile, Login, FindGame } from "./components";
-=======
 import { MyStats, Home, RequestForm, MyProfile, Login, FindGame, MyGames } from "./components";
->>>>>>> master
 
 /**
  * COMPONENT
@@ -18,10 +14,7 @@ class Routes extends Component {
     return (
       <Switch>
 				<Route path="/login" component={ Login } />
-<<<<<<< HEAD
-=======
         <Route path='/mygames' component={ MyGames } />
->>>>>>> master
         <Route path='/games' component={ FindGame } />
         <Route path='/stats' component={ MyStats } />
         <Route path='/request' component={ RequestForm } />

@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-<<<<<<< HEAD
-import { loadGamesForUser, loadGames, loadUser } from '../store/';
-=======
 import { loadClosedGamesForUser, loadUser } from '../store/';
->>>>>>> master
 
 export class MyStats extends Component{
   constructor(){
@@ -19,22 +15,6 @@ export class MyStats extends Component{
   }
 
   render(){
-<<<<<<< HEAD
-    // const { user, game, request } = this.props;
-    console.log(this.props)
-    let user = this.props.users.single;
-    // let games = this.props.games 
-
-    // let wins = games.filter(game => game.team === game.game.winner)
-    // let loses = games.filter(game => game.team !== game.game.winner)
-    // let win = wins[0];
-    // console.log(wins);
-    // console.log(loses);
-    // console.log(games);
-    // this is just the  one we started with not how it's really done
-    const request =  {};
-    // console.log(request);
-=======
     let user = this.props.users.single;
     let games = this.props.games.closed
 
@@ -52,7 +32,6 @@ export class MyStats extends Component{
       }
     }   
 
->>>>>>> master
     return (
         <div className='container'>
           <div className='header'>
@@ -66,18 +45,6 @@ export class MyStats extends Component{
               {
                 // need to calculate total wins and losses
               }
-<<<<<<< HEAD
-              <h3>Wins:</h3>
-              {  
-                // wins.map( game => { 
-                //   return (
-                //     <div key={game.gameId}>
-                //    {game.gameId}
-                //          {/* <GameCard game={game}/> */}
-                //     </div>
-                //   );
-                // })
-=======
               <h3>Wins: { wins.length }</h3>
               {  
                 wins.map( game => { 
@@ -89,23 +56,10 @@ export class MyStats extends Component{
                     </div>
                   );
                 })
->>>>>>> master
               }
             </div>
 
             <div>
-<<<<<<< HEAD
-              <h3>Losses:</h3>
-              {  
-                  // loses.map( game => { 
-                  //     return (
-                  //       <div key={game.gameId}>
-                  //         {game.gameId}
-                  //         {/* <GameCard game={game} /> */}
-                  //       </div>
-                  //     );
-                  // })
-=======
               <h3>Losses: { loses.length }</h3>
               {  
                   loses.map( game => { 
@@ -117,7 +71,6 @@ export class MyStats extends Component{
                       </div>
                     );
                   })
->>>>>>> master
               }
             </div>
           </div>
@@ -135,12 +88,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     bootstrap: ()=> {
       dispatch(loadUser(4));
-<<<<<<< HEAD
-      dispatch(loadGamesForUser(4));
-      // dispatch(loadGames());
-=======
       dispatch(loadClosedGamesForUser(4));
->>>>>>> master
     }
   };
 }
