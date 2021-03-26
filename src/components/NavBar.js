@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
 	// we got location is a different way in class but could not replicate so used this
-	console.log(process.env)
+	// console.log(process.env)
 	let pathname = useLocation().pathname;
 	return (
 		<div>

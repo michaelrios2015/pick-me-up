@@ -13,4 +13,5 @@ export { default as Login } from "./Login";
 export { default as FindGame } from './FindGame';
 export { default as AdminUsers } from './AdminUsers';
 export { default as GamesHosted } from './GamesHosted';
+export { default as Game } from './Game';
 export { default as MyGames } from './MyGames';

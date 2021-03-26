@@ -17,7 +17,9 @@ class GameCard extends Component{
 
   async componentDidMount(){
     const game = this.props.game;
-    if(Date.now() > game.time * 1){
+    // was getting a slight error when deleting games  && game.open fixes it
+    // should not break anything else 
+    if(Date.now() > game.time * 1 && game.open){
       await axios.put(`/api/games/${game.id}`, { open: false });
     }
   }

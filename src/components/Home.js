@@ -23,7 +23,7 @@ class Home extends Component{
     return (
       <div>
         Hello User!! { user.email }
-        <GamesHosted />
+        {/* <GamesHosted /> */}
       </div>
     );
   }

@@ -125,6 +125,18 @@ export const createGame = () => {
   }
 }
 
+//dstroying (deleting) a game and sening usre back to the 
+// games they host were those game are reloaded into store so not needed here
+export const destroyGame = (game, history) => {
+  return async(dispatch) => {
+    console.log(game.host)
+    const host = game.host;
+    await axios.delete(`/api/games/${game.id}`);
+    loadHostedGames(host);
+    //dispatch(_createGame(game));
+    history.push('/gameshosted')
+  }
+}
 
 // export default store;
 export { gamesReducer };

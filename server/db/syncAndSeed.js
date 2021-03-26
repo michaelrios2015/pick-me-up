@@ -18,7 +18,7 @@ const syncAndSeed = async()=> {
   
   //4 generic open games with UserGame -- these will be open for varying minutes from start of runtime
   for (let i = 1; i<= 4; i++){
-    await Game.create({location: 'COURT 1', dateAndTime: moment().add((i * 3), 'minutes')._d, host: i});
+    await Game.create({location: 'COURT 1', dateAndTime: moment().add((i * 3), 'hours')._d, host: i});
     await UserGame.create({ userId: i, gameId: i });
   }
   
@@ -37,14 +37,14 @@ const syncAndSeed = async()=> {
   await UserGame.create({ userId: 9, gameId: 9 });
 
   // a finished game
-  await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true, location: 'COURT 1', open: false, dateAndTime: moment().subtract(7, 'days')._d, host: 1 });
+  await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true, location: 'COURT 1', open: false, dateAndTime: moment().subtract(1, 'days')._d, host: 1 });
   await UserGame.create({ userId: 1, gameId: 10, team: 'TEAM A' });
   await UserGame.create({ userId: 2, gameId: 10, team: 'TEAM A'  });
   await UserGame.create({ userId: 3, gameId: 10, team: 'TEAM B'  });
   await UserGame.create({ userId: 4, gameId: 10, team: 'TEAM B'  });
 
   //an ongoing game (or game about to happen) with one player on wait list
-  await Game.create({ location: 'COURT 1', open: false, dateAndTime: moment().subtract(7, 'days')._d, host: 5 });
+  await Game.create({ location: 'COURT 1', open: false, dateAndTime: moment().subtract(3, 'days')._d, host: 5 });
   await UserGame.create({ userId: 5, gameId: 11 });
   await UserGame.create({ userId: 6, gameId: 11 });
   await UserGame.create({ userId: 3, gameId: 11 });
@@ -58,13 +58,13 @@ const syncAndSeed = async()=> {
   await UserGame.create({ userId: 7, gameId: 12 });
 
   // a finished game
-  await Game.create({ winner: 'TEAM B', finalScore: '44 - 18', done: true, location: 'COURT 3', open: false, dateAndTime: moment().subtract(7, 'days')._d, host: 1 });
+  await Game.create({ winner: 'TEAM B', finalScore: '44 - 18', done: true, location: 'COURT 3', open: false, dateAndTime: moment().subtract(14, 'days')._d, host: 1 });
   await UserGame.create({ userId: 1, gameId: 13, team: 'TEAM A' });
   await UserGame.create({ userId: 2, gameId: 13, team: 'TEAM A'  });
   await UserGame.create({ userId: 3, gameId: 13, team: 'TEAM B'  });
   await UserGame.create({ userId: 4, gameId: 13, team: 'TEAM B'  });
 
-  await Game.create({ winner: 'TEAM B', finalScore: '67 - 45', done: true, location: 'COURT 5', open: false, dateAndTime: moment().subtract(7, 'days')._d, host: 1 });
+  await Game.create({ winner: 'TEAM B', finalScore: '67 - 45', done: true, location: 'COURT 5', open: false, dateAndTime: moment().subtract(6, 'days')._d, host: 1 });
   await UserGame.create({ userId: 1, gameId: 14, team: 'TEAM A' });
   await UserGame.create({ userId: 2, gameId: 14, team: 'TEAM A'  });
   await UserGame.create({ userId: 3, gameId: 14, team: 'TEAM B'  });
