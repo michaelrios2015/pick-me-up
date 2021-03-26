@@ -17,11 +17,12 @@ const Login = () => {
 		if (!email || !password) {
 			setError("Error: Please fill out both email and password fields");
 		} else {
+			console.log("button pressed");
 			try {
 				const request = { email, password };
+				console.log(request);
 				const response = await axios.post("/api/login", request);
-				console.log(response);
-				dispatch(loadUser(response.data.userId));
+				dispatch(loadUser(response.data.id));
 				setError("Success");
 			} catch (er) {
 				console.log(er);

@@ -1,6 +1,20 @@
 const router = require("express").Router();
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
-const {
+require("../middleware/auth");
+
+// POST /login
+router.post(
+	"/",
+	passport.authenticate("local", { session: false }),
+	(req, res) => {
+		console.log(req.user);
+		res.status(200).send(req.user);
+	}
+);
+
+/* const {
 	models: { User },
 } = require("../../db");
 
@@ -46,6 +60,6 @@ router.post("/", async (req, res, next) => {
 	}
 
 	// compare hash with submitted password
-});
+}); */
 
 module.exports = router;

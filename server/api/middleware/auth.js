@@ -1,10 +1,11 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-
 // Import User model
 const {
 	models: { User },
 } = require("../../db");
+
+// Passport JS
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 
 // Password Hashing
 const bcrypt = require("bcrypt");
@@ -15,26 +16,30 @@ passport.use(
 		{ usernameField: "email", passwordField: "password" },
 		// verify callback
 		async function (email, password, done) {
-			try {
-				const user = await User.findOne({
-					where: { email: email },
-				});
+			//	try {
+			const user = await User.findOne({
+				where: { email: email },
+			});
 
-				if (!user) {
+			console.log(user);
+
+			/* if (!user) {
 					return done(null, false, { message: "Incorrect email address" });
-				}
+				} */
 
-				const auth = await user.validatePassword(password);
+			const auth = await user.validatePassword(password);
 
-				if (!auth) {
+			console.log(auth);
+
+			/* if (!auth) {
 					return done(null, false, { message: "Incorrect password" });
-				}
+				} */
 
-				return done(null, user);
-			} catch (err) {
-				console.log(err);
-				return done(null, false, { message: err });
-			}
+			return done(null, user);
+			//	} catch (err) {
+			//		console.log(err);
+			//		return done(null, false, { message: err });
+			//	}
 		}
 	)
 );
