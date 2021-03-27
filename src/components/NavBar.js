@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
 	// we got location is a different way in class but could not replicate so used this
-	console.log(process.env)
+
 	let pathname = useLocation().pathname;
 	return (
 		<div>
@@ -24,8 +24,11 @@ const Navbar = () => {
 				<Link to="/games" className={pathname === "/games" ? "selected" : ""}>
 					Find a Game
 				</Link>
+				<Link to="/mygames" className={pathname === "/mygames" ? "selected" : ""}>
+					My Games
+				</Link>
 				<Link to="/stats" className={pathname === "/stats" ? "selected" : ""}>
-					My Stats
+					My Stat
 				</Link>
 				<Link
 					to="/account"
