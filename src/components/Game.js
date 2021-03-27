@@ -18,6 +18,7 @@ export class Game extends Component{
       location: this.props.game.location ? this.props.game.location : '',
       dateAndTime: this.props.game.dateAndTime ? this.props.game.dateAndTime : '',
       finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
+      winner: this.props.game.winner ? this.props.game.winner : '',
       error: ''
   };
   console.log(this.props.state);
@@ -53,8 +54,13 @@ async onSave(ev){
   render(){
     const { game, destroy } = this.props;
     // console.log(this.props);
-    const { location, finalScore, error } = this.state;
+    const { location, finalScore, error, winner } = this.state;
     const { onChange, onSave} = this;
+
+    let past = false;
+    if(Date.now() > game.time * 1){
+      past = true;
+    } 
     //so should check to see if game is over or not, if game is over  score, winner, and ideally
     //the teams each player played on should be updated, if the game has not started should be able
     //change timeAndDate, location or delete the game
@@ -69,12 +75,17 @@ async onSave(ev){
                     !!error && JSON.stringify(error, null, 2)
                 }
             </pre>
-            Location:  
+            Location  
             <input name='name' value={ location } onChange = { onChange }/>
             <br/>
-            {/* this should only show up if game is done, start time past current time */}
-            Final Score: 
+            <label htmlFor='date'>Date and Time:</label>
+            <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>   
+            <br/>              
+            Final Score 
             <input name='finalScore' value={ finalScore } onChange = { onChange }/>
+            <br/>
+            Winner 
+            <input name='winner' value={ winner } onChange = { onChange }/>
             <br/>
             <button>SAVE</button>
           </form>
