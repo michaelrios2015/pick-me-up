@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { AdminUsers, GamesHosted } from '.';
 import { loadUser } from '../store/';
 
 class Home extends Component{
@@ -9,7 +10,7 @@ class Home extends Component{
   }
 
   componentDidMount(){
-    this.props.bootstrap();
+    // this.props.bootstrap();
    
   }
 
@@ -22,6 +23,7 @@ class Home extends Component{
     return (
       <div >
         Hello User!! { user.email }
+        {/* <GamesHosted /> */}
       </div>
     );
   }

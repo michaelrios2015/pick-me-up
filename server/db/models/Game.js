@@ -30,7 +30,7 @@ const Game = db.define('game', {
       type: DATE
     },
     host: {
-      type: STRING
+      type: INTEGER
     },
     maxPlayerCount: {
       type: INTEGER,
