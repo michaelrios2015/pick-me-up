@@ -30,9 +30,9 @@ if(process.env.LOGGING){
   delete config.logging
 }
 
-// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
-const db = new Sequelize(
-	process.env.DATABASE_URL || "postgres://localhost/basketball", config
-);
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
+// const db = new Sequelize(
+// 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
+// );
 
 module.exports = db;
