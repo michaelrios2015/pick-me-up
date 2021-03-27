@@ -17,6 +17,7 @@ export class GamesHosted extends Component{
 
   componentDidMount(){
     
+    // just hard coding it in for convience at the moment 
     this.props.bootstrap(1);
 
     // console.log(this.props.users.single);

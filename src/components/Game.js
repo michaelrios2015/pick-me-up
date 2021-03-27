@@ -48,11 +48,7 @@ async onSave(ev){
   // }   
 }
 
-// async deleteGame(game){
-//   // so would rather have this in the store, and should redirect back to      
-//   console.log(game)
-//   await axios.delete(`/api/games/${game.id}`);
-// };
+
 
   render(){
     const { game, destroy } = this.props;

@@ -59,17 +59,25 @@
 
 nav {
   display: flex;
-  justify-content: space-around;
+  
+  
 }
-
+.nav > div {
+  margin-left: 10%;
+  margin-right: 10%;
+}
 nav a {
   padding: 0.5rem;
 }
 
-nav a.selected {
+#user-form {
+  padding-top: 15px;
+}
+
+/* nav a.selected {
   background-color: dodgerblue;
   color: cornsilk;
-}
+} */
 
 h1 {
   text-align: center;

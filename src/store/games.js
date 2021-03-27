@@ -127,6 +127,7 @@ export const createGame = () => {
 
 //dstroying (deleting) a game and sening usre back to the 
 // games they host were those game are reloaded into store so not needed here
+//when a game is deleted 
 export const destroyGame = (game, history) => {
   return async(dispatch) => {
     console.log(game.host)

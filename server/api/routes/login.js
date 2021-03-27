@@ -14,7 +14,7 @@ async function authenticate(password, hash) {
 
 const jwt = require("jsonwebtoken");
 // const jwtSecret = require("../../../secrets");
-const jwtSecret = process.env.JWT;
+const jwtSecret = "hi";
 // console.log('----------------')
 // console.log(jwtSecret)
 

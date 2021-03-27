@@ -21,7 +21,7 @@ class Home extends Component{
     let user = users.single;
     // console.log(Object.values(users));
     return (
-      <div>
+      <div >
         Hello User!! { user.email }
         {/* <GamesHosted /> */}
       </div>
