@@ -76,18 +76,27 @@ async onSave(ev){
                     !!error && JSON.stringify(error, null, 2)
                 }
             </pre>
-            Location  
-            <input name='name' value={ location } onChange = { onChange }/>
-            <br/>
-            <label htmlFor='date'>Date and Time:</label>
-            <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>   
-            <br/>              
-            Final Score 
-            <input name='finalScore' value={ finalScore } onChange = { onChange }/>
-            <br/>
-            Winner 
-            <input name='winner' value={ winner } onChange = { onChange }/>
-            <br/>
+            {past ? (
+              <div>
+              <p>Location</p>  
+              <input name='name' value={ location } onChange = { onChange }/>
+              <br/>
+              <label htmlFor='date'>Date and Time:</label>
+              <br/>
+              <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>   
+              <br/>
+              </div>
+            ) :  (
+              <div>             
+              <p>Final Score</p> 
+              <input name='finalScore' value={ finalScore } onChange = { onChange }/>
+              <br/>
+              <p>Winner</p> 
+              <input name='winner' value={ winner } onChange = { onChange }/>
+              <br/>
+              </div>
+            )  }
+            
             <button>SAVE</button>
           </form>
           {/* not quite sure how to deal with time at the moment but should be able to copy taylor */}

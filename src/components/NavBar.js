@@ -11,19 +11,19 @@ const Navbar = () => {
         <h1 className='display-1 text-dark'>PICK ME UP</h1>
     </header>
     <div className='nav nav-tabs justify-content-around'>
-      
-        <Link className='nav-link' to='/'>Home</Link>
-        <Link className='nav-link' to='/request'>Pick Up</Link>
-        <Link className='nav-link' to='/games'>Find a Game</Link>
-        <Link className='nav-link' to='/stats'>My Stats</Link>
-        <Link className='nav-link' to='/account'>My Account</Link>
-        <Link className='nav-link' to='/'>Logout</Link>
-      
-      </div>
-      </div>
-    )
-  }
-
+			<Link className='nav-link' to='/'>Home</Link>
+			<Link className='nav-link' to='/request'>Pick Up</Link>
+			<Link className='nav-link' to='/games'>Find a Game</Link>
+			<Link className='nav-link' to='/mygames'>My Games</Link>
+			<Link className='nav-link' to='/stats'>My Stats</Link>
+			<Link className='nav-link' to='/account'>My Account</Link>
+			<Link className='nav-link' to="/login">Login</Link>
+			<Link className='nav-link' to='/'>Logout</Link>
+		
+		</div>
+		</div>
+	)
+}
 
 const mapState = (state) => {
 	return state;
