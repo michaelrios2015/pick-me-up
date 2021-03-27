@@ -60,8 +60,11 @@ const _loadUser = (user) =>{
 export const loadUser = (userId) =>{
     return async(dispatch)=>{
         const user = (await axios.get(`/api/users/${userId}`)).data;
-        // console.log(users);
-        dispatch(_loadUser(user));
+        // console.log(user);
+        //so we don't load password into the store 
+        const clone = Object.assign({}, user, {password: undefined});
+        console.log(clone);
+        dispatch(_loadUser(clone));
     }
 };
 
