@@ -46,6 +46,23 @@ router.get('/closed', async(req, res, next)=> {
   }
 });
 
+//gets all closed games
+router.get('/hosted/:id', async(req, res, next)=> {
+  try {
+    res.send(await Game.findAll({
+			where: {
+				host: req.params.id
+			},
+			include: { 
+				model: User,
+			} 
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 //gets a game
 router.get('/:id', async(req, res, next)=> {
   try {

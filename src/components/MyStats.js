@@ -10,7 +10,12 @@ export class MyStats extends Component{
   }
 
   componentDidMount(){
-    this.props.bootstrap();
+    
+    let user = this.props.users.single;
+    console.log(user.id)
+    // if(user.id){
+      this.props.bootstrap(user.id);
+    // }
    
   }
 
@@ -86,9 +91,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bootstrap: ()=> {
-      dispatch(loadUser(4));
-      dispatch(loadClosedGamesForUser(4));
+    bootstrap: (userId)=> {
+      // dispatch(loadUser(4));
+      dispatch(loadClosedGamesForUser(userId));
     }
   };
 }
