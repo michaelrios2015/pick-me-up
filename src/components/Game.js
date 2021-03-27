@@ -42,7 +42,7 @@ onChange(ev){
 async onSave(ev){
   ev.preventDefault();
   try {
-      await this.props.update(this.props.game.id,);
+      await this.props.update(this.props.game.id, this.state);
   }
   catch(ex){
       console.log(ex);
@@ -133,9 +133,9 @@ const mapDispatchToProps = (dispatch, { history }) => {
       dispatch(destroyGame(game, history));
       // console.log(game)
     },
-    update: (id)=> {
+    update: (id, state)=> {
       // console.log('hi');
-      dispatch(updateGame(id));
+      dispatch(updateGame(id, state));
     }
   };
 }

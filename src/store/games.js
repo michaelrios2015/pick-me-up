@@ -126,10 +126,12 @@ export const createGame = () => {
 }
 
 
-export const updateGame = (id,)=>{
+export const updateGame = (id, state)=>{
   return async(dispatch)=>{
       // const game = (await axios.put(`/api/games/${id}`, { name, email, gpa, schoolId })).data;
-      console.log('in thunk');
+      console.log('-----------in thunk--------------');
+      console.log(id)
+      console.log(state)
       //console.log(game);
   }
 }
