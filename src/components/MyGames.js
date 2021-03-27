@@ -13,19 +13,17 @@ class MyGames extends Component{
 
   componentDidMount(){
     this.props.loadOpenGamesForUser(this.props.user.id);
-    // console.log(this.props.user.id)
   };
   
   
   async leaveGame(game){
-    await axios.delete('/api/user_games', { gameId: game.id, userId: this.props.user.id });
+    await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
     this.props.loadOpenGamesForUser(this.props.user.id);
   };
 
   
   render(){
     const { games, user } = this.props;
-    console.log('games', games)
     const { leaveGame } = this;
     
     return (

@@ -35,7 +35,7 @@ class GameCard extends Component{
         </div>
         <div className='game-card-content'>
           {
-            openGame ? (
+            game.open ? (
               <h4>
                 {
                   players ? (
@@ -49,18 +49,24 @@ class GameCard extends Component{
               <h4>Score: { game.finalScore }</h4>
             )
           }
-          {/* <h4 className='name-list'>Player Names: 
-            { 
-            //maybe use reduce() here to list/join the names in a nicer way
-              players.map(player => {
-                return (
-                  <span key={player.id}> 
-                    {' ' + player.name}
-                  </span>
-                )
-              }) 
-            }
-          </h4> */}
+          {
+            players ? (
+              <h4 className='name-list'>Player Names: 
+                { 
+                //maybe use reduce() here to list/join the names in a nicer way
+                  players.map(player => {
+                    return (
+                      <span key={player.id}> 
+                        {' ' + player.name}
+                      </span>
+                    )
+                  }) 
+                }
+              </h4>
+            ) : (
+              ''
+            )
+          }
           <h4>Court: { game.location }</h4>
           <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
           <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>

@@ -28,7 +28,7 @@ router.get('/:gameId/players', async(req, res, next)=> {
   }
 })
 
-//gets all games for a single user
+//gets all open games for a single user
 router.get('/open/:userId', async(req, res, next)=> {
 	try{
 		const gameLinksForUser = await UserGame.findAll({
@@ -38,7 +38,8 @@ router.get('/open/:userId', async(req, res, next)=> {
 			include: [ User, Game ]
 		});
 		const games = gameLinksForUser.map(link => link.game);
-		res.send(games);
+		const upcomingGames = games.filter(game => game.time > Date.now())
+		res.send(upcomingGames);
 	}
 	catch(ex){
 		next(ex);
@@ -76,6 +77,30 @@ router.post('/', async(req, res, next)=> {
 		} else {
 			res.send({created, addPlayerToGame});
 		}
+	}
+	catch(ex){
+		next(ex);
+	}
+});
+
+// deletes a user-game link
+router.delete('/:gameId/:userId', async(req, res, next)=> {
+	try{
+		const userGame = await UserGame.findOne({
+			where: {
+				gameId: req.params.gameId,
+				userId: req.params.userId
+			},
+			include: Game
+		})
+
+		if(userGame.game.time * 1 > Date.now()){
+			userGame.game.open = true;
+			await userGame.game.save();
+		}
+
+		await userGame.destroy();
+		res.sendStatus(204);
 	}
 	catch(ex){
 		next(ex);
