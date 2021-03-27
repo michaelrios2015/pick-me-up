@@ -21,12 +21,16 @@ export class MyProfile extends Component{
   }
 
   componentDidMount(){
-    this.props.bootstrap();
+    // this.props.bootstrap();
    
   }
 
   async handleSubmit(e) {
+    // console.log(e)
+    
 
+    //console.log(e.target[0].defaultValue)
+    //console.log(e.target[1].defaultValue);
     // if(e.target[0].defaultValue !== ""){
     // user.email = e.target[0].defaultValue;  
     // }
@@ -42,12 +46,13 @@ export class MyProfile extends Component{
     // if(e.target[4].defaultValue !== ""){
     // user.photo = e.target[4].defaultValue;
     // }
+    //console.log(user);
     
     e.preventDefault();
     
     const { users, history } = this.props;
     let user = users.single;
-
+    console.log(history);
     
     //TODO : perform some sort of update to selected user through redux thunks
     //await axios.update("/user/:id", {...this.state})
@@ -56,9 +61,11 @@ export class MyProfile extends Component{
     
 	}
   async onChange(e) {
+      // console.log("TARGET VALUE", e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     })
+    //  console.log("AFTER SETSTATE", this.state.email);
 		
 	}
 
@@ -67,12 +74,12 @@ export class MyProfile extends Component{
 
   render(){
    
-    const { users } = this.props;
+     const { users } = this.props;
     let user = users.single;
-
+    console.log(users)
     const { email, name, age, height, description, photo } = this.state;
     return (
-        <div className='container'>
+        <div id='user-form' className='container justify-content-center'>
           <div> 
           <h2 className='display-1 text-dark text-center'>Update My Profile</h2>
           <form onSubmit={(e) => this.handleSubmit(e, user)} >
@@ -157,6 +164,7 @@ export class MyProfile extends Component{
 }
 
 const mapStateToProps = (state) => {
+ 
   return state;
 }
 

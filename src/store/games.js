@@ -3,13 +3,14 @@ import axios from 'axios';
 // can I just add a wins game here??
 const LOAD_GAMES = 'LOAD_GAMES';
 const LOAD_CLOSED_GAMES = 'LOAD_CLOSED_GAMES';
+const LOAD_HOSTED_GAMES = 'LOAD_CLOSED_GAMES';
 const CREATE_GAME = 'CREATE_GAME';
 const DESTROY_GAME = 'DESTROY_GAME';
 const UPDATE_GAME = 'UPDATE_GAME';
 
 
 //*************************************************
-const intialState = {open: [], closed: []}
+const intialState = {open: [], closed: [], hosted: []}
 
 const gamesReducer = (state = intialState, action) =>{
   if (action.type === LOAD_GAMES){
@@ -17,6 +18,9 @@ const gamesReducer = (state = intialState, action) =>{
   }
   if (action.type === LOAD_CLOSED_GAMES){
       state.closed = action.games
+  }
+  if (action.type === LOAD_HOSTED_GAMES){
+    state.hosted = action.games
   }
   if (action.type === CREATE_GAME){
       state.open = [...state, action.game]
@@ -39,6 +43,12 @@ const _loadClosedGames = (games) =>{
   };
 };
 
+const _loadHostedGames = (games) =>{
+  return {
+      type: LOAD_HOSTED_GAMES,
+      games
+  };
+};
 
 const _createGame = (game) => {
   return {
@@ -100,6 +110,14 @@ export const loadOpenGamesForUser = (userId)=> {
   }
 };
 
+export const loadHostedGames = (userId) =>{
+  return async(dispatch)=>{
+      const games = (await axios.get(`/api/games/hosted/${userId}`)).data;
+      console.log(games)
+      dispatch(_loadHostedGames(games));
+  }
+};
+
 export const createGame = () => {
   return async(dispatch) => {
     const game = (await axios.post('/api/games')).data;
@@ -107,6 +125,19 @@ export const createGame = () => {
   }
 }
 
+//dstroying (deleting) a game and sening usre back to the 
+// games they host were those game are reloaded into store so not needed here
+//when a game is deleted 
+export const destroyGame = (game, history) => {
+  return async(dispatch) => {
+    console.log(game.host)
+    const host = game.host;
+    await axios.delete(`/api/games/${game.id}`);
+    loadHostedGames(host);
+    //dispatch(_createGame(game));
+    history.push('/gameshosted')
+  }
+}
 
 // export default store;
 export { gamesReducer };
