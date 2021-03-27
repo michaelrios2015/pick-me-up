@@ -33,13 +33,13 @@ class GameCard extends Component{
         </div>
         <div className='game-card-content'>
           {
-            openGame ? (
+            game.open ? (
               <h4>
                 {
                   players ? (
                     <span>Player Count: {players.length}</span>
                   ) : (
-                    ''
+                    <span>This game is not accepting players at this time.</span>
                   )
                 }
               </h4>
