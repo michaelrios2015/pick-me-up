@@ -125,6 +125,16 @@ export const createGame = () => {
   }
 }
 
+
+export const updateGame = (id,)=>{
+  return async(dispatch)=>{
+      // const game = (await axios.put(`/api/games/${id}`, { name, email, gpa, schoolId })).data;
+      console.log('in thunk');
+      //console.log(game);
+  }
+}
+
+
 //dstroying (deleting) a game and sening usre back to the 
 // games they host were those game are reloaded into store so not needed here
 //when a game is deleted 

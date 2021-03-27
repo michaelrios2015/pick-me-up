@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { destroyGame } from '../store/';
+import { destroyGame, updateGame } from '../store/';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -41,13 +41,14 @@ onChange(ev){
 }
 async onSave(ev){
   ev.preventDefault();
-  // try {
-  //     await this.props.update(this.props.student.id, this.state.name, this.state.email, this.state.gpa, this.state.schoolId);
-  // }
-  // catch(ex){
-  //     console.log(ex);
-  //     this.setState({ error: ex.response});
-  // }   
+  try {
+      await this.props.update(this.props.game.id,);
+  }
+  catch(ex){
+      console.log(ex);
+      this.setState({ error: ex.response});
+  }
+  console.log(this.state)   
 }
 
 
@@ -57,9 +58,10 @@ async onSave(ev){
     // console.log(this.props);
     const { location, finalScore, error, winner, dateAndTime, time } = this.state;
     const { onChange, onSave} = this;
+    //date is being a pain will not worry about for the moment 
     //for some reason there ar strange end characters being added to the date and time 
     // this is a temporary way of dealing with them :)
-    let tempDateAndTime = dateAndTime.slice(0, dateAndTime.length-5)
+    // let tempDateAndTime = dateAndTime.slice(0, dateAndTime.length-5)
 
     let willPlay = true;
     if(Date.now() > game.time * 1){
@@ -86,7 +88,7 @@ async onSave(ev){
               <br/>
               <label htmlFor='date'>Date and Time:</label>
               <br/>
-              <input type="dateTime-local" value={ tempDateAndTime } name="dateAndTime" onChange={ onChange }/>   
+              <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
               <br/>
               </div>
             ) :  (
@@ -131,6 +133,10 @@ const mapDispatchToProps = (dispatch, { history }) => {
       dispatch(destroyGame(game, history));
       // console.log(game)
     },
+    update: (id)=> {
+      // console.log('hi');
+      dispatch(updateGame(id));
+    }
   };
 }
 
