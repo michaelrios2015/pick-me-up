@@ -69,6 +69,7 @@ async onSave(ev){
 
     return (
         <div>
+          {/* {past ? (<h1>1</h1>) :  (<div><p>3</p> <h2>2</h2></div>)  } */}
           <form onSubmit = { onSave }>
             <pre>
                 {
