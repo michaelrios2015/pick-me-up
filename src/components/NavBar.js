@@ -11,93 +11,19 @@ const Navbar = () => {
         <h1 className='display-1 text-dark'>PICK ME UP</h1>
     </header>
     <div className='nav nav-tabs justify-content-around'>
-      
-        <Link className='nav-link' to='/'>Home</Link>
-        <Link className='nav-link' to='/request'>Pick Up</Link>
-        <Link className='nav-link' to='/games'>Find a Game</Link>
-        <Link className='nav-link' to='/stats'>My Stats</Link>
-        <Link className='nav-link' to='/account'>My Account</Link>
-        <Link className='nav-link' to='/'>Logout</Link>
-      
-      </div>
-      </div>
-    )
-  }
-	// we got location is a different way in class but could not replicate so used this
-<<<<<<< HEAD
-
-	let pathname = useLocation().pathname;
-	return (
-		<div>
-			<header>
-				<h1>PICK ME UP</h1>
-			</header>
-			<nav>
-				<Link to="/" className={pathname === "/" ? "selected" : ""}>
-					Home
-				</Link>
-				<Link
-					to="/request"
-					className={pathname === "/request" ? "selected" : ""}
-				>
-					Pick Up
-				</Link>
-				<Link to="/games" className={pathname === "/games" ? "selected" : ""}>
-					Find a Game
-				</Link>
-				<Link to="/mygames" className={pathname === "/mygames" ? "selected" : ""}>
-					My Games
-				</Link>
-				<Link to="/stats" className={pathname === "/stats" ? "selected" : ""}>
-					My Stat
-				</Link>
-				<Link
-					to="/account"
-					className={pathname === "/account" ? "selected" : ""}
-				>
-					My Account
-				</Link>
-				<Link to="/login">Login</Link>
-			</nav>
+			<Link className='nav-link' to='/'>Home</Link>
+			<Link className='nav-link' to='/request'>Pick Up</Link>
+			<Link className='nav-link' to='/games'>Find a Game</Link>
+			<Link className='nav-link' to='/mygames'>My Games</Link>
+			<Link className='nav-link' to='/stats'>My Stats</Link>
+			<Link className='nav-link' to='/account'>My Account</Link>
+			<Link className='nav-link' to="/login">Login</Link>
+			<Link className='nav-link' to='/'>Logout</Link>
+		
 		</div>
-	);
-};
-=======
-// 	console.log(process.env)
-// 	let pathname = useLocation().pathname;
-// 	return (
-// 		<div>
-// 			<header>
-// 				<h1>PICK ME UP</h1>
-// 			</header>
-// 			<nav>
-// 				<Link to="/" className={pathname === "/" ? "selected" : ""}>
-// 					Home
-// 				</Link>
-// 				<Link
-// 					to="/request"
-// 					className={pathname === "/request" ? "selected" : ""}
-// 				>
-// 					Pick Up
-// 				</Link>
-// 				<Link to="/games" className={pathname === "/games" ? "selected" : ""}>
-// 					Find a Game
-// 				</Link>
-// 				<Link to="/stats" className={pathname === "/stats" ? "selected" : ""}>
-// 					My Stats
-// 				</Link>
-// 				<Link
-// 					to="/account"
-// 					className={pathname === "/account" ? "selected" : ""}
-// 				>
-// 					My Account
-// 				</Link>
-// 				<Link to="/login">Login</Link>
-// 			</nav>
-// 		</div>
-// 	);
-// };
->>>>>>> 3a2a74505b6c8be1d97795fcfd99cbc639918b86
+		</div>
+	)
+}
 
 const mapState = (state) => {
 	return state;
