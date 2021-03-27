@@ -39,7 +39,7 @@ class GameCard extends Component{
                   players ? (
                     <span>Player Count: {players.length}</span>
                   ) : (
-                    <span>This game is not accepting players at this time.</span>
+                    ''
                   )
                 }
               </h4>
