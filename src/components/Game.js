@@ -17,6 +17,7 @@ export class Game extends Component{
     this.state = {
       location: this.props.game.location ? this.props.game.location : '',
       dateAndTime: this.props.game.dateAndTime ? this.props.game.dateAndTime : '',
+      time: this.props.game.time ? this.props.game.time : '',
       finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
       winner: this.props.game.winner ? this.props.game.winner : '',
       error: ''
@@ -54,12 +55,15 @@ async onSave(ev){
   render(){
     const { game, destroy } = this.props;
     // console.log(this.props);
-    const { location, finalScore, error, winner } = this.state;
+    const { location, finalScore, error, winner, dateAndTime, time } = this.state;
     const { onChange, onSave} = this;
+    //for some reason there ar strange end characters being added to the date and time 
+    // this is a temporary way of dealing with them :)
+    let tempDateAndTime = dateAndTime.slice(0, dateAndTime.length-5)
 
-    let past = false;
+    let willPlay = true;
     if(Date.now() > game.time * 1){
-      past = true;
+      willPlay = false;
     } 
     //so should check to see if game is over or not, if game is over  score, winner, and ideally
     //the teams each player played on should be updated, if the game has not started should be able
@@ -69,21 +73,20 @@ async onSave(ev){
 
     return (
         <div>
-          {/* {past ? (<h1>1</h1>) :  (<div><p>3</p> <h2>2</h2></div>)  } */}
           <form onSubmit = { onSave }>
             <pre>
                 {
                     !!error && JSON.stringify(error, null, 2)
                 }
             </pre>
-            {past ? (
+            {willPlay ? (
               <div>
               <p>Location</p>  
               <input name='name' value={ location } onChange = { onChange }/>
               <br/>
               <label htmlFor='date'>Date and Time:</label>
               <br/>
-              <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>   
+              <input type="dateTime-local" value={ tempDateAndTime } name="dateAndTime" onChange={ onChange }/>   
               <br/>
               </div>
             ) :  (
@@ -93,7 +96,6 @@ async onSave(ev){
               <br/>
               <p>Winner</p> 
               <input name='winner' value={ winner } onChange = { onChange }/>
-              <br/>
               </div>
             )  }
             
