@@ -126,13 +126,18 @@ export const createGame = () => {
 }
 
 
-export const updateGame = (id, state)=>{
+export const updateGame = (id, state, history)=>{
   return async(dispatch)=>{
-      // const game = (await axios.put(`/api/games/${id}`, { name, email, gpa, schoolId })).data;
+      const { finalScore, host } = state;
+      console.log(finalScore); 
+      const game = (await axios.put(`/api/games/${id}`, { finalScore })).data;
       console.log('-----------in thunk--------------');
       console.log(id)
       console.log(state)
-      //console.log(game);
+      console.log(host);
+      loadHostedGames(host);
+      //dispatch(_createGame(game));
+      history.push('/gameshosted')
   }
 }
 

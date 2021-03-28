@@ -41,6 +41,7 @@ onChange(ev){
 }
 async onSave(ev){
   ev.preventDefault();
+  //should be able to use will play to know if done should be changed 
   try {
       await this.props.update(this.props.game.id, this.state);
   }
@@ -82,35 +83,48 @@ async onSave(ev){
                 }
             </pre>
             {willPlay ? (
-              <div>
-              <p>Location</p>  
-              <input name='name' value={ location } onChange = { onChange }/>
-              <br/>
-              <label htmlFor='date'>Date and Time:</label>
-              <br/>
-              <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
-              <br/>
-              </div>
+              <div className='container'>
+                <h4>This Game will be played on :</h4>
+                <p>Location</p>  
+                <input name='name' value={ location } onChange = { onChange }/>
+                <br/>
+                <label htmlFor='date'>Date and Time:</label>
+                <br/>
+                <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
+                <br/>
+                <h4>Please change the Time or Location</h4>
+                {/* <button>SAVE</button> */}
+                <br/>
+                <button onClick={()=>destroy(game)}>delete this game</button>
+              </div> 
+
             ) :  (
-              <div>             
-              <p>Final Score</p> 
-              <input name='finalScore' value={ finalScore } onChange = { onChange }/>
-              <br/>
-              <p>Winner</p> 
-              <input name='winner' value={ winner } onChange = { onChange }/>
+              
+              <div className='container'>
+                <h4>This game was played on: </h4> 
+                <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
+                <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
+                <h4>number of players: {game.users ? game.users.length : 0}</h4>               
+                <h4>Please update the final score and winner: </h4> 
+                
+                <p>Final Score</p> 
+                <input name='finalScore' value={ finalScore } onChange = { onChange }/>
+                <br/>
+                <p>Winner</p> 
+                <input name='winner' value={ winner } onChange = { onChange }/>
+                
+                <button disabled = { !finalScore || !winner }>SAVE</button>
+                <br/>
+                
+                <button onClick={()=>destroy(game)}>delete this game</button>
               </div>
+              
+              
             )  }
             
-            <button>SAVE</button>
-          </form>
-          {/* not quite sure how to deal with time at the moment but should be able to copy taylor */}
-          <div className='container'>
-            <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
-            <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
-            <h4>number of players: {game.users ? game.users.length : 0}</h4>
-            <button onClick={()=>destroy(game)}>delete this game</button>
             
-          </div>
+          </form>
+
         </div>            
     );
   
@@ -135,7 +149,7 @@ const mapDispatchToProps = (dispatch, { history }) => {
     },
     update: (id, state)=> {
       // console.log('hi');
-      dispatch(updateGame(id, state));
+      dispatch(updateGame(id, state, history));
     }
   };
 }
