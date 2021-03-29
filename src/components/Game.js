@@ -9,8 +9,6 @@ import axios from 'axios';
 //so for finished games you can update the score but for games not started you can change time and such, that would be better but first I will 
 //just let you change everything 
 
-
-
 export class Game extends Component{
   constructor(props){
     super(props);
@@ -20,6 +18,7 @@ export class Game extends Component{
       time: this.props.game.time ? this.props.game.time : '',
       finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
       winner: this.props.game.winner ? this.props.game.winner : '',
+      done: this.props.game.done ? this.props.game.done : '',
       error: ''
   };
   console.log(this.props.state);
@@ -30,16 +29,21 @@ export class Game extends Component{
 componentDidUpdate(prevProps){
   //mostly get it
   if (!prevProps.game.id && this.props.game.id){
-      //this.setState({ name: this.props.student.name, email: this.props.student.email, gpa: this.props.student.gpa, schoolId: this.props.student.schoolId });
+      this.setState({ location: this.props.game.location, dateAndTime: this.props.game.dateAndTime, time: this.props.game.time, finalScore: this.props.game.finalScore, winner: this.props.game.winner, done: this.props.game.done });
       console.log(this.props);
   }
 }
 onChange(ev){
+
+
   const change = {};
   change[ev.target.name] = ev.target.value;
+  console.log(change);
   this.setState(change);
 }
 async onSave(ev){
+
+  console.log(this.state) 
   ev.preventDefault();
   //should be able to use will play to know if done should be changed 
   try {
@@ -49,10 +53,8 @@ async onSave(ev){
       console.log(ex);
       this.setState({ error: ex.response});
   }
-  console.log(this.state)   
+   
 }
-
-
 
   render(){
     const { game, destroy } = this.props;
@@ -86,14 +88,15 @@ async onSave(ev){
               <div className='container'>
                 <h4>This Game will be played on :</h4>
                 <p>Location</p>  
-                <input name='name' value={ location } onChange = { onChange }/>
+                <input name='location' value={ location } onChange = { onChange }/>
                 <br/>
                 <label htmlFor='date'>Date and Time:</label>
                 <br/>
+                {/* Time is a pain */}
                 <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
                 <br/>
                 <h4>Please change the Time or Location</h4>
-                {/* <button>SAVE</button> */}
+                <button disabled = { !location } >SAVE</button>
                 <br/>
                 <button onClick={()=>destroy(game)}>delete this game</button>
               </div> 
@@ -108,14 +111,21 @@ async onSave(ev){
                 <h4>Please update the final score and winner: </h4> 
                 
                 <p>Final Score</p> 
+                {/* would be better if there was error checking */}
                 <input name='finalScore' value={ finalScore } onChange = { onChange }/>
                 <br/>
+                {/* will make this a drop down menu of just TEAM A and TEAM B for the moment */}
                 <p>Winner</p> 
-                <input name='winner' value={ winner } onChange = { onChange }/>
-                
+                {/* <input name='winner' value={ winner } onChange = { onChange }/> */}
+                <select name='winner' value={ winner } onChange = { onChange }>
+                    {/* so this need to be linked with the the actual schools and I need to figure 
+                    out how to do the update but one step at a time */}
+                    <option value = ''>How won??</option>
+                    <option value = 'TEAM A'>TEAM A</option>
+                    <option value = 'TEAM B'>TEAM B</option>
+                </select>
                 <button disabled = { !finalScore || !winner }>SAVE</button>
                 <br/>
-                
                 <button onClick={()=>destroy(game)}>delete this game</button>
               </div>
               

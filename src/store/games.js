@@ -113,7 +113,7 @@ export const loadOpenGamesForUser = (userId)=> {
 export const loadHostedGames = (userId) =>{
   return async(dispatch)=>{
       const games = (await axios.get(`/api/games/hosted/${userId}`)).data;
-      console.log(games)
+      // console.log(games)
       dispatch(_loadHostedGames(games));
   }
 };
@@ -127,12 +127,15 @@ export const createGame = () => {
 
 
 export const updateGame = (id, state, history)=>{
+  //will put logic to mark games done in here
+  if (state.finalScore !== '' && state.winner !== ''){
+    console.log('should close game');
+  }
   return async(dispatch)=>{
-      const { finalScore, host } = state;
-      console.log(finalScore); 
-      const game = (await axios.put(`/api/games/${id}`, { finalScore })).data;
+      const { finalScore, winner, host, location } = state; 
+      const game = (await axios.put(`/api/games/${id}`, { finalScore, winner, location })).data;
       console.log('-----------in thunk--------------');
-      console.log(id)
+      console.log(game)
       console.log(state)
       console.log(host);
       loadHostedGames(host);
