@@ -21,32 +21,24 @@ export class Game extends Component{
       done: this.props.game.done ? this.props.game.done : '',
       error: ''
   };
-  console.log(moment().subtract(3, 'days').format("YYYY-MM-DD HH:mm"))
-  // console.log(this.props.state);
+
   this.onChange = this.onChange.bind(this);
   this.onSave = this.onSave.bind(this);
-  // this.deleteGame = this.deleteGame.bind(this);
 }
 componentDidUpdate(prevProps){
-  //mostly get it
+  //does not mater for the moment as refresh just logs you off
   if (!prevProps.game.id && this.props.game.id){
       this.setState({ location: this.props.game.location, dateAndTime: this.props.game.dateAndTime, time: this.props.game.time, finalScore: this.props.game.finalScore, winner: this.props.game.winner, done: this.props.game.done });
       console.log(this.props);
   }
 }
 onChange(ev){
-
-
   const change = {};
   change[ev.target.name] = ev.target.value;
-  // console.log(change);
   this.setState(change);
 }
 async onSave(ev){
-
-  // console.log(this.state) 
   ev.preventDefault();
-  //should be able to use will play to know if done should be changed 
   try {
       await this.props.update(this.props.game.id, this.state);
   }
@@ -54,17 +46,14 @@ async onSave(ev){
       console.log(ex);
       this.setState({ error: ex.response});
   }
-   
 }
 
   render(){
     const { game, destroy } = this.props;
-    // console.log(this.props);
     const { location, finalScore, error, winner, time } = this.state;
     let { dateAndTime } = this.state;
     const { onChange, onSave} = this;
-    console.log(this.state)
-    //date is being a pain will not worry about for the moment 
+    // console.log(this.state)
     //for some reason there ar strange end characters being added to the date and time 
     // this is a temporary way of dealing with them :)
     dateAndTime = dateAndTime.slice(0, 16);
@@ -73,12 +62,7 @@ async onSave(ev){
     if(Date.now() > game.time * 1){
       willPlay = false;
     } 
-    //so should check to see if game is over or not, if game is over  score, winner, and ideally
-    //the teams each player played on should be updated, if the game has not started should be able
-    //change timeAndDate, location or delete the game
-    
-    // this is the beginning
-
+        
     return (
         <div>
           <form onSubmit = { onSave }>
@@ -100,9 +84,9 @@ async onSave(ev){
                 <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
                 <br/>
                 <h4>Please change the Time or Location</h4>
-                <button disabled = { !location } >SAVE</button>
+                <button disabled = { !location || !dateAndTime } >SAVE</button>
                 <br/>
-                <button onClick={()=>destroy(game)}>delete this game</button>
+                {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div> 
 
             ) :  (
@@ -130,15 +114,19 @@ async onSave(ev){
                 </select>
                 <button disabled = { !finalScore || !winner }>SAVE</button>
                 <br/>
-                <button onClick={()=>destroy(game)}>delete this game</button>
+                {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div>
+              
               
               
             )  }
             
             
           </form>
-
+          <div className='container'>
+          <h4>This will permanately delete your game</h4>  
+          <button onClick={()=>destroy(game)}>delete this game</button>
+          </div>         
         </div>            
     );
   

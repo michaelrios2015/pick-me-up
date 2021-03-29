@@ -126,18 +126,28 @@ export const createGame = () => {
 }
 
 
+
+//this works can possibly be split in two one for games going to be played
+// and one for games played but it works
 export const updateGame = (id, state, history)=>{
   //will put logic to mark games done in here
+  let done = false; 
   if (state.finalScore !== '' && state.winner !== ''){
     console.log('should close game');
+    done = true;
   }
   return async(dispatch)=>{
-      const { finalScore, winner, host, location } = state; 
-      const game = (await axios.put(`/api/games/${id}`, { finalScore, winner, location })).data;
+      const { finalScore, winner, host, location, dateAndTime } = state;
       console.log('-----------in thunk--------------');
+      console.log(dateAndTime);
+      let time = new Date(dateAndTime).getTime();
+      console.log(time);
+
+      const game = (await axios.put(`/api/games/${id}`, { done, finalScore, winner, location, dateAndTime, time })).data;
+
       console.log(game)
-      console.log(state)
-      console.log(host);
+      // console.log(state)
+      // console.log(host);
       loadHostedGames(host);
       //dispatch(_createGame(game));
       history.push('/gameshosted')
