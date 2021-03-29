@@ -21,7 +21,8 @@ export class Game extends Component{
       done: this.props.game.done ? this.props.game.done : '',
       error: ''
   };
-  console.log(this.props.state);
+  console.log(moment().subtract(3, 'days').format("YYYY-MM-DD HH:mm"))
+  // console.log(this.props.state);
   this.onChange = this.onChange.bind(this);
   this.onSave = this.onSave.bind(this);
   // this.deleteGame = this.deleteGame.bind(this);
@@ -38,12 +39,12 @@ onChange(ev){
 
   const change = {};
   change[ev.target.name] = ev.target.value;
-  console.log(change);
+  // console.log(change);
   this.setState(change);
 }
 async onSave(ev){
 
-  console.log(this.state) 
+  // console.log(this.state) 
   ev.preventDefault();
   //should be able to use will play to know if done should be changed 
   try {
@@ -59,12 +60,14 @@ async onSave(ev){
   render(){
     const { game, destroy } = this.props;
     // console.log(this.props);
-    const { location, finalScore, error, winner, dateAndTime, time } = this.state;
+    const { location, finalScore, error, winner, time } = this.state;
+    let { dateAndTime } = this.state;
     const { onChange, onSave} = this;
+    console.log(this.state)
     //date is being a pain will not worry about for the moment 
     //for some reason there ar strange end characters being added to the date and time 
     // this is a temporary way of dealing with them :)
-    // let tempDateAndTime = dateAndTime.slice(0, dateAndTime.length-5)
+    dateAndTime = dateAndTime.slice(0, 16);
 
     let willPlay = true;
     if(Date.now() > game.time * 1){
@@ -87,12 +90,13 @@ async onSave(ev){
             {willPlay ? (
               <div className='container'>
                 <h4>This Game will be played on :</h4>
+                {/* ideally this would bring up the map again not a clue how to do that might ask Taylor */}
                 <p>Location</p>  
                 <input name='location' value={ location } onChange = { onChange }/>
                 <br/>
                 <label htmlFor='date'>Date and Time:</label>
                 <br/>
-                {/* Time is a pain */}
+                {/* Time is a pain, there is a weird extra character on ours */}
                 <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
                 <br/>
                 <h4>Please change the Time or Location</h4>
@@ -142,8 +146,8 @@ async onSave(ev){
 }
 
 const mapStateToProps = (state, otherProps) => {
-  console.log(otherProps.match);
-  console.log(state)
+  // console.log(otherProps.match);
+  // console.log(state)
   const game = state.games.hosted.find(game => game.id === otherProps.match.params.id * 1) || {};
   //console.log(game)
   return {

@@ -33,15 +33,16 @@ export class GamesHosted extends Component{
     let pastGames = [];
     let futureGames = [];
 
+    // could split past games into already marked done, and need score
     games.forEach(game => {if(Date.now() > game.time * 1){
       pastGames.push(game);
     } else {
       futureGames.push(game)
     }
     });
-    console.log(games)
-    console.log(pastGames)
-    console.log(futureGames)
+    // console.log(games)
+    // console.log(pastGames)
+    // console.log(futureGames)
 
     //something like this for games going to host and games already hosted 
     //if(Date.now() < game.time * 1){
