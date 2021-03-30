@@ -35,7 +35,7 @@ class FindGame extends Component{
   render(){
     const { games } = this.props;
     const { joinGame } = this;
-    
+    console.log(games)
     
     return (
       <div>

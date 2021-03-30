@@ -76,6 +76,7 @@ router.get('/:id', async(req, res, next)=> {
 // creates a game
 router.post("/", async (req, res, next) => {
 	try {
+		console.log(req.body)
 		res.status(201).send(await Game.create(req.body));
 	} catch (ex) {
 		next(ex);
