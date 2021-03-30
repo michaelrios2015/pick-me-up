@@ -33,9 +33,9 @@ UserGame.belongsTo(User);
 Game.hasMany(UserGame);
 UserGame.belongsTo(Game);
 
+// Message associations
 Message.belongsToMany(User, { through: UserGame });
-User.belongsToMany(Message, { through: UserGame });
 Message.belongsToMany(Game, { through: UserGame });
-Game.belongsToMany(Message, { through: UserGame });
-Message.hasMany(UserGame);
-UserGame.belongsTo(Message);
+UserGame.hasMany(Message);
+User.hasMany(Message);
+Game.hasMany(Message);
