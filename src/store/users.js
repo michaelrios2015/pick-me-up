@@ -60,7 +60,7 @@ const _loadUser = (user) =>{
 export const loadUser = (userId) =>{
     return async(dispatch)=>{
         const user = (await axios.get(`/api/users/${userId}`)).data;
-        // console.log(user);
+        console.log(user);
         //so we don't load password into the store 
         const clone = Object.assign({}, user, {password: undefined});
         console.log(clone);
@@ -114,9 +114,13 @@ export const destroyUser = (user, history)=>{
 const _updateUser = user =>({ type: UPDATE_USER, user});
 
 export const updateUser = ( user )=>{
+    console.log(user);
     return async(dispatch)=>{
         const singleUser = (await axios.put(`/api/users/update/${user.id}`, user )).data;
-        dispatch(_updateUser(singleUser));
+        console.log(singleUser)
+        // loadUser(singleUser.id)
+        //dispatch(_updateUser(singleUser));
+        dispatch(_loadUser(singleUser));
     }
 }
 
