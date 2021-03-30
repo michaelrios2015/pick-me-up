@@ -30,12 +30,15 @@ if(process.env.LOGGING){
   delete config.logging
 }
 
-// const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
+// MIKE
+const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
+// JASON
 // const db = new Sequelize('basketball', 'postgres', 'master', {
 //   dialect: 'postgres'
 // })
-const db = new Sequelize(
-	process.env.DATABASE_URL || "postgres://localhost/basketball", config
-);
+// MAC
+// const db = new Sequelize(
+// 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
+// );
 
 module.exports = db;
