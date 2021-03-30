@@ -19,14 +19,17 @@ const init = async () => {
 		let sockets = [];
 
 		webSocketServer.on('connection', (socket)=> {
+			// adds new connection to sockets array to keep track of connected clients
 			sockets.push(socket);
+			// this filters out the socket where the message is coming from so it only broadcasts to all other clients 
 			socket.on('message', (data)=> {
 				sockets.filter(s => s !== socket).forEach(s => s.send(data));
-			})
+			});
+			// this filters out sockets that have disconnected so messages only go to actively connected clients
 			socket.on('close', ()=> {
 				sockets = sockets.filter(s => s !== socket);
-			})
-		})
+			});
+		});
 	} catch (ex) {
 		console.log(ex);
 	}
