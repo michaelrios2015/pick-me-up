@@ -1,37 +1,50 @@
 const db = require("../db");
 const Sequelize = require("sequelize");
-const { STRING, FLOAT, INTEGER, ENUM, BOOLEAN, DATE } = Sequelize;
+const { STRING, INTEGER } = Sequelize;
 
 // Auth
 const bcrypt = require("bcrypt");
+const { BOOLEAN } = require("sequelize");
 
-const User = db.define(
-	"user",
-	{
-		email: {
-			type: STRING,
-		},
-		password: {
-			type: STRING,
-		},
-		name: {
-			type: STRING,
-		},
-		age: {
-			type: INTEGER,
-		},
-		height: {
-			type: STRING,
-		},
-		description: {
-			type: STRING,
-		},
-		photo: {
-			type: STRING,
+const User = db.define("user", {
+	email: {
+		type: STRING,
+		unique: true,
+		allowNull: false,
+		validate: {
+			isEmail: true,
 		},
 	},
-	{ timestamps: false }
-);
+	password: {
+		type: STRING,
+		allowNull: false,
+	},
+	name: {
+		type: STRING,
+	},
+	age: {
+		type: INTEGER,
+	},
+	height: {
+		type: STRING,
+	},
+	description: {
+		type: STRING,
+	},
+	photo: {
+		type: STRING,
+	},
+	admin: {
+		type: BOOLEAN,
+		defaultValue: false
+	},
+});
+
+User.prototype.validatePassword = async function (password) {
+	const authStatus = await bcrypt.compare(password, this.password);
+	console.log("AuthStatus" + authStatus);
+	return authStatus;
+};
 
 // Salt passwords
 User.beforeCreate(async (user, options) => {

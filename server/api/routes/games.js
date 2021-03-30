@@ -1,9 +1,6 @@
 const router = require('express').Router();
-const { models: {Request, User, Game}  } = require('../../db');
+const { models: {User, Game}  } = require('../../db');
 const { Op } = require("sequelize");
-
-
-// ------------------------------GAMES--------------------------------------------
 
 //gets all games
 router.get("/", async (req, res, next) => {
@@ -49,6 +46,23 @@ router.get('/closed', async(req, res, next)=> {
   }
 });
 
+//gets all closed games
+router.get('/hosted/:id', async(req, res, next)=> {
+  try {
+    res.send(await Game.findAll({
+			where: {
+				host: req.params.id
+			},
+			include: { 
+				model: User,
+			} 
+    }));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 //gets a game
 router.get('/:id', async(req, res, next)=> {
   try {
@@ -67,6 +81,17 @@ router.post("/", async (req, res, next) => {
 		next(ex);
 	}
 });
+
+// updates a game
+router.put("/:id", async (req, res, next)=> {
+	try{
+		const game = await Game.findByPk(req.params.id);
+		res.status(201).send(await game.update(req.body));
+	}
+	catch(ex){
+		next(ex);
+	}
+})
 
 //deletes a game
 router.delete("/:id", async (req, res, next) => {

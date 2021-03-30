@@ -10,24 +10,25 @@ export class MyStats extends Component{
   }
 
   componentDidMount(){
-    this.props.bootstrap();
+    
+    let user = this.props.users.single;
+    console.log(user.id)
+    // if(user.id){
+      this.props.bootstrap(user.id);
+    // }
    
   }
 
   render(){
-    console.log(this.props)
     let user = this.props.users.single;
     let games = this.props.games.closed
-    console.log(games); 
 
     let wins = [];
     let loses = [];
 
     //seperating out wins from loses
     for (let i = 0; i<games.length; i++){
-      // console.log(games[i].winner);
       for (let j = 0; j < games[i].users.length; j++){
-              // console.log(games[i].users[j].usergame.team)
        if (games[i].users[j].usergame.team === games[i].winner && user.id === games[i].users[j].usergame.userId){
               wins.push(games[i])
           } else if (user.id === games[i].users[j].usergame.userId) {
@@ -35,8 +36,7 @@ export class MyStats extends Component{
       }
       }
     }   
-    // console.log(wins);
-    // console.log(loses);
+
     return (
         <div className='container'>
           <div className='header'>
@@ -91,9 +91,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bootstrap: ()=> {
-      dispatch(loadUser(4));
-      dispatch(loadClosedGamesForUser(4));
+    bootstrap: (userId)=> {
+      // dispatch(loadUser(4));
+      dispatch(loadClosedGamesForUser(userId));
     }
   };
 }

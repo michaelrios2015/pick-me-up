@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { models: {User, Game, UserGame}  } = require('../../db');
+const { models: { User }  } = require('../../db');
 
 
 //gets all users
@@ -33,7 +33,7 @@ router.post("/", async (req, res, next) => {
 router.put("/update/:id", async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.params.id);
-		console.log(req.body);
+		// console.log(req.body);
 		res.send(
 			await user.update({
 				email: req.body.email,

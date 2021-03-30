@@ -1,22 +1,6 @@
-//could be split into models and database
-//could be split into models and database
 const Sequelize = require("sequelize");
-const { INTEGER, STRING, BOOLEAN, ENUM, DATE} = Sequelize;
 
-
-//to see logging, do 'npm run start:dev:logger'
-// const config = {
-//   logging: false
-// };
-
-
-
-
-// if(process.env.LOGGING === 'true'){
-//   delete config.logging
-// }
-
-
+//taken from Nick
 let config;
 if (process.env.DATABASE_URL) {
   config = {
@@ -35,12 +19,21 @@ if (process.env.DATABASE_URL) {
 } else {
   config = {
     logging: false,
-    operatorsAliases: false,
+    // operatorsAliases: false,
   }
 }
 
+// console.log(process.env.LOGGING)
+
+if(process.env.LOGGING){
+  // console.log('in this if statement ---------------------------')
+  delete config.logging
+}
 
 const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
+// const db = new Sequelize('basketball', 'postgres', 'master', {
+//   dialect: 'postgres'
+// })
 // const db = new Sequelize(
 // 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
 // );

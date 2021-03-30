@@ -21,7 +21,7 @@ export class MyProfile extends Component{
   }
 
   componentDidMount(){
-    this.props.bootstrap();
+    // this.props.bootstrap();
    
   }
 
@@ -79,7 +79,7 @@ export class MyProfile extends Component{
     console.log(users)
     const { email, name, age, height, description, photo } = this.state;
     return (
-        <div className='container'>
+        <div id='user-form' className='container justify-content-center'>
           <div> 
           <h2 className='display-1 text-dark text-center'>Update My Profile</h2>
           <form onSubmit={(e) => this.handleSubmit(e, user)} >
@@ -164,7 +164,7 @@ export class MyProfile extends Component{
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state.requests);
+ 
   return state;
 }
 

@@ -1,8 +1,8 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
-const { STRING, FLOAT, INTEGER, ENUM, BOOLEAN, DATE } = Sequelize;
+const { STRING, INTEGER, ENUM, BOOLEAN } = Sequelize;
 
-
+// not being used at the moment but could be if we have enough time
 //Everything has been simplified to get us started :)
 const Request = db.define(
 	"request",
