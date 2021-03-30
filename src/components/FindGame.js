@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
 import axios from 'axios';
+import GameMap from './GameMap'
+
 
 class FindGame extends Component{
   constructor(){
@@ -21,8 +23,8 @@ class FindGame extends Component{
   };
   async courtSubmit(ev){
     ev.preventDefault()
-    this.setState({showCourts: true})
     this.props.loadOpenGames(this.state.zipcode);
+    this.setState({showCourts: true})
   }
   handleInputs(ev){
     const {name, value} = ev.target
@@ -48,43 +50,52 @@ class FindGame extends Component{
     const { games } = this.props;
     const { joinGame } = this;
     console.log(games)
-    
-    return (
-      !this.state.showCourts ? (
-      <div>
-        <label htmlFor='zipcode'>Zipcode:</label>
-        <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-        <button onClick={this.courtSubmit}>Find Courts</button>
-      </div>) : (
-      <div>
+    if(games.length === 0 ){
+      return (
         <div>
-          {
-            games.length > 0 ? (
-              <h1>{games.length} Games are currently open!</h1>
-            ) : (
-              <h1>Sorry, there are no open games. Please Check back later.</h1>
-            )
-          }
+          <label htmlFor='zipcode'>Zipcode:</label>
+          <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+          <button onClick={this.courtSubmit}>Find Courts</button>
         </div>
-        <div>
-          {
-            games.map(game => {
-              const players = game.users;
-
-              return (
-                <div key={game.id} >
-                  <GameCard game={game} players={players} openGame={true}/>
-                  <div>
-                    <button onClick={()=>joinGame(game)}>Join this game</button>
-                  </div>
-                </div>
-              )
-            })
-          }
-        </div>
-      </div>
       )
-    );
+    }
+    if(games.length > 0){
+      return (
+        <div>
+          <div>
+            {
+              games.length > 0 ? (
+                <h1>{games.length} Games are currently open!</h1>
+              ) : (
+                <h1>Sorry, there are no open games. Please Check back later.</h1>
+              )
+            }
+          </div>
+          <div>
+            <div>
+              {
+                games.map(game => {
+                  const players = game.users;
+  
+                  return (
+                    <div key={game.id} >
+                      <GameCard game={game} players={players} openGame={true}/>
+                      <div>
+                        <button onClick={()=>joinGame(game)}>Join this game</button>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+            <div className='courtMap'>
+              <GameMap courts={games}/>
+            </div>
+          </div>
+        </div>
+        )
+    }
+  
   }
 };
 
