@@ -1,4 +1,4 @@
-const { db, models: { User, Game, UserGame } } = require('./index');
+const { db, models: { User, Game, UserGame, Message } } = require('./index');
 const moment = require('moment');
 const faker = require('faker');
 
@@ -22,7 +22,7 @@ const syncAndSeed = async()=> {
     await UserGame.create({ userId: i, gameId: i, team: 'TEAM A' });
   }
   
-  //4 generic open games with UserGame -- these will be expired at runtime
+  //4 generic expired games with UserGame -- these will be expired at runtime
   for (let i = 5; i<= 8; i++){
     await Game.create({location: 'COURT 1', dateAndTime: moment()._d, host: i});
     await UserGame.create({ userId: i, gameId: i, team: 'TEAM A' });
@@ -35,10 +35,17 @@ const syncAndSeed = async()=> {
   await Game.create({location: 'COURT 1', open: true, dateAndTime: moment().add(7, 'days')._d, maxPlayerCount: 4, host: 10});// adding 7 days to the game start-time to simulate a future game 
   await UserGame.create({ userId: 10, gameId: 9, team: 'TEAM A' });
   await UserGame.create({ userId: 9, gameId: 9, team: 'TEAM B' });
+  await Message.create({ content: 'Where are we meeting?', gameId: 9, userId: 10, sender: 'Cody'})
+  await Message.create({ content: 'Court 1 by the parking lot.', gameId: 9, userId: 9, sender: 'Manik'})
+  await Message.create({ content: 'Cool', gameId: 9, userId: 10, sender: 'Cody'})
+  await Message.create({ content: 'Waiting on more players', gameId: 9, userId: 9, sender: 'Manik'})
+  await Message.create({ content: 'No problem.', gameId: 9, userId: 10, sender: 'Cody'})
+  await Message.create({ content: 'It\'l fill up quick', gameId: 9, userId: 10, sender: 'Cody'})
 
   // a finished game
   await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true, location: 'COURT 1', open: false, dateAndTime: moment().subtract(1, 'days')._d, host: 1 });
-  await UserGame.create({ userId: 1, gameId: 10, team: 'TEAM A' });
+  await Message.create({ content: 'Hello World!', gameId: 1, userId: 1, sender: ''})
+  await UserGame.create({ userId: 1, gameId: 10, team: 'TEAM A', messageId: 1 });
   await UserGame.create({ userId: 2, gameId: 10, team: 'TEAM A'  });
   await UserGame.create({ userId: 3, gameId: 10, team: 'TEAM B'  });
   await UserGame.create({ userId: 4, gameId: 10, team: 'TEAM B'  });
