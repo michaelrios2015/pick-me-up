@@ -7,15 +7,27 @@ import axios from 'axios';
 class FindGame extends Component{
   constructor(){
     super();
-
+    this.state = {
+      zipcode: '',
+      showCourts: false
+    }
     this.joinGame = this.joinGame.bind(this);
+    this.courtSubmit = this.courtSubmit.bind(this)
+    this.handleInputs = this.handleInputs.bind(this)
   };
 
   componentDidMount(){
-    this.props.loadOpenGames();
+    // this.props.loadOpenGames();
   };
-  
-  
+  async courtSubmit(ev){
+    ev.preventDefault()
+    this.setState({showCourts: true})
+    this.props.loadOpenGames(this.state.zipcode);
+  }
+  handleInputs(ev){
+    const {name, value} = ev.target
+    this.setState({[name] : value})
+  }
   async joinGame(game){
     if(Date.now() < game.time * 1){
       const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id })).data;
@@ -38,6 +50,12 @@ class FindGame extends Component{
     console.log(games)
     
     return (
+      !this.state.showCourts ? (
+      <div>
+        <label htmlFor='zipcode'>Zipcode:</label>
+        <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+        <button onClick={this.courtSubmit}>Find Courts</button>
+      </div>) : (
       <div>
         <div>
           {
@@ -65,6 +83,7 @@ class FindGame extends Component{
           }
         </div>
       </div>
+      )
     );
   }
 };
@@ -78,7 +97,7 @@ const mapState = ({ games, users }) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: ()=> dispatch(loadOpenGames())
+    loadOpenGames: (zipcode)=> dispatch(loadOpenGames(zipcode))
   }
 };
 

@@ -12,11 +12,12 @@ router.get("/", async (req, res, next) => {
 });
 
 //gets all open games
-router.get('/open', async(req, res, next)=> {
+router.get('/open/:zipcode', async(req, res, next)=> {
   try {
     res.send(await Game.findAll({
       where: {
-        open: true
+        open: true,
+				zipcode: req.params.zipcode
       },
 			include: [ User ]
     }));

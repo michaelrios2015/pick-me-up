@@ -65,9 +65,9 @@ export const loadGames = () =>{
   }
 };
 
-export const loadOpenGames = () =>{
+export const loadOpenGames = (zipcode) =>{
   return async(dispatch)=>{
-      const games = (await axios.get('/api/games/open')).data;
+      const games = (await axios.get(`/api/games/open/${zipcode}`)).data;
       dispatch(_loadGames(games));
   }
 };
