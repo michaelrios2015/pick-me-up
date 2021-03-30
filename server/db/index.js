@@ -3,6 +3,7 @@ const Game = require("./models/Game");
 const Request = require("./models/Request");
 const UserGame = require("./models/UserGame");
 const User = require("./models/User");
+const Message = require("./models/Message");
 require('dotenv').config();
 
 module.exports = {
@@ -13,6 +14,7 @@ module.exports = {
 		Request,
 		Game,
 		UserGame,
+		Message
 	},
 };
 
@@ -30,3 +32,10 @@ User.hasMany(UserGame);
 UserGame.belongsTo(User);
 Game.hasMany(UserGame);
 UserGame.belongsTo(Game);
+
+Message.belongsToMany(User, { through: UserGame });
+User.belongsToMany(Message, { through: UserGame });
+Message.belongsToMany(Game, { through: UserGame });
+Game.belongsToMany(Message, { through: UserGame });
+Message.hasMany(UserGame);
+UserGame.belongsTo(Message);
