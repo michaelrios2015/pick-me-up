@@ -74,7 +74,8 @@ export class RequestForm extends React.Component {
     if(alerts.length === 0){
       console.log(game)
       const newGame = (await axios.post('/api/games', game)).data
-      //added TEAM just assinging first player to TEAM A
+      //added TEAM just assinging first player to TEAM A, hardcoded in user 13 for testing purposes
+      await axios.post('/api/user_games', { gameId: newGame.id, userId: 13, team: 'TEAM A' });
       // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id, team: 'TEAM A' });
       this.setState({finished: true})
 
