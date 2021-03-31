@@ -5,10 +5,7 @@ import {createRequest} from '../store/requests'
 import {loadUser} from '../store/users'
 import CourtMap from './CourtMap'
 
-
-
 const COURT_API = process.env.COURT_API
-
 
 export class RequestForm extends React.Component {
   constructor(props){
@@ -52,6 +49,7 @@ export class RequestForm extends React.Component {
       // time: new Date(this.state.time).getTime(),
       dateAndTime: this.state.date,
       open: true,
+      // using null values to determine that no winner has been declared so commited these out 
       // winner: 'tbd',
       // finalScore: 'tbd',
       done: false,
@@ -76,7 +74,8 @@ export class RequestForm extends React.Component {
     if(alerts.length === 0){
       console.log(game)
       const newGame = (await axios.post('/api/games', game)).data
-      // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
+      //added TEAM just assinging first player to TEAM A
+      // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id, team: 'TEAM A' });
       this.setState({finished: true})
 
   }
