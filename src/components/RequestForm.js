@@ -52,8 +52,8 @@ export class RequestForm extends React.Component {
       // time: new Date(this.state.time).getTime(),
       dateAndTime: this.state.date,
       open: true,
-      winner: 'tbd',
-      finalScore: 'tbd',
+      // winner: 'tbd',
+      // finalScore: 'tbd',
       done: false,
       host: 13, //need to change to user.id
       zipcode: this.state.zipcode,
