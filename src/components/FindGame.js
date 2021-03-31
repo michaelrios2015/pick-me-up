@@ -31,8 +31,19 @@ class FindGame extends Component{
     this.setState({[name] : value})
   }
   async joinGame(game){
+    let teamToJoin = '';
+    //check if there are an even or odd number of players assigns the new player accordingly (team A if this player will be odd Tean B for even) 
+    if ((game.users.length * 1) % 2 === 0){
+      teamToJoin = 'TEAM A';
+    }
+    else {
+      teamToJoin = 'TEAM B';
+    }
+
     if(Date.now() < game.time * 1){
-      const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id })).data;
+      console.log(game.users.length)
+      console.log(teamToJoin)
+        const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id, team: teamToJoin })).data;
       if(!addPlayer.created){
         window.alert('You have already joined this game.');
       } else {
