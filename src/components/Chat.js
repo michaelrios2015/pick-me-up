@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMessages, createMessage } from '../store/messages';
 
@@ -18,35 +18,35 @@ class Chat extends Component{
 
   async componentDidMount(){
     this.props.getMessages();
-    const chatId = parseFloat(window.document.location.pathname.slice(6));
-    const chatWindow = document.getElementById(this.state.chatId + '');
+    // const chatId = parseFloat(window.document.location.pathname.slice(6));
+    // const chatWindow = document.getElementById(this.state.chatId + '');
 
-    const url = window.document.location.origin.replace('http', 'ws');
-    const socket = new WebSocket(url);
+    // const url = window.document.location.origin.replace('http', 'ws');
+    // const socket = new WebSocket(url);
 
-    this.setState({
-      socket: socket,
-      chatId: chatId,
-      userName: this.props.userName
-    });
+    // this.setState({
+    //   socket: socket,
+    //   chatId: chatId,
+    //   userName: this.props.userName
+    // });
 
     // this handles receiving the message 
-    socket.addEventListener('message', (ev)=> {
-      const message = JSON.parse(ev.data);
-      if(message.chatId === this.state.chatId){
-        if(message.history){
-          message.history.forEach(_message => {
-            const bottom = chatWindow.innerHTML;
-            chatWindow.innerHTML = `<li>${ message.sender }<span class='date'>${ message.date }<span></li>`;
-            chatWindow.innerHTML += bottom;
-          });
-        } else {
-          const bottom = chatWindow.innerHTML;
-          chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
-          chatWindow.innerHTML += bottom;
-        };
-      };
-    });
+    // socket.addEventListener('message', (ev)=> {
+    //   const message = JSON.parse(ev.data);
+    //   if(message.chatId === this.state.chatId){
+    //     if(message.history){
+    //       message.history.forEach(_message => {
+    //         const bottom = chatWindow.innerHTML;
+    //         chatWindow.innerHTML = `<li>${ message.sender }<span class='date'>${ message.date }<span></li>`;
+    //         chatWindow.innerHTML += bottom;
+    //       });
+    //     } else {
+    //       const bottom = chatWindow.innerHTML;
+    //       chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
+    //       chatWindow.innerHTML += bottom;
+    //     };
+    //   };
+    // });
   };
 
 
@@ -94,7 +94,7 @@ class Chat extends Component{
             <button type='submit'>Send</button>
           </form>
         </div>
-        <div>
+        {/* <div>
           <ul id={ chatId + '' }>
             { 
               messages.map(message => {
@@ -105,7 +105,7 @@ class Chat extends Component{
             }
 
           </ul>
-        </div>
+        </div> */}
       </div>
     );
   };
