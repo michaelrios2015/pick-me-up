@@ -35,6 +35,15 @@ const Game = db.define('game', {
     maxPlayerCount: {
       type: INTEGER,
       defaultValue: 2
+    },
+    zipcode: {
+      type: STRING
+    },
+    long: {
+      type: STRING
+    },
+    lat: {
+      type: STRING
     }
       
   },{ timestamps: false });  

@@ -12,11 +12,12 @@ router.get("/", async (req, res, next) => {
 });
 
 //gets all open games
-router.get('/open', async(req, res, next)=> {
+router.get('/open/:zipcode', async(req, res, next)=> {
   try {
     res.send(await Game.findAll({
       where: {
-        open: true
+        open: true,
+				zipcode: req.params.zipcode
       },
 			include: [ User ]
     }));
@@ -76,6 +77,7 @@ router.get('/:id', async(req, res, next)=> {
 // creates a game
 router.post("/", async (req, res, next) => {
 	try {
+		console.log(req.body)
 		res.status(201).send(await Game.create(req.body));
 	} catch (ex) {
 		next(ex);
