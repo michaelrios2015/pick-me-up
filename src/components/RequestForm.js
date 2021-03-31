@@ -17,7 +17,7 @@ export class RequestForm extends React.Component {
       zipcode: '',
       showCourts: false,
       courts: [],
-      chosenCourt: '',
+      chosenCourt: null,
       date: '',
       time: '',
       finished: false
@@ -44,16 +44,21 @@ export class RequestForm extends React.Component {
   async submitRequest(ev){
     ev.preventDefault()
     // const user = this.props.user
-    const user = (await axios.get('/api/users/13')).data
+    // const user = (await axios.get('/api/users/13')).data
+    const courtidx = this.state.chosenCourt
+    console.log(this.state.courts[courtidx].the_geom)
     const game = {
-      location: this.state.chosenCourt,
+      location: this.state.courts[courtidx].objectid,
       // time: new Date(this.state.time).getTime(),
       dateAndTime: this.state.date,
       open: true,
       winner: 'tbd',
       finalScore: 'tbd',
       done: false,
-      host: user.id
+      host: 13, //need to change to user.id
+      zipcode: this.state.zipcode,
+      long:`${this.state.courts[courtidx].the_geom.coordinates[0][0][0][0]}`,
+      lat: `${this.state.courts[courtidx].the_geom.coordinates[0][0][0][1]}`,
     }
     const alerts = []
     for(const [key,val] of Object.entries(game)){
@@ -69,8 +74,9 @@ export class RequestForm extends React.Component {
         alert(string)
     }
     if(alerts.length === 0){
+      console.log(game)
       const newGame = (await axios.post('/api/games', game)).data
-      await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
+      // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
       this.setState({finished: true})
 
   }
@@ -95,7 +101,7 @@ export class RequestForm extends React.Component {
                   <select onChange={this.handleInputs} name='chosenCourt'>
                     <option>Select One</option>
                     {this.state.courts.map((court, idx)=>{
-                      return(<option key={idx} value={`Court ${idx}`} >Court: {idx +1}</option>)
+                      return(<option key={idx} value={idx} >Court: {court.objectid}</option>)
                     })}
                   </select>
                   {/* Jason- changed Game model to take date and time as game.dateAndTime and use that to calculate milliseconds for game.time so we can expire old games */}
