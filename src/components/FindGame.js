@@ -48,7 +48,7 @@ class FindGame extends Component{
             )
           }
         </div>
-        <div>
+        <div className='card-body'> 
           {
             games.map(game => {
               const players = game.users;
@@ -57,7 +57,9 @@ class FindGame extends Component{
                 <div key={game.id} >
                   <GameCard game={game} players={players} openGame={true}/>
                   <div>
-                    <button onClick={()=>joinGame(game)}>Join this game</button>
+                    <center>
+                    <button type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
+                    </center>
                   </div>
                 </div>
               )

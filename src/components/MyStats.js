@@ -46,7 +46,7 @@ export class MyStats extends Component{
             <h1>{user.email}: Stats</h1>
           </div>
           <div className='sub-header'>
-            <div>
+            <div >
               {
                 // need to calculate total wins and losses
               }
@@ -56,7 +56,7 @@ export class MyStats extends Component{
                   const players = game.users;
                   return (
         
-                      <div key={game.id}>
+                      <div key={game.id } className='card  mb-3' style={{ width: 450 + 'px' }}>
                    <GameCard game={game} players={players} openGame={false}/>
                     </div>
                   );
@@ -71,7 +71,7 @@ export class MyStats extends Component{
                     const players = game.users;
                     return (
           
-                        <div key={game.id}>
+                        <div key={game.id} className='card  mb-3' style={{ width: 450 + 'px' }}>
                      <GameCard game={game} players={players} openGame={false}/>
                       </div>
                     );

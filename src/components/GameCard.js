@@ -29,8 +29,8 @@ class GameCard extends Component{
     // console.log(game);
     
     return (
-      <div className='game-card'>
-        <div className='game-card-header'>
+      <div className='game-card ' >
+        <div className='game-card-header' className='center text-center text-white bg-danger mb-3' >
           <h3>Game { game.id }</h3>
         </div>
         <div className='game-card-content'>
