@@ -48,7 +48,7 @@ export const createMessage = (message) => {
 
 //reducer
 
-export default function messagesReducer(state=[], action) {
+const messagesReducer = (state=[], action) => {
   if(action.type === SET_MESSAGES){
     state = action.messages 
   }
@@ -58,3 +58,6 @@ export default function messagesReducer(state=[], action) {
 
   return state;
 }
+
+// export default store;
+export { messagesReducer };
