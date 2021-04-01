@@ -6,7 +6,7 @@ import {loadUser} from '../store/users'
 import CourtMap from './CourtMap'
 
 const COURT_API = process.env.COURT_API
-console.log(process.env.COURT_API);
+// console.log(process.env.COURT_API);
 
 export class RequestForm extends React.Component {
   constructor(props){
