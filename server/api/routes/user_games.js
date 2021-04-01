@@ -49,13 +49,15 @@ router.get('/open/:userId', async(req, res, next)=> {
 
 //creates a user-game link --- joins a player to a game
 router.post('/', async(req, res, next)=> {
+	console.log(req.body);
 	try{
 		const [addPlayerToGame, created] = await UserGame.findOrCreate({
 			where: {
 				gameId: req.body.gameId,
 				userId: req.body.userId
 			},
-			defauls: req.body
+			// was slightly misspelled as defauls 
+			defaults: req.body
 		});
 
 		if(created){

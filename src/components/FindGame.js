@@ -3,22 +3,47 @@ import { connect } from 'react-redux';
 import GameCard from './GameCard';
 import { loadOpenGames } from '../store/games';
 import axios from 'axios';
+import GameMap from './GameMap'
+
 
 class FindGame extends Component{
   constructor(){
     super();
-
+    this.state = {
+      zipcode: '',
+      showCourts: false
+    }
     this.joinGame = this.joinGame.bind(this);
+    this.courtSubmit = this.courtSubmit.bind(this)
+    this.handleInputs = this.handleInputs.bind(this)
   };
 
   componentDidMount(){
-    this.props.loadOpenGames();
+    // this.props.loadOpenGames();
   };
-  
-  
+  async courtSubmit(ev){
+    ev.preventDefault()
+    this.props.loadOpenGames(this.state.zipcode);
+    this.setState({showCourts: true})
+  }
+  handleInputs(ev){
+    const {name, value} = ev.target
+    this.setState({[name] : value})
+  }
   async joinGame(game){
+    let teamToJoin = '';
+    //check if there are an even or odd number of players assigns the new player accordingly (team A if this player will be odd Tean B for even) 
+    if ((game.users.length * 1) % 2 === 0){
+      teamToJoin = 'TEAM A';
+    }
+    else {
+      teamToJoin = 'TEAM B';
+    }
+
     if(Date.now() < game.time * 1){
-      const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id })).data;
+      console.log(game.users.length)
+      console.log(teamToJoin)
+        const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id, team: teamToJoin })).data;
       if(!addPlayer.created){
         window.alert('You have already joined this game.');
       } else {
@@ -35,37 +60,53 @@ class FindGame extends Component{
   render(){
     const { games } = this.props;
     const { joinGame } = this;
-    
-    
-    return (
-      <div>
+    console.log(games)
+    if(games.length === 0 ){
+      return (
         <div>
-          {
-            games.length > 0 ? (
-              <h1>{games.length} Games are currently open!</h1>
-            ) : (
-              <h1>Sorry, there are no open games. Please Check back later.</h1>
-            )
-          }
+          <label htmlFor='zipcode'>Zipcode:</label>
+          <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+          <button onClick={this.courtSubmit}>Find Courts</button>
         </div>
+      )
+    }
+    if(games.length > 0){
+      return (
         <div>
-          {
-            games.map(game => {
-              const players = game.users;
-
-              return (
-                <div key={game.id} >
-                  <GameCard game={game} players={players} openGame={true}/>
-                  <div>
-                    <button onClick={()=>joinGame(game)}>Join this game</button>
-                  </div>
-                </div>
+          <div>
+            {
+              games.length > 0 ? (
+                <h1>{games.length} Games are currently open!</h1>
+              ) : (
+                <h1>Sorry, there are no open games. Please Check back later.</h1>
               )
-            })
-          }
+            }
+          </div>
+          <div>
+            <div>
+              {
+                games.map(game => {
+                  const players = game.users;
+  
+                  return (
+                    <div key={game.id} >
+                      <GameCard game={game} players={players} openGame={true}/>
+                      <div>
+                        <button onClick={()=>joinGame(game)}>Join this game</button>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+            <div className='courtMap'>
+              <GameMap courts={games}/>
+            </div>
+          </div>
         </div>
-      </div>
-    );
+        )
+    }
+  
   }
 };
 
@@ -78,7 +119,7 @@ const mapState = ({ games, users }) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: ()=> dispatch(loadOpenGames())
+    loadOpenGames: (zipcode)=> dispatch(loadOpenGames(zipcode))
   }
 };
 
