@@ -5,10 +5,7 @@ import {createRequest} from '../store/requests'
 import {loadUser} from '../store/users'
 import CourtMap from './CourtMap'
 
-
-
 const COURT_API = process.env.COURT_API
-
 
 export class RequestForm extends React.Component {
   constructor(props){
@@ -43,7 +40,7 @@ export class RequestForm extends React.Component {
   }
   async submitRequest(ev){
     ev.preventDefault()
-    // const user = this.props.user
+    const user = this.props.user
     // const user = (await axios.get('/api/users/13')).data
     const courtidx = this.state.chosenCourt
     console.log(this.state.courts[courtidx].the_geom)
@@ -52,8 +49,9 @@ export class RequestForm extends React.Component {
       // time: new Date(this.state.time).getTime(),
       dateAndTime: this.state.date,
       open: true,
-      winner: 'tbd',
-      finalScore: 'tbd',
+      // using null values to determine that no winner has been declared so commited these out 
+      // winner: 'tbd',
+      // finalScore: 'tbd',
       done: false,
       host: 13, //need to change to user.id
       zipcode: this.state.zipcode,
@@ -76,7 +74,9 @@ export class RequestForm extends React.Component {
     if(alerts.length === 0){
       console.log(game)
       const newGame = (await axios.post('/api/games', game)).data
-      // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id });
+      //added TEAM just assinging first player to TEAM A, hardcoded in user 13 for testing purposes
+      // await axios.post('/api/user_games', { gameId: newGame.id, userId: 13, team: 'TEAM A' });
+      await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id, team: 'TEAM A' });
       this.setState({finished: true})
 
   }
@@ -129,11 +129,11 @@ export class RequestForm extends React.Component {
   }
 }
 
-const mapState = ({ user }) => {
+const mapState = ({ users }) => {
   return {
-    user
+    user: users.single
   }
-}
+};
 
 const mapDispatch = dispatch => {
   return {
