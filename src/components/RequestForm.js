@@ -40,7 +40,7 @@ export class RequestForm extends React.Component {
   }
   async submitRequest(ev){
     ev.preventDefault()
-    // const user = this.props.user
+    const user = this.props.user
     // const user = (await axios.get('/api/users/13')).data
     const courtidx = this.state.chosenCourt
     console.log(this.state.courts[courtidx].the_geom)
@@ -75,8 +75,8 @@ export class RequestForm extends React.Component {
       console.log(game)
       const newGame = (await axios.post('/api/games', game)).data
       //added TEAM just assinging first player to TEAM A, hardcoded in user 13 for testing purposes
-      await axios.post('/api/user_games', { gameId: newGame.id, userId: 13, team: 'TEAM A' });
-      // await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id, team: 'TEAM A' });
+      // await axios.post('/api/user_games', { gameId: newGame.id, userId: 13, team: 'TEAM A' });
+      await axios.post('/api/user_games', { gameId: newGame.id, userId: user.id, team: 'TEAM A' });
       this.setState({finished: true})
 
   }
@@ -129,11 +129,11 @@ export class RequestForm extends React.Component {
   }
 }
 
-const mapState = ({ user }) => {
+const mapState = ({ users }) => {
   return {
-    user
+    user: users.single
   }
-}
+};
 
 const mapDispatch = dispatch => {
   return {
