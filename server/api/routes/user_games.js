@@ -1,5 +1,10 @@
-const router = require('express').Router();
-const { models: {User, Game, UserGame}  } = require('../../db');
+const router = require("express").Router();
+const {
+	models: { User, Game, UserGame },
+} = require("../../db");
+const passport = require("passport");
+
+require("../middleware/auth");
 
 //gets all user_games
 router.get("/", async (req, res, next) => {
@@ -10,104 +15,102 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
-
 //gets players of a single game
-router.get('/:gameId/players', async(req, res, next)=> {
-  try{
-    const gameUsers = await UserGame.findAll({
-      where: {
-        gameId: req.params.gameId
-      },
-      include: [ User ]
-    });
-    const players = gameUsers.map(user => user.user);
-    res.send(players);
-  }
-  catch(ex){
-    next(ex);
-  }
-})
-
-//gets all open games for a single user
-router.get('/open/:userId', async(req, res, next)=> {
-	try{
-		const gameLinksForUser = await UserGame.findAll({
+router.get("/:gameId/players", async (req, res, next) => {
+	try {
+		const gameUsers = await UserGame.findAll({
 			where: {
-				userId: req.params.userId
+				gameId: req.params.gameId,
 			},
-			include: [ User, Game ]
+			include: [User],
 		});
-		const games = gameLinksForUser.map(link => link.game);
-		const upcomingGames = games.filter(game => game.time > Date.now())
-		res.send(upcomingGames);
-	}
-	catch(ex){
+		const players = gameUsers.map((user) => user.user);
+		res.send(players);
+	} catch (ex) {
 		next(ex);
 	}
-})
+});
 
+//gets all open games for a single user
+router.get(
+	"/open/:userId",
+	passport.authenticate("jwt", { session: false }),
+	async (req, res, next) => {
+		try {
+			const gameLinksForUser = await UserGame.findAll({
+				where: {
+					userId: req.user.id,
+					// userId: req.params.userId,
+				},
+				include: [User, Game],
+			});
+			const games = gameLinksForUser.map((link) => link.game);
+			const upcomingGames = games.filter((game) => game.time > Date.now());
+			res.send(upcomingGames);
+		} catch (ex) {
+			next(ex);
+		}
+	}
+);
 
 //creates a user-game link --- joins a player to a game
-router.post('/', async(req, res, next)=> {
-	try{
+router.post("/", async (req, res, next) => {
+	console.log(req.body);
+	try {
 		const [addPlayerToGame, created] = await UserGame.findOrCreate({
 			where: {
 				gameId: req.body.gameId,
-				userId: req.body.userId
+				userId: req.body.userId,
 			},
-			defauls: req.body
+			// was slightly misspelled as defauls
+			defaults: req.body,
 		});
 
-		if(created){
-			const gameInfo = (await UserGame.findAll({
+		if (created) {
+			const gameInfo = await UserGame.findAll({
 				where: {
-					gameId: req.body.gameId
+					gameId: req.body.gameId,
 				},
-				include: [ Game ]
-			}));
+				include: [Game],
+			});
 			const playerCount = gameInfo.length;
 			const game = await Game.findByPk(req.body.gameId);
-			
-			if(playerCount === game.maxPlayerCount){
+
+			if (playerCount === game.maxPlayerCount) {
 				await game.update({
-					open: false
-				})
+					open: false,
+				});
 			}
-			res.status(201).send({created, addPlayerToGame});
+			res.status(201).send({ created, addPlayerToGame });
 		} else {
-			res.send({created, addPlayerToGame});
+			res.send({ created, addPlayerToGame });
 		}
-	}
-	catch(ex){
+	} catch (ex) {
 		next(ex);
 	}
 });
 
 // deletes a user-game link
-router.delete('/:gameId/:userId', async(req, res, next)=> {
-	try{
+router.delete("/:gameId/:userId", async (req, res, next) => {
+	try {
 		const userGame = await UserGame.findOne({
 			where: {
 				gameId: req.params.gameId,
-				userId: req.params.userId
+				userId: req.params.userId,
 			},
-			include: Game
-		})
+			include: Game,
+		});
 
-		if(userGame.game.time * 1 > Date.now()){
+		if (userGame.game.time * 1 > Date.now()) {
 			userGame.game.open = true;
 			await userGame.game.save();
 		}
 
 		await userGame.destroy();
 		res.sendStatus(204);
-	}
-	catch(ex){
+	} catch (ex) {
 		next(ex);
 	}
-})
-
+});
 
 module.exports = router;
-
-
