@@ -1,4 +1,5 @@
 const { db, models: { User, Request, Game, UserGame } } = require('./db');
+const fetch = require('fetch');
 const app = require('./api');
 const syncAndSeed = require('./db/syncAndSeed');
 const ws = require('ws');
@@ -16,11 +17,14 @@ const init = async () => {
 		const server = app.listen(port, () => console.log(`listening on port ${port}`));
 		const webSocketServer = new ws.Server({ server });
 
+		const messages = (await fetch('/api/messages')).data;
+
 		let sockets = [];
 
 		webSocketServer.on('connection', (socket)=> {
 			// adds new connection to sockets array to keep track of all connected clients
 			sockets.push(socket);
+			// socket.send(JSON.stringify({ history: messages }));
 			// this filters out the socket where the message is coming from so it only broadcasts to all other clients 
 			socket.on('message', (data)=> {
 				sockets.filter(s => s !== socket).forEach(s => s.send(data));
