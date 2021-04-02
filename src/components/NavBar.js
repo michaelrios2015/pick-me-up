@@ -5,15 +5,19 @@ import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import { SideBarData } from './SideBarData'
 import { IconContext } from 'react-icons'
+import { clearUser } from "../store/users";
+import { useHistory } from "react-router";
 
 const Navbar = (props) => {
   // we got location is a different way in class but could not replicate so used this
   const [sidebar, setSidebar] = useState(false)
 
   const showSidebar = () => setSidebar(!sidebar) 
-
+  
   console.log(props.users.single);
   const user = props.users.single;
+  const history = useHistory();
+  console.log(history)
 
   return (
    
@@ -59,7 +63,7 @@ const Navbar = (props) => {
 			  <Link className='nav-link text-dark' to='/request'>Pick Up</Link>
 			  <Link className='nav-link text-dark' to='/games'>Find a Game</Link>
 			  <Link className='nav-link text-dark' to='/mygames'>My Games</Link>
-        <button onClick={()=>localStorage.clear()}>logout</button>
+        <button onClick={()=>props.logout(history)}>logout</button>
       </div>
       </div>
       ) :
@@ -71,11 +75,20 @@ const Navbar = (props) => {
 	)
 }
 
-const mapState = (state) => {
-	return state;
+const mapState = (state ) => {
+ 	return state;
 };
 const mapDispatch = (dispatch) => {
-	return {};
+	return {    
+    logout(history) {
+      console.log(history)
+      localStorage.clear();
+      dispatch(clearUser());
+      history.push('/');
+    }
+  }   
+
 };
+
 
 export default connect(mapState, mapDispatch)(Navbar);

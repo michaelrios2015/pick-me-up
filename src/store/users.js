@@ -81,6 +81,15 @@ export const loadUserWToken = (userId, token) =>{
     }
 };
 
+export const clearUser = () =>{
+    return async(dispatch)=>{
+        dispatch(_loadUser({}));
+        // console.log(history);
+        //history.push('/');
+    }
+};
+
+
 const _createUser = (user) =>{
     return {
         type: CREATE_USER,
