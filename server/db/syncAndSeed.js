@@ -21,6 +21,8 @@ const syncAndSeed = async()=> {
     await Game.create({location: '14973', dateAndTime: moment().add((i * 3), 'hours')._d, host: i, zipcode: '10025', long: '-73.95990891665473', lat: '40.79092207965378'});
     await UserGame.create({ userId: i, gameId: i, team: 'TEAM A' });
   }
+
+  await UserGame.create({ userId: 2, gameId: 1, team: 'TEAM B' })
   
   //4 generic expired games with UserGame -- these will be expired at runtime
   for (let i = 5; i<= 8; i++){

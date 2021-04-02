@@ -19,7 +19,7 @@ class Chat extends Component{
   async componentDidMount(){
     this.props.getMessages();
     // this should be based on game that this chat was accessed through *******************
-    const gameId = parseFloat(window.document.location.pathname.slice(6));
+    const gameId = parseFloat(window.location.hash.slice(7));
     const chatWindow = document.getElementById(this.state.gameId + '');
 
 
@@ -28,7 +28,7 @@ class Chat extends Component{
     
     this.setState({
       socket: socket,
-      gameId: 1,
+      gameId: gameId,
       userName: this.props.user.name
     });
 

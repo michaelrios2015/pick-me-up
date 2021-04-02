@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import GameCard from './GameCard';
 import { loadOpenGamesForUser } from '../store/games';
 import axios from 'axios';
@@ -15,11 +16,15 @@ class MyGames extends Component{
     this.props.loadOpenGamesForUser(this.props.user.id);
   };
   
-  
-  async leaveGame(game){
+  async leaveGame(game) {
+    const token = localStorage.getItem("pickmeup-token");
     await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
-    this.props.loadOpenGamesForUser(this.props.user.id);
-  };
+    this.props.loadOpenGamesForUser(this.props.user.id, token);
+  }
+  // async leaveGame(game){
+  //   await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
+  //   this.props.loadOpenGamesForUser(this.props.user.id);
+  // };
 
   
   render(){
@@ -47,6 +52,7 @@ class MyGames extends Component{
                   <GameCard game={game} players={players} openGame={true}/>
                   <div>
                     <button onClick={()=>leaveGame(game)}>Leave this game</button>
+                    <Link to={`/chat/${game.id}`}>Chat</Link>
                   </div>
                 </div>
               )

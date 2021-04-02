@@ -19,7 +19,7 @@ class FindGame extends Component{
   };
 
   componentDidMount(){
-    // this.props.loadOpenGames();
+    this.props.loadOpenGames();
   };
   async courtSubmit(ev){
     ev.preventDefault()
@@ -61,16 +61,16 @@ class FindGame extends Component{
     const { games } = this.props;
     const { joinGame } = this;
     console.log(games)
-    if(games.length === 0 ){
-      return (
-        <div>
-          <label htmlFor='zipcode'>Zipcode:</label>
-          <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-          <button onClick={this.courtSubmit}>Find Courts</button>
-        </div>
-      )
-    }
-    if(games.length > 0){
+    // if(games.length === 0 ){
+    //   return (
+    //     <div>
+    //       <label htmlFor='zipcode'>Zipcode:</label>
+    //       <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+    //       <button onClick={this.courtSubmit}>Find Courts</button>
+    //     </div>
+    //   )
+    // }
+    // if(games.length > 0){
       return (
         <div>
           <div>
@@ -100,14 +100,14 @@ class FindGame extends Component{
               }
             </div>
             <div className='courtMap'>
-              <GameMap courts={games}/>
+              {/* <GameMap courts={games}/> */}
             </div>
           </div>
         </div>
         )
     }
   
-  }
+  // }
 };
 
 const mapState = ({ games, users }) => {
