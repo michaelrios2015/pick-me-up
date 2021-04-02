@@ -18,6 +18,15 @@ export class MyStats extends Component{
     // }
    
   }
+  componentDidUpdate(){
+    //need to stop this from loading infinitely 
+    let user = this.props.users.single;
+    console.log(user.id)
+    // if(user.id){
+      // this.props.bootstrap(user.id);
+    // }
+   
+  }
 
   render(){
     let user = this.props.users.single;

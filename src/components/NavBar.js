@@ -59,6 +59,7 @@ const Navbar = (props) => {
 			  <Link className='nav-link text-dark' to='/request'>Pick Up</Link>
 			  <Link className='nav-link text-dark' to='/games'>Find a Game</Link>
 			  <Link className='nav-link text-dark' to='/mygames'>My Games</Link>
+        <button onClick={()=>localStorage.clear()}>logout</button>
       </div>
       </div>
       ) :

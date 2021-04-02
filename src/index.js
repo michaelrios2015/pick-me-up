@@ -7,11 +7,22 @@ import { Login } from "./components";
 import Routes from "./Routes";
 import history from "./history";
 import store from "./store/index";
+import { loadUserWToken } from "./store/users";
 
 class _App extends Component {
 	constructor() {
 		super();
 		this.state = {};
+	}
+
+	componentDidMount() {
+		//I assume once we have the token we should be able to use it load the user 
+		// but not sure how, i mean the token just can store the user ID 
+		const token = localStorage.getItem("pickmeup-token");
+		console.log(token)
+		if(token){
+			this.props.loadUserWToken(null, token);
+		}
 	}
 
 	//hashrouter has the most functionality at the moment but has the hash that looks
@@ -34,8 +45,14 @@ class _App extends Component {
 const mapStateToProps = (state) => {
 	return state;
 };
+const mapDispatch = (dispatch) => {
+	return {
+		loadUserWToken: (userId, token) =>
+			dispatch(loadUserWToken(userId, token)),
+	};
+};
 
-const App = connect(mapStateToProps)(_App);
+const App = connect(mapStateToProps, mapDispatch)(_App);
 
 //so this just takes care of rendering and should be passing history but does not seem too
 
