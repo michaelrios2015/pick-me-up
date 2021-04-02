@@ -22,6 +22,9 @@ const Navbar = (props) => {
     <header>
         <h1 className='display-1 text-dark'>PICK ME UP</h1>
     </header> 
+    {user.id ? (
+    <div>
+		
     <IconContext.Provider value={{ color: 'white'}}>
     <div className='navbar'>
     <Link className='menu-bars' > 
@@ -51,13 +54,12 @@ const Navbar = (props) => {
         </nav>
         </IconContext.Provider>
     
-    <div className='nav nav-tabs justify-content-around'>
-			{user.id ? (
-      <div>
+      <div className='nav nav-tabs justify-content-around'>
         <Link className='nav-link text-dark' to='/'>Home</Link>
 			  <Link className='nav-link text-dark' to='/request'>Pick Up</Link>
 			  <Link className='nav-link text-dark' to='/games'>Find a Game</Link>
 			  <Link className='nav-link text-dark' to='/mygames'>My Games</Link>
+      </div>
       </div>
       ) :
       (
@@ -65,7 +67,6 @@ const Navbar = (props) => {
       )
       }
       </div>
-		</div>
 	)
 }
 
