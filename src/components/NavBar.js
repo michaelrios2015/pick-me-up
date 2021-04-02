@@ -6,11 +6,15 @@ import * as AiIcons from "react-icons/ai"
 import { SideBarData } from './SideBarData'
 import { IconContext } from 'react-icons'
 
-const Navbar = () => {
+const Navbar = (props) => {
   // we got location is a different way in class but could not replicate so used this
   const [sidebar, setSidebar] = useState(false)
 
   const showSidebar = () => setSidebar(!sidebar) 
+
+  console.log(props.users.single);
+  const user = props.users.single;
+
   return (
    
     <div className='bg-danger text-center'>
@@ -46,13 +50,21 @@ const Navbar = () => {
           </ul> 
         </nav>
         </IconContext.Provider>
+    
     <div className='nav nav-tabs justify-content-around'>
-			<Link className='nav-link text-dark' to='/'>Home</Link>
-			<Link className='nav-link text-dark' to='/request'>Pick Up</Link>
-			<Link className='nav-link text-dark' to='/games'>Find a Game</Link>
-			<Link className='nav-link text-dark' to='/mygames'>My Games</Link>
-			<Link className='nav-link text-dark' to="/login">Login</Link>
-		</div>
+			{user.id ? (
+      <div>
+        <Link className='nav-link text-dark' to='/'>Home</Link>
+			  <Link className='nav-link text-dark' to='/request'>Pick Up</Link>
+			  <Link className='nav-link text-dark' to='/games'>Find a Game</Link>
+			  <Link className='nav-link text-dark' to='/mygames'>My Games</Link>
+      </div>
+      ) :
+      (
+        <Link className='nav-link text-dark' to="/login">Login</Link>
+      )
+      }
+      </div>
 		</div>
 	)
 }
