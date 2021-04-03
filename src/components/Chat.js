@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { useLocation } from "react-router-dom";
 import { getMessages, createMessage } from '../store/messages';
 
 class Chat extends Component{
@@ -7,8 +8,9 @@ class Chat extends Component{
     super();
     this.state = {
       socket: {},
-      content: '',
       gameId: 0,
+      chatId: 0,
+      content: '',
       userName: ''
     };
 
@@ -18,10 +20,10 @@ class Chat extends Component{
 
   async componentDidMount(){
     this.props.getMessages();
-    // this should be based on game that this chat was accessed through *******************
-    const gameId = parseFloat(window.location.hash.slice(7));
+    
+    const { gameId } = this.props.location.state;
+    const chatId = window.location.hash.slice(7);
     const chatWindow = document.getElementById(this.state.gameId + '');
-
 
     const url = window.document.location.origin.replace('http', 'ws');
     const socket = new WebSocket(url);
@@ -29,6 +31,7 @@ class Chat extends Component{
     this.setState({
       socket: socket,
       gameId: gameId,
+      chatId: chatId,
       userName: this.props.user.name
     });
 
@@ -38,11 +41,11 @@ class Chat extends Component{
     socket.addEventListener('message', (ev)=> {
       const message = JSON.parse(ev.data);
 
-      if(message.gameId === this.state.gameId){
+      if(message.chatId === this.state.chatId){
         if(message.socket !== this.state.socket){
           // message.forEach(_message => {
             const bottom = chatWindow.innerHTML;
-            chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
+            chatWindow.innerHTML = `<li>${ message.userName }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
             chatWindow.innerHTML += bottom;
           // });
         } 
@@ -67,28 +70,24 @@ class Chat extends Component{
     const chatWindow = document.getElementById(this.state.gameId + '');
     ev.preventDefault();
     
-    
-    const content = this.state.message;
-    const gameId = this.state.gameId;
-    const sender = this.state.userName;
-    const userId = this.props.userId;
-    const socket = this.state.socket;
+    const { content, gameId, chatId, userName, socket } = this.state;
+    const userId = this.props.user.id;
     // CHANGE DATE TO MOMENT ************************************************
     let date = new Date();
     date = (date += '').slice(0,25);
     
     // USE THIS TO SEND MESSAGE!!!!
-    this.state.socket.send(JSON.stringify({ content, gameId, date, sender, socket }));
+    this.state.socket.send(JSON.stringify({ content, gameId, date, userName, socket, chatId }));
     
     // this is storing the message in the db
     this.props._createMessage({ content, gameId, date, userId });
     
     // this puts new messages on top and pushes old messages down
     const oldMessages = chatWindow.innerHTML;
-    chatWindow.innerHTML = `<li>${ sender }: ${ content }<span>${ date }</span></li>`;
+    chatWindow.innerHTML = `<li>${ userName }: ${ content }<span>${ date }</span></li>`;
     chatWindow.innerHTML += oldMessages;
     // this is clearing the text from the form box after sending message
-    document.getElementById('message').value = ''; 
+    document.getElementById('content').value = ''; 
     
   };
 
@@ -97,13 +96,14 @@ class Chat extends Component{
     const { gameId } = this.state;
     const { user } = this.props;
     const { sendMessage, handleChange } = this;
+
     
     return (
       <div className='container'>
         <div >
           <form onSubmit={ sendMessage } >
-            <label htmlFor='message'></label>
-            <input type='text' onChange={ handleChange } id='message' name='message' /><br/>
+            <label htmlFor='content'></label>
+            <input type='text' onChange={ handleChange } id='content' name='content' /><br/>
             <button type='submit'>Send</button>
           </form>
         </div>

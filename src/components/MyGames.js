@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import GameCard from './GameCard';
 import { loadOpenGamesForUser } from '../store/games';
 import axios from 'axios';
@@ -52,7 +52,14 @@ class MyGames extends Component{
                   <GameCard game={game} players={players} openGame={true}/>
                   <div>
                     <button onClick={()=>leaveGame(game)}>Leave this game</button>
-                    <Link to={`/chat/${game.id}`}>Chat</Link>
+                    <Link 
+                      to={{ 
+                        pathname:`/chat/${game.chatId}`,
+                        state: { gameId: game.id }
+                      }}
+                    >
+                      Chat
+                    </Link>
                   </div>
                 </div>
               )
