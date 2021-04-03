@@ -79,25 +79,13 @@ export const loadClosedGames = () => {
 	};
 };
 
-export const loadClosedGamesForUser = (userId) => {
+export const loadClosedGamesForUser = (userId, token) => {
+	console.log(token);
 	return async (dispatch) => {
-		const games = (await axios.get("/api/games/closed")).data;
-		//can add a filter to check if user is in game
+		const games = (await axios.get(`/api/games/closed/${userId}?pickmeup-token=${token}`)).data;
 
-		let gamesForUser = [];
-
-		//sure this can be done with less code
-		for (let i = 0; i < games.length; i++) {
-			if (games[i].finalScore !== null) {
-				for (let j = 0; j < games[i].users.length; j++) {
-					if (games[i].users[j].id === userId) {
-						gamesForUser.push(games[i]);
-					}
-				}
-			}
-		}
-
-		dispatch(_loadClosedGames(gamesForUser));
+		console.log(games)
+		dispatch(_loadClosedGames(games));
 	};
 };
 

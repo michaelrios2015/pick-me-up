@@ -14,10 +14,10 @@ const Navbar = (props) => {
 
   const showSidebar = () => setSidebar(!sidebar) 
   
-  console.log(props.users.single);
+  // console.log(props.users.single);
   const user = props.users.single;
   const history = useHistory();
-  console.log(history)
+  // console.log(history)
 
   return (
    
@@ -81,7 +81,7 @@ const mapState = (state ) => {
 const mapDispatch = (dispatch) => {
 	return {    
     logout(history) {
-      console.log(history)
+      // console.log(history)
       localStorage.clear();
       dispatch(clearUser());
       history.push('/');

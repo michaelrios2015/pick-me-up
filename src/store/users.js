@@ -69,14 +69,14 @@ export const loadUser = (userId) =>{
 };
 
 export const loadUserWToken = (userId, token) =>{
-    console.log('---------in loadUserWToken--------------')
+    // console.log('---------in loadUserWToken--------------')
     return async(dispatch)=>{
-        console.log('---------in loadUserWToken IN RETURN STATEMENT--------------')
+        // console.log('---------in loadUserWToken IN RETURN STATEMENT--------------')
         const user = (await axios.get(`/api/users/token/${userId}?pickmeup-token=${token}`)).data;
-        console.log(user);
+        // console.log(user);
         //so we don't load password into the store 
         const clone = Object.assign({}, user, {password: undefined});
-        console.log(clone);
+        // console.log(clone);
         dispatch(_loadUser(clone));
     }
 };
@@ -140,9 +140,9 @@ export const updateUser = ( user )=>{
     console.log(user);
     return async(dispatch)=>{
         const singleUser = (await axios.put(`/api/users/update/${user.id}`, user )).data;
-        console.log(singleUser)
+        // console.log(singleUser)
         const clone = Object.assign({}, singleUser, {password: undefined});
-        console.log(clone);
+        // console.log(clone);
         dispatch(_loadUser(clone));
     }
 }
