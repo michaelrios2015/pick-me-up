@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function SignUp() {
 	const [email, setEmail] = useState("");
@@ -28,6 +29,7 @@ function SignUp() {
 		<div>
 			<h2>New User Sign Up</h2>
 			<form>
+				<label htmlFor="name">Full Name</label>
 				<input
 					type="text"
 					id="name"
@@ -36,6 +38,7 @@ function SignUp() {
 						setName(ev.target.value);
 					}}
 				/>
+				<label htmlFor="email">Email Address</label>
 				<input
 					type="text"
 					id="email"
@@ -44,6 +47,7 @@ function SignUp() {
 						setEmail(ev.target.value);
 					}}
 				/>
+				<label htmlFor="password">Password</label>
 				<input
 					type="text"
 					id="password"
@@ -54,6 +58,9 @@ function SignUp() {
 				/>
 			</form>
 			<button onClick={createUser}>Sign Up</button>
+			<p>
+				Already a user? <Link to="/login">Log in to existing account.</Link>
+			</p>
 		</div>
 	);
 }
