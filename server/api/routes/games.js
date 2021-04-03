@@ -71,9 +71,7 @@ async(req, res, next)=> {
 		// console.log(games)
 		let closedGames = [];
 		for (let i = 0; i < games.length; i++) {
-			
-			if (games[i].finalScore !== null) {
-				
+			if (games[i].finalScore !== null) {	
 				for (let j = 0; j < games[i].users.length; j++) {
 					if (games[i].users[j].id === req.user.id) {
 						// console.log(games[i]);
@@ -82,8 +80,7 @@ async(req, res, next)=> {
 				}
 			}
 		}
-
-		console.log(closedGames)
+		// console.log(closedGames)
 		res.send(closedGames);
   }
   catch(ex){
