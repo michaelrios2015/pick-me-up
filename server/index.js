@@ -1,4 +1,4 @@
-const { db, models: { User, Request, Game, UserGame } } = require('./db');
+const { db } = require('./db');
 const app = require('./api');
 const syncAndSeed = require('./db/syncAndSeed');
 const ws = require('ws');
@@ -13,10 +13,10 @@ const init = async () => {
       await db.sync()
     }
 		const port = process.env.PORT || 3000;
+
 		const server = app.listen(port, () => console.log(`listening on port ${port}`));
 		const webSocketServer = new ws.Server({ server });
 
-		// const messages = (await fetch('/api/messages')).data;
 
 		let sockets = [];
 

@@ -38,12 +38,12 @@ const syncAndSeed = async()=> {
   await UserGame.create({ userId: 10, gameId: 9, team: 'TEAM A' });
   await UserGame.create({ userId: 9, gameId: 9, team: 'TEAM B' });
   // seeding an ongoing chat
-  await Message.create({ content: 'Where are we meeting?', gameId: 9, userId: 10, sender: 'Cody'})
-  await Message.create({ content: 'Court 1 by the parking lot.', gameId: 9, userId: 9, sender: 'Manik'})
-  await Message.create({ content: 'Cool', gameId: 9, userId: 10, sender: 'Cody'})
-  await Message.create({ content: 'Waiting on more players', gameId: 9, userId: 9, sender: 'Manik'})
-  await Message.create({ content: 'No problem.', gameId: 9, userId: 10, sender: 'Cody'})
-  await Message.create({ content: 'It\'l fill up quick', gameId: 9, userId: 10, sender: 'Cody'})
+  await Message.create({ content: 'Where are we meeting?', gameId: 9, userId: 10, sender: 'Cody', date: moment().format() })
+  await Message.create({ content: 'Court 1 by the parking lot.', gameId: 9, userId: 9, sender: 'Manik', date: moment().format() })
+  await Message.create({ content: 'Cool', gameId: 9, userId: 10, sender: 'Cody', date: moment().format() })
+  await Message.create({ content: 'Waiting on more players', gameId: 9, userId: 9, sender: 'Manik', date: moment().format() })
+  await Message.create({ content: 'No problem.', gameId: 9, userId: 10, sender: 'Cody', date: moment().format() })
+  await Message.create({ content: 'It\'l fill up quick', gameId: 9, userId: 10, sender: 'Cody', date: moment().format() })
 
   // a finished game
   await Game.create({ winner: 'TEAM A', finalScore: '100 - 2', done: true, location: '17587', open: false, dateAndTime: moment().subtract(1, 'days')._d, host: 1, zipcode: '10019', long: '-73.99022462047117', lat: '40.76361755002875'});

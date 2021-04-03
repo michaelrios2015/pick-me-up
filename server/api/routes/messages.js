@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { models: { Message, UserGame, User, Game }} = require('../../db');
 module.exports = router;
 
-
+// gets all messages
 router.get('/', async (req, res, next) => {
   try {
     res.send(await Message.findAll());
@@ -12,10 +12,14 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-
-router.get('/:id', async (req, res, next) => {
+// gets all messages with same gameId
+router.get('/:gameId', async (req, res, next) => {
   try {
-    res.send(await Message.findByPk(req.params.id));
+    res.send(await Message.findAll({
+      where: {
+        gameId: req.params.gameId
+      }
+    }));
   } 
   catch (ex) {
     next(ex)
