@@ -80,11 +80,11 @@ export const loadClosedGames = () => {
 };
 
 export const loadClosedGamesForUser = (userId, token) => {
-	console.log(token);
+	// console.log(token);
 	return async (dispatch) => {
 		const games = (await axios.get(`/api/games/closed/${userId}?pickmeup-token=${token}`)).data;
 
-		console.log(games)
+		// console.log(games)
 		dispatch(_loadClosedGames(games));
 	};
 };

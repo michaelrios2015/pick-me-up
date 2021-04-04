@@ -15,7 +15,7 @@ export class MyStats extends Component{
   componentDidMount(){
     
     const token = localStorage.getItem("pickmeup-token");
-		console.log(token)
+		// console.log(token)
 		if(token){
 			// this.props.loadUserWToken(null, token);
       let user = this.props.users.single;

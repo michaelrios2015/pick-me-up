@@ -17,8 +17,8 @@ const Login = (props) => {
 
 	// history 
 	const history = useHistory();
-	console.log(history)
-	console.log(props)
+	// console.log(history)
+	// console.log(props)
 
 	// form submit
 	const login = async () => {

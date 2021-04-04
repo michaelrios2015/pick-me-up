@@ -19,7 +19,7 @@ class _App extends Component {
 		//I assume once we have the token we should be able to use it load the user 
 		// but not sure how, i mean the token just can store the user ID 
 		const token = localStorage.getItem("pickmeup-token");
-		console.log(token)
+		// console.log(token)
 		if(token){
 			this.props.loadUserWToken(null, token);
 		}

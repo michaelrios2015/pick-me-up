@@ -60,10 +60,10 @@ const _loadUser = (user) =>{
 export const loadUser = (userId) =>{
     return async(dispatch)=>{
         const user = (await axios.get(`/api/users/${userId}`)).data;
-        console.log(user);
+        // console.log(user);
         //so we don't load password into the store 
         const clone = Object.assign({}, user, {password: undefined});
-        console.log(clone);
+        // console.log(clone);
         dispatch(_loadUser(clone));
     }
 };
@@ -137,7 +137,7 @@ const _updateUser = user =>({ type: UPDATE_USER, user});
 
 //the change was not showing up in the database but not in the component so just vopied the code from loadUser
 export const updateUser = ( user )=>{
-    console.log(user);
+    // console.log(user);
     return async(dispatch)=>{
         const singleUser = (await axios.put(`/api/users/update/${user.id}`, user )).data;
         // console.log(singleUser)

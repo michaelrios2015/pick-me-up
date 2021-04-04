@@ -29,7 +29,7 @@ function SignUp(props) {
 	// history, this will be useful once user is automatically logged in
 	// after creating am account
 	const history = useHistory();
-	console.log(history)
+	// console.log(history)
 
 	return (
 		<div>
