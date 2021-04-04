@@ -7,12 +7,10 @@ class Chat extends Component{
   constructor(){
     super();
     this.state = {
-      socket: {},
       gameId: 0,
       chatId: 0,
       content: '',
-      sender: '',
-      messageHistory: []
+      sender: ''
     };
 
     this.sendMessage = this.sendMessage.bind(this)
@@ -23,40 +21,40 @@ class Chat extends Component{
     const { gameId } = this.props.location.state;
     this.props.getMessages(gameId);
     const chatId = window.location.hash.slice(7);
-    const chatWindow = document.getElementById(this.state.gameId + '');
+    // const chatWindow = document.getElementById(this.state.gameId + '');
 
-    const url = window.document.location.origin.replace('http', 'ws');
-    const socket = new WebSocket(url);
+    // const url = window.document.location.origin.replace('http', 'ws');
+    // const socket = new WebSocket(url);
 
     
     this.setState({
-      socket: socket,
+    //   socket: socket,
       gameId: gameId,
       chatId: chatId,
       sender: this.props.user.name,
-      messageHistory: this.props.messages
+    //   messageHistory: this.props.messages
     });
     
 
     // this handles receiving the message 
-    socket.addEventListener('message', (ev)=> {
-      const message = JSON.parse(ev.data);
+    // socket.addEventListener('message', (ev)=> {
+    //   const message = JSON.parse(ev.data);
 
-      if(message.chatId === this.state.chatId){
-        if(message.socket !== this.state.socket){
-          // message.forEach(_message => {
-            const bottom = chatWindow.innerHTML;
-            chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
-            chatWindow.innerHTML += bottom;
-          // });
-        } 
-        // else {
-        //   const bottom = chatWindow.innerHTML;
-        //   chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
-        //   chatWindow.innerHTML += bottom;
-        // };
-      };
-    });
+    //   if(message.chatId === this.state.chatId){
+    //     if(message.socket !== this.state.socket){
+    //       // message.forEach(_message => {
+    //         const bottom = chatWindow.innerHTML;
+    //         chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
+    //         chatWindow.innerHTML += bottom;
+    //       // });
+    //     } 
+    //     // else {
+    //     //   const bottom = chatWindow.innerHTML;
+    //     //   chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
+    //     //   chatWindow.innerHTML += bottom;
+    //     // };
+    //   };
+    // });
   };
 
 
@@ -68,25 +66,22 @@ class Chat extends Component{
   };
 
   async sendMessage(ev){
-    const chatWindow = document.getElementById(this.state.gameId + '');
     ev.preventDefault();
     
-    const { content, gameId, chatId, sender, socket } = this.state;
+    const { content, gameId, chatId, sender } = this.state;
     const userId = this.props.user.id;
     // CHANGE DATE TO MOMENT ************************************************
     let date = new Date();
     date = (date += '').slice(0,25);
     
-    // USE THIS TO SEND MESSAGE!!!!
-    this.state.socket.send(JSON.stringify({ content, gameId, date, sender, socket, chatId }));
-    
     // this is storing the message in the db
     this.props._createMessage({ content, gameId, date, userId });
     
     // this puts new messages on top and pushes old messages down
-    const oldMessages = chatWindow.innerHTML;
-    chatWindow.innerHTML = `<li>${ sender }: ${ content }<span>${ date }</span></li>`;
-    chatWindow.innerHTML += oldMessages;
+    // const oldMessages = chatWindow.innerHTML;
+    // chatWindow.innerHTML = `<li>${ sender }: ${ content }<span>${ date }</span></li>`;
+    // chatWindow.innerHTML += oldMessages;
+
     // this is clearing the text from the form box after sending message
     document.getElementById('content').value = ''; 
     
@@ -94,13 +89,10 @@ class Chat extends Component{
 
 
   render() {
-    const { gameId, messageHistory } = this.state;
+    const { gameId } = this.state;
     const { user, messages } = this.props;
     const { sendMessage, handleChange } = this;
 
-    this.setState({
-      messageHistory: messages
-    })
     console.log(messages)
     return (
       <div className='container'>
@@ -114,7 +106,7 @@ class Chat extends Component{
         <div>
           <ul id={ gameId + '' }>
             { 
-              messageHistory.map(message => {
+              messages.map(message => {
                 return (
                   <li key={message.id}>{ message.sender }: { message.content }<span>{ message.date }</span></li>
                 )

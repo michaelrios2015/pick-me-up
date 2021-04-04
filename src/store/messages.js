@@ -5,10 +5,21 @@ import axios from 'axios'
 const SET_MESSAGES = 'SET_MESSAGES';
 const CREATE_MESSAGE = 'CREATE_MESSAGE';
 
-// const initialState = {
-//   messages: []
-// };
+// sets up socket on client side
+const socket = new WebSocket(window.document.location.origin.replace('http', 'ws'));
 
+// this handles received messsages
+socket.addEventListener('message', (ev)=> {
+  try{
+    const action = JSON.parse(ev.data);
+    if(action.type){
+      messagesReducer(action)
+    }
+  }
+  catch(ex){
+    console.log(ex);
+  }
+})
 
 //action creators
 
@@ -37,11 +48,14 @@ export const getMessages = (gameId) => {
   }
 };
 
+// this handles creating message in the db, adding to state, and broadcasting message to other useres
 export const createMessage = (message) => {
-  
+  console.log(message)
   return async (dispatch)=>{
-    const newMessage = (await axios.post('/api/messages', message)).data;
-    dispatch(postMessage(newMessage))
+    const createdMessage = (await axios.post('/api/messages', message)).data;
+    const action = postMessage(createdMessage);
+    dispatch(action);
+    socket.send(JSON.stringify(action));
   }
 };
 
@@ -53,7 +67,10 @@ const messagesReducer = (state=[], action) => {
     state = action.messages 
   }
   if(action.type === CREATE_MESSAGE){
-    state = [...state, action.message];
+    // this is filtering out duplicate messages for user that sends a new message
+    if(!state.find(message => message.id === action.message.id)){
+      state = [...state, action.message];
+    }
   }
 
   return state;
