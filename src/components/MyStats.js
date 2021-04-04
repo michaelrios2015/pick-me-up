@@ -9,7 +9,7 @@ export class MyStats extends Component{
     this.state = {
       loaded: false
     };
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   componentDidMount(){
