@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../store/users";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 	// state
@@ -36,6 +37,7 @@ const Login = () => {
 	return (
 		<div>
 			<form>
+				<label htmlFor="email">Email Address</label>
 				<input
 					type="text"
 					id="email"
@@ -44,6 +46,7 @@ const Login = () => {
 						setEmail(ev.target.value);
 					}}
 				/>
+				<label htmlFor="password">Password</label>
 				<input
 					type="text"
 					id="password"
@@ -55,6 +58,9 @@ const Login = () => {
 			</form>
 			<button onClick={login}>Log In</button>
 			{error && <p>{error}</p>}
+			<p>
+				Not a user yet? <Link to="/signup">Sign up for a new account.</Link>
+			</p>
 		</div>
 	);
 };
