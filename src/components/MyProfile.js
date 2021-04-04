@@ -7,12 +7,12 @@ export class MyProfile extends Component{
   constructor(props) {
 		super(props);
 		this.state = {
-			email: this.props.user ? this.props.user.email : '',
-			name: this.props.user ? this.props.user.name : '' ,
-			age: this.props.user ? this.props.user.age : '' ,
-      height: this.props.user ? this.props.user.height : '',
-      description: this.props.user ? this.props.user.description : '',
-      photo: this.props.user ? this.props.user.photo : ''
+			email: this.props.users.single ? this.props.users.single.email : '',
+			name: this.props.users.single ? this.props.users.single.name : '' ,
+			age: this.props.users.single ? this.props.users.single.age : '' ,
+      height: this.props.users.single ? this.props.users.single.height : '',
+      description: this.props.users.single ? this.props.users.single.description : '',
+      photo: this.props.users.single ? this.props.users.single.photo : ''
       
 		}
 		this.onChange = this.onChange.bind(this);
@@ -52,7 +52,8 @@ export class MyProfile extends Component{
     
     const { users, history } = this.props;
     let user = users.single;
-    console.log(history);
+    //console.log(history);
+    //console.log("PROPS FOR MY PROFILE", this.props);
     
     //TODO : perform some sort of update to selected user through redux thunks
     //await axios.update("/user/:id", {...this.state})

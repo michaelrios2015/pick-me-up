@@ -33,7 +33,7 @@ router.post("/", async (req, res, next) => {
 router.put("/update/:id", async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.params.id);
-		// console.log(req.body);
+		console.log(req.body, "REQ.BODY IN BACKEND ROUTE");
 		res.send(
 			await user.update({
 				email: req.body.email,

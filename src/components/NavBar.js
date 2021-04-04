@@ -12,12 +12,20 @@ const Navbar = (props) => {
   // we got location is a different way in class but could not replicate so used this
   const [sidebar, setSidebar] = useState(false)
   
+  
     
 
   const showSidebar = () => setSidebar(!sidebar) 
 
+    
+  useEffect(()=>{    
+    props.getUser()
+  }, [])
   
-  //console.log(props);
+
+  console.log(props, "NAVBAR PROPS");
+  
+  
   
   
   return (
@@ -33,22 +41,24 @@ const Navbar = (props) => {
      <FaIcons.FaBars onClick={()=>showSidebar()}/> 
      </Link> 
     </div>
-     <nav className= {sidebar ? 'nav-menu active' : 'nav-menu'}>
+     <nav className= {sidebar ? 'nav-menu active' : 'nav-menu'}>       
         <ul className='nav-menu-items' onClick={()=>showSidebar()}>
           <li className='navbar-toggle'>
             <Link className='menu-bars'>
                <AiIcons.AiOutlineClose />
-              </Link>
+              </Link>              
             </li>
-            
+            <Link> <span class="nav-text text-white">  {props.users.single.name} </span></Link>
+            <br />
+            <Link> <img style={{ width:"50px" }} src={props.users.single.photo} alt="profile-image"></img> </Link>
              {SideBarData.map((item, index) => {
-               return (
-                 <li key={index} className ={item.cName}> 
+               return (                 
+                 <li key={index} className ={item.cName}>                                 
                   <Link to={item.path}>
                     {item.icon}
                     <span>
                       {item.title}
-                    </span>
+                    </span>                    
                   </Link>
                  </li>
                )
@@ -77,7 +87,7 @@ const mapState = ({users}) => {
 }
 const mapDispatch = (dispatch) => {
 	return {
-     getUser: () => dispatch(loadUser(4))
+     getUser: () => dispatch(loadUser(21))
   };
 };
 

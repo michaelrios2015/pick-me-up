@@ -6,10 +6,13 @@ const {
 // Passport JS
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const JWTStrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
 
 // Password Hashing
 const bcrypt = require("bcrypt");
 
+// Email + Password Local Login
 passport.use(
 	new LocalStrategy(
 		// options
@@ -40,6 +43,38 @@ passport.use(
 			} catch (err) {
 				console.log(err);
 				return done(null, false, { message: err });
+			}
+		}
+	)
+);
+
+// JWT API Authentication
+passport.use(
+	new JWTStrategy(
+		{
+			secretOrKey: process.env.JWT,
+			jwtFromRequest: ExtractJWT.fromUrlQueryParameter("pickmeup-token"),
+		},
+		async function (token, done) {
+			try {
+				const user = await User.findOne({
+					where: {
+						id: token.id,
+					},
+				});
+
+				if (!user) {
+					return done(null, false, { message: "No user found" });
+				}
+
+				const sanitizedUser = {
+					id: user.id,
+					email: user.email,
+				};
+
+				return done(null, sanitizedUser);
+			} catch (err) {
+				done(err, false);
 			}
 		}
 	)
