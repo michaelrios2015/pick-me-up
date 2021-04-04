@@ -32,22 +32,24 @@ export class GamesHosted extends Component{
     let games = this.props.games.hosted;
     let pastGames = [];
     let futureGames = [];
+    let scoredGames = [];
 
+    // could split past games into already marked done, and need score
     games.forEach(game => {if(Date.now() > game.time * 1){
-      pastGames.push(game);
-    } else {
-      futureGames.push(game)
-    }
+      if (!game.finalScore && !game.winner ){
+        pastGames.push(game) 
+      } else {
+        scoredGames.push(game)  } 
+      }
+      else {
+        futureGames.push(game)
+      }
     });
     console.log(games)
-    console.log(pastGames)
     console.log(futureGames)
-
-    //something like this for games going to host and games already hosted 
-    //if(Date.now() < game.time * 1){
-
-
-    //i guess i can exclude games that already have a final score an winner
+    console.log(pastGames)
+    console.log(scoredGames)  
+   
 
     //idealy would also be able to enter teams for players of done games or have the computer 
     //do it
@@ -77,9 +79,23 @@ export class GamesHosted extends Component{
               }
           </div>
           <div>
-            <h3>Games Hosted: { pastGames.length }</h3>
+            <h3>Games that need to be scored: { pastGames.length }</h3>
               {  
                 pastGames.map( game => { 
+                  const players = game.users;
+                  return (
+                    <div key={game.id}>
+                     <a href={`#/games/${game.id}`}>{game.id}</a>
+                     <GameCard game={game} players={players} openGame={false}/>
+                    </div>
+                  );
+                })
+              }
+          </div>
+          <div>
+            <h3>Games Hosted: { scoredGames.length }</h3>
+              {  
+                scoredGames.map( game => { 
                   const players = game.users;
                   return (
                     <div key={game.id}>

@@ -4,6 +4,7 @@ import { AdminUsers, GamesHosted } from '.';
 import { loadUser } from '../store/';
 import { Link, useLocation } from "react-router-dom";
 
+
 class Home extends Component{
   constructor(){
     super();
@@ -11,11 +12,10 @@ class Home extends Component{
   }
 
   componentDidMount(){
-    // this.props.bootstrap();
-   
+    //this.props.bootstrap();   
   }
 
-  render(){
+  render(){    
     const { users } = this.props;
     // console.log(Object.values(users))
     // console.log(users.single)
@@ -26,12 +26,16 @@ class Home extends Component{
         Hello User: { user.name }
         {/* <GamesHosted /> */}
         <center>
-        <div id= 'pick-up'className=' text-center bg-danger mb-3' style={{ width: 275 + 'px' }} > 
-        <Link className='nav nav-link text-white card-body '  to='/request'>Pick Up</Link>
+        <div id= 'pick-up'className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }} > 
+        <Link className='nav nav-link text-dark card-body '  to='/request'>Pick Up</Link>
       </div>
       </center>
-      <Link id ='find-game'className='nav-link text-dark card-body' to='/games'>Find a Game</Link>
-			<Link id='My-Games' className='nav-link text-dark card-body' to='/mygames'>My Games</Link>
+      <div className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }}> 
+      <Link className='nav-link text-dark card-body' to='/games'>Find a Game</Link>
+      </div>
+      <div className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }}>
+			<Link  className='nav-link text-dark card-body' to='/mygames'>My Games</Link>
+      </div>
       </div>
     );
   }

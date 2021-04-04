@@ -149,6 +149,9 @@ h1 {
   background-color: #d9534f;
 }
 
+.home-hover a:hover{
+  background-color: #d9534f;
+}
 .nav-menu-items {
   width: 100%
 }

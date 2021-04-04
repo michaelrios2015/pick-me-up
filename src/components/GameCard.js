@@ -46,7 +46,10 @@ class GameCard extends Component{
                 }
               </h4>
               ) : (
-              <h4>Score: { game.finalScore }</h4>
+              <div>  
+                <h4>Score: { game.finalScore }</h4>
+                <h4>Winner: { game.winner }</h4>
+              </div>  
             )
           }
           {

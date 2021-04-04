@@ -4,6 +4,7 @@ const { STRING, INTEGER } = Sequelize;
 
 // Auth
 const bcrypt = require("bcrypt");
+const { BOOLEAN } = require("sequelize");
 
 const User = db.define("user", {
 	email: {
@@ -32,6 +33,10 @@ const User = db.define("user", {
 	},
 	photo: {
 		type: STRING,
+	},
+	admin: {
+		type: BOOLEAN,
+		defaultValue: false
 	},
 });
 

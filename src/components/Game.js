@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { destroyGame } from '../store/';
+import { destroyGame, updateGame } from '../store/';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -9,26 +9,26 @@ import axios from 'axios';
 //so for finished games you can update the score but for games not started you can change time and such, that would be better but first I will 
 //just let you change everything 
 
-
-
 export class Game extends Component{
   constructor(props){
     super(props);
     this.state = {
       location: this.props.game.location ? this.props.game.location : '',
       dateAndTime: this.props.game.dateAndTime ? this.props.game.dateAndTime : '',
+      time: this.props.game.time ? this.props.game.time : '',
       finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
+      winner: this.props.game.winner ? this.props.game.winner : '',
+      done: this.props.game.done ? this.props.game.done : '',
       error: ''
   };
-  console.log(this.props.state);
+
   this.onChange = this.onChange.bind(this);
   this.onSave = this.onSave.bind(this);
-  // this.deleteGame = this.deleteGame.bind(this);
 }
 componentDidUpdate(prevProps){
-  //mostly get it
+  //does not mater for the moment as refresh just logs you off
   if (!prevProps.game.id && this.props.game.id){
-      //this.setState({ name: this.props.student.name, email: this.props.student.email, gpa: this.props.student.gpa, schoolId: this.props.student.schoolId });
+      this.setState({ location: this.props.game.location, dateAndTime: this.props.game.dateAndTime, time: this.props.game.time, finalScore: this.props.game.finalScore, winner: this.props.game.winner, done: this.props.game.done });
       console.log(this.props);
   }
 }
@@ -39,28 +39,30 @@ onChange(ev){
 }
 async onSave(ev){
   ev.preventDefault();
-  // try {
-  //     await this.props.update(this.props.student.id, this.state.name, this.state.email, this.state.gpa, this.state.schoolId);
-  // }
-  // catch(ex){
-  //     console.log(ex);
-  //     this.setState({ error: ex.response});
-  // }   
+  try {
+      await this.props.update(this.props.game.id, this.state);
+  }
+  catch(ex){
+      console.log(ex);
+      this.setState({ error: ex.response});
+  }
 }
-
-
 
   render(){
     const { game, destroy } = this.props;
-    // console.log(this.props);
-    const { location, finalScore, error } = this.state;
+    const { location, finalScore, error, winner, time } = this.state;
+    let { dateAndTime } = this.state;
     const { onChange, onSave} = this;
-    //so should check to see if game is over or not, if game is over  score, winner, and ideally
-    //the teams each player played on should be updated, if the game has not started should be able
-    //change timeAndDate, location or delete the game
-    
-    // this is the beginning
+    // console.log(this.state)
+    //for some reason there ar strange end characters being added to the date and time 
+    // this is a temporary way of dealing with them :)
+    dateAndTime = dateAndTime.slice(0, 16);
 
+    let willPlay = true;
+    if(Date.now() > game.time * 1){
+      willPlay = false;
+    } 
+        
     return (
         <div>
           <form onSubmit = { onSave }>
@@ -69,23 +71,62 @@ async onSave(ev){
                     !!error && JSON.stringify(error, null, 2)
                 }
             </pre>
-            Location:  
-            <input name='name' value={ location } onChange = { onChange }/>
-            <br/>
-            {/* this should only show up if game is done, start time past current time */}
-            Final Score: 
-            <input name='finalScore' value={ finalScore } onChange = { onChange }/>
-            <br/>
-            <button>SAVE</button>
-          </form>
-          {/* not quite sure how to deal with time at the moment but should be able to copy taylor */}
-          <div className='container'>
-            <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
-            <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
-            <h4>number of players: {game.users ? game.users.length : 0}</h4>
-            <button onClick={()=>destroy(game)}>delete this game</button>
+            {willPlay ? (
+              <div className='container'>
+                <h4>This Game will be played on :</h4>
+                {/* ideally this would bring up the map again not a clue how to do that might ask Taylor */}
+                <p>Location</p>  
+                <input name='location' value={ location } onChange = { onChange }/>
+                <br/>
+                <label htmlFor='date'>Date and Time:</label>
+                <br/>
+                {/* Time is a pain, there is a weird extra character on ours */}
+                <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
+                <br/>
+                <h4>Please change the Time or Location</h4>
+                <button disabled = { !location || !dateAndTime } >SAVE</button>
+                <br/>
+                {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
+              </div> 
+
+            ) :  (
+              
+              <div className='container'>
+                <h4>This game was played on: </h4> 
+                <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
+                <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
+                <h4>number of players: {game.users ? game.users.length : 0}</h4>               
+                <h4>Please update the final score and winner: </h4> 
+                
+                <p>Final Score</p> 
+                {/* would be better if there was error checking */}
+                <input name='finalScore' value={ finalScore } onChange = { onChange }/>
+                <br/>
+                {/* will make this a drop down menu of just TEAM A and TEAM B for the moment */}
+                <p>Winner</p> 
+                {/* <input name='winner' value={ winner } onChange = { onChange }/> */}
+                <select name='winner' value={ winner } onChange = { onChange }>
+                    {/* so this need to be linked with the the actual schools and I need to figure 
+                    out how to do the update but one step at a time */}
+                    <option value = ''>How won??</option>
+                    <option value = 'TEAM A'>TEAM A</option>
+                    <option value = 'TEAM B'>TEAM B</option>
+                </select>
+                <button disabled = { !finalScore || !winner }>SAVE</button>
+                <br/>
+                {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
+              </div>
+              
+              
+              
+            )  }
             
-          </div>
+            
+          </form>
+          <div className='container'>
+          <h4>This will permanately delete your game</h4>  
+          <button onClick={()=>destroy(game)}>delete this game</button>
+          </div>         
         </div>            
     );
   
@@ -93,8 +134,8 @@ async onSave(ev){
 }
 
 const mapStateToProps = (state, otherProps) => {
-  console.log(otherProps.match);
-  console.log(state)
+  // console.log(otherProps.match);
+  // console.log(state)
   const game = state.games.hosted.find(game => game.id === otherProps.match.params.id * 1) || {};
   //console.log(game)
   return {
@@ -108,6 +149,10 @@ const mapDispatchToProps = (dispatch, { history }) => {
       dispatch(destroyGame(game, history));
       // console.log(game)
     },
+    update: (id, state)=> {
+      // console.log('hi');
+      dispatch(updateGame(id, state, history));
+    }
   };
 }
 

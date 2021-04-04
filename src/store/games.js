@@ -65,9 +65,9 @@ export const loadGames = () =>{
   }
 };
 
-export const loadOpenGames = () =>{
+export const loadOpenGames = (zipcode) =>{
   return async(dispatch)=>{
-      const games = (await axios.get('/api/games/open')).data;
+      const games = (await axios.get(`/api/games/open/${zipcode}`)).data;
       dispatch(_loadGames(games));
   }
 };
@@ -113,7 +113,7 @@ export const loadOpenGamesForUser = (userId)=> {
 export const loadHostedGames = (userId) =>{
   return async(dispatch)=>{
       const games = (await axios.get(`/api/games/hosted/${userId}`)).data;
-      console.log(games)
+      // console.log(games)
       dispatch(_loadHostedGames(games));
   }
 };
@@ -124,6 +124,36 @@ export const createGame = () => {
     dispatch(_createGame(game));
   }
 }
+
+
+
+//this works can possibly be split in two one for games going to be played
+// and one for games played but it works
+export const updateGame = (id, state, history)=>{
+  //will put logic to mark games done in here
+  let done = false; 
+  if (state.finalScore !== '' && state.winner !== ''){
+    console.log('should close game');
+    done = true;
+  }
+  return async(dispatch)=>{
+      const { finalScore, winner, host, location, dateAndTime } = state;
+      console.log('-----------in thunk--------------');
+      console.log(dateAndTime);
+      let time = new Date(dateAndTime).getTime();
+      console.log(time);
+
+      const game = (await axios.put(`/api/games/${id}`, { done, finalScore, winner, location, dateAndTime, time })).data;
+      
+      console.log(game)
+      // console.log(state)
+      // console.log(host);
+      loadHostedGames(host);
+      //dispatch(_createGame(game));
+      history.push('/gameshosted')
+  }
+}
+
 
 //dstroying (deleting) a game and sening usre back to the 
 // games they host were those game are reloaded into store so not needed here
