@@ -17,13 +17,15 @@ class MyGames extends Component {
 	}
 
 	async leaveGame(game) {
+		const token = localStorage.getItem("pickmeup-token");
 		await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
-		this.props.loadOpenGamesForUser(this.props.user.id);
+		this.props.loadOpenGamesForUser(this.props.user.id, token);
 	}
 
 	render() {
 		const { games, user } = this.props;
 		const { leaveGame } = this;
+		console.log(user);
 
 		return (
 			<div>

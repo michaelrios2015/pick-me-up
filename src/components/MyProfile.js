@@ -52,7 +52,7 @@ export class MyProfile extends Component{
     
     const { users, history } = this.props;
     let user = users.single;
-    console.log(history);
+    //console.log(history);
     
     //TODO : perform some sort of update to selected user through redux thunks
     //await axios.update("/user/:id", {...this.state})

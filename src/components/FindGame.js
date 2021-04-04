@@ -39,7 +39,6 @@ class FindGame extends Component{
     else {
       teamToJoin = 'TEAM B';
     }
-
     if(Date.now() < game.time * 1){
       console.log(game.users.length)
       console.log(teamToJoin)
