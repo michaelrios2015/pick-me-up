@@ -68,11 +68,12 @@ export const loadUser = (userId) =>{
     }
 };
 
-export const loadUserWToken = (userId, token) =>{
+export const loadUserWToken = (token) =>{
     // console.log('---------in loadUserWToken--------------')
     return async(dispatch)=>{
         // console.log('---------in loadUserWToken IN RETURN STATEMENT--------------')
-        const user = (await axios.get(`/api/users/token/${userId}?pickmeup-token=${token}`)).data;
+        // there is probably a better way to do this but this seems to work 
+        const user = (await axios.get(`/api/users/token/null?pickmeup-token=${token}`)).data;
         // console.log(user);
         //so we don't load password into the store 
         const clone = Object.assign({}, user, {password: undefined});

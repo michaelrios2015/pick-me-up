@@ -90,11 +90,14 @@ async(req, res, next)=> {
 
 
 //gets all hosted games for a user
-router.get('/hosted/:id', async(req, res, next)=> {
+router.get('/hosted/:id', 
+passport.authenticate("jwt", { session: false }),
+async(req, res, next)=> {
+	
   try {
     res.send(await Game.findAll({
 			where: {
-				host: req.params.id
+				host: req.user.id
 			},
 			include: { 
 				model: User,

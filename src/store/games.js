@@ -2,6 +2,7 @@ import axios from "axios";
 
 // can I just add a wins game here??
 const LOAD_GAMES = "LOAD_GAMES";
+const LOAD_GAMES_FOR_USER = "LOAD_GAMES_FOR_USER";
 const LOAD_CLOSED_GAMES = "LOAD_CLOSED_GAMES";
 const LOAD_HOSTED_GAMES = "LOAD_CLOSED_GAMES";
 const CREATE_GAME = "CREATE_GAME";
@@ -9,11 +10,14 @@ const DESTROY_GAME = "DESTROY_GAME";
 const UPDATE_GAME = "UPDATE_GAME";
 
 //*************************************************
-const intialState = { open: [], closed: [], hosted: [] };
+const intialState = { open: [], openForUser: [], closed: [], hosted: [] };
 
 const gamesReducer = (state = intialState, action) => {
 	if (action.type === LOAD_GAMES) {
 		state.open = action.games;
+	}
+	if (action.type === LOAD_GAMES_FOR_USER) {
+		state.openForUser = action.games;
 	}
 	if (action.type === LOAD_CLOSED_GAMES) {
 		state.closed = action.games;
@@ -31,6 +35,13 @@ const gamesReducer = (state = intialState, action) => {
 const _loadGames = (games) => {
 	return {
 		type: LOAD_GAMES,
+		games,
+	};
+};
+
+const _loadGamesForUser = (games) => {
+	return {
+		type: LOAD_GAMES_FOR_USER,
 		games,
 	};
 };
@@ -94,13 +105,13 @@ export const loadOpenGamesForUser = (userId, token) => {
 		const games = (
 			await axios.get(`/api/user_games/open/${userId}?pickmeup-token=${token}`)
 		).data;
-		dispatch(_loadGames(games));
+		dispatch(_loadGamesForUser(games));
 	};
 };
 
-export const loadHostedGames = (userId) => {
+export const loadHostedGames = (userId, token) => {
 	return async (dispatch) => {
-		const games = (await axios.get(`/api/games/hosted/${userId}`)).data;
+		const games = (await axios.get(`/api/games/hosted/${userId}?pickmeup-token=${token}`)).data;
 		// console.log(games)
 		dispatch(_loadHostedGames(games));
 	};
@@ -119,15 +130,15 @@ export const updateGame = (id, state, history) => {
 	//will put logic to mark games done in here
 	let done = false;
 	if (state.finalScore !== "" && state.winner !== "") {
-		console.log("should close game");
+		// console.log("should close game");
 		done = true;
 	}
 	return async (dispatch) => {
 		const { finalScore, winner, host, location, dateAndTime } = state;
-		console.log("-----------in thunk--------------");
-		console.log(dateAndTime);
+		// console.log("-----------in thunk--------------");
+		// console.log(dateAndTime);
 		let time = new Date(dateAndTime).getTime();
-		console.log(time);
+		// console.log(time);
 
 		const game = (
 			await axios.put(`/api/games/${id}`, {

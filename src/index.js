@@ -21,7 +21,7 @@ class _App extends Component {
 		const token = localStorage.getItem("pickmeup-token");
 		// console.log(token)
 		if(token){
-			this.props.loadUserWToken(null, token);
+			this.props.loadUserWToken( token );
 		}
 	}
 
@@ -47,8 +47,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatch = (dispatch) => {
 	return {
-		loadUserWToken: (userId, token) =>
-			dispatch(loadUserWToken(userId, token)),
+		loadUserWToken: (token) =>
+			dispatch(loadUserWToken(token)),
 	};
 };
 
