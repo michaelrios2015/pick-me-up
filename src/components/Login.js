@@ -5,7 +5,7 @@ import { loadUser } from "../store/users";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 
-const Login = (props) => {
+const Login = () => {
 	// state
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
