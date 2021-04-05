@@ -23,18 +23,19 @@ class Home extends Component{
     // console.log(Object.values(users));
     return (
       <div >
-        Hello User: { user.name }
-        {/* <GamesHosted /> */}
         <center>
-        <div id= 'pick-up'className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }} > 
+        Hello, { user.name }!
+        {/* <GamesHosted /> */}
+        </center>
+        <center>
+        <div id= 'pick-up'className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }, {fontSize: 3 + 'rem'}} > 
         <Link className='nav nav-link text-dark card-body '  to='/request'>Pick Up</Link>
       </div>
       </center>
-      <div className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }}> 
-      <Link className='nav-link text-dark card-body' to='/games'>Find a Game</Link>
-      </div>
-      <div className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }}>
-			<Link  className='nav-link text-dark card-body' to='/mygames'>My Games</Link>
+      <div className='border text-center mb-3 gor home-hover' > 
+      <Link className=' border nav-link text-dark card-body ' to='/games'>Find a Game</Link>
+			<Link  className=' border nav-link text-dark card-body ' to='/mygames'>My Games</Link>
+      
       </div>
       </div>
     );
