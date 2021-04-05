@@ -17,8 +17,9 @@ class MyGames extends Component {
 	}
 
 	async leaveGame(game) {
+		const token = localStorage.getItem("pickmeup-token");
 		await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
-		this.props.loadOpenGamesForUser(this.props.user.id);
+		this.props.loadOpenGamesForUser(this.props.user.id, token);
 	}
 
 	render() {
@@ -57,7 +58,7 @@ class MyGames extends Component {
 
 const mapState = ({ games, users }) => {
 	return {
-		games: games.open,
+		games: games.openForUser,
 		user: users.single,
 	};
 };
