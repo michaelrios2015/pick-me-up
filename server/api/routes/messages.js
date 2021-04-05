@@ -18,7 +18,8 @@ router.get('/:gameId', async (req, res, next) => {
     res.send(await Message.findAll({
       where: {
         gameId: req.params.gameId
-      }
+      },
+      include: [ User ]
     }));
   } 
   catch (ex) {
@@ -41,20 +42,11 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const message = await Message.create(req.body);
+    const created = await Message.create(req.body);
+    const message = await Message.findByPk(created.id, {include: [ User ]})
     res.status(201).send(message);
   }
   catch(ex) {
     next(ex);
   }
 });
-
-// app.post('/webSocket', (req, res)=> {
-//   try {
-//     const message = await Message.create(req.body);
-//     res.status(201).send(message);
-//   }
-//   catch(ex) {
-//     next(ex);
-//   }
-// })

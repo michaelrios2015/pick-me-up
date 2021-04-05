@@ -93,7 +93,6 @@ class Chat extends Component{
     const { user, messages } = this.props;
     const { sendMessage, handleChange } = this;
 
-    console.log(messages)
     return (
       <div className='container'>
         <div >
@@ -108,7 +107,7 @@ class Chat extends Component{
             { 
               messages.map(message => {
                 return (
-                  <li key={message.id}>{ message.sender }: { message.content }<span>{ message.date }</span></li>
+                  <li key={message.id}>{ message.user.name }: { message.content }<span>{ message.date }</span></li>
                 )
               })
             }

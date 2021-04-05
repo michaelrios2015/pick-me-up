@@ -51,7 +51,6 @@ export const getMessages = (gameId) => {
 
 // this handles creating message in the db, adding to state, and broadcasting message to other useres
 export const createMessage = (message) => {
-  console.log('THUNK', message)
   return async (dispatch)=>{
     const createdMessage = (await axios.post('/api/messages', message)).data;
     const action = postMessage(createdMessage);
@@ -66,13 +65,13 @@ export const createMessage = (message) => {
 const messagesReducer = (state=[], action) => {
   if(action.type === SET_MESSAGES){
     state = action.messages 
-  }
+  };
   if(action.type === CREATE_MESSAGE){
-    // this is filtering out duplicate messages for user that sends a new message
+    // this is filtering out duplicate messages for the user that sends a new message
     if(!state.find(message => message.id === action.message.id)){
       state = [...state, action.message];
-    }
-  }
+    };
+  };
 
   return state;
 }
