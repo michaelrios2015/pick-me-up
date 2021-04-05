@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from './index';
 
 //constants
 
@@ -13,7 +14,7 @@ socket.addEventListener('message', (ev)=> {
   try{
     const action = JSON.parse(ev.data);
     if(action.type){
-      messagesReducer(action)
+      store.dispatch(action);
     }
   }
   catch(ex){
@@ -50,7 +51,7 @@ export const getMessages = (gameId) => {
 
 // this handles creating message in the db, adding to state, and broadcasting message to other useres
 export const createMessage = (message) => {
-  console.log(message)
+  console.log('THUNK', message)
   return async (dispatch)=>{
     const createdMessage = (await axios.post('/api/messages', message)).data;
     const action = postMessage(createdMessage);
