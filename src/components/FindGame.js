@@ -7,12 +7,13 @@ import GameMap from './GameMap'
 
 
 class FindGame extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       zipcode: '',
       showCourts: false
     }
+    this.guestUser = this.guestUser.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.courtSubmit = this.courtSubmit.bind(this)
     this.handleInputs = this.handleInputs.bind(this)
@@ -20,6 +21,7 @@ class FindGame extends Component{
 
   componentDidMount(){
     // this.props.loadOpenGames();
+    console.log(this.props.history)
   };
   async courtSubmit(ev){
     ev.preventDefault()
@@ -55,10 +57,16 @@ class FindGame extends Component{
     this.props.loadOpenGames();
   };
 
+  guestUser(game){
+    this.props.history.push('/login')
+    localStorage.setItem('game', JSON.stringify(game));
+    console.log(game);
+  }
+
   
   render(){
-    const { games } = this.props;
-    const { joinGame } = this;
+    const { games, user } = this.props;
+    const { joinGame, guestUser } = this;
     // console.log(games)
     if(games.length === 0 ){
       return (
@@ -90,9 +98,13 @@ class FindGame extends Component{
                   return (
                     <div key={game.id} >
                       <GameCard game={game} players={players} openGame={true}/>
-                      <div>
+                      { user.id ? 
+                      ( <div>
                         <button onClick={()=>joinGame(game)}>Join this game</button>
-                      </div>
+                      </div> ) : (
+                        <button onClick={()=>guestUser(game)}>Sign up for an account</button>
+                      )
+                      }
                     </div>
                   )
                 })
