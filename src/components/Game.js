@@ -31,7 +31,7 @@ export class Game extends Component{
 componentDidMount(prevProps){
 
   this.props.bootstrap();
-  // console.log(this.props);
+  console.log(this.props);
   // console.log(prevProps);
 
   
@@ -67,7 +67,7 @@ onChange(ev){
 }
 async onSave(ev){
   ev.preventDefault();
-  this.setState({ id: '' }); 
+  
   try {
      
     await this.props.update(this.props.games.single.id, this.state);
@@ -77,6 +77,7 @@ async onSave(ev){
       // console.log(ex);
       this.setState({ error: ex.response});
   }
+  // this.setState({ id: '' }); 
 }
 
   render(){

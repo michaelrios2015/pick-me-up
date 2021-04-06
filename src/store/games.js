@@ -173,8 +173,9 @@ export const updateGame = (id, state, history) => {
 		// console.log(state)
 		// console.log(host);
 		loadHostedGames(host);
+		loadSingleGame(id)
 		//dispatch(_createGame(game));
-		history.push("/gameshosted");
+		// history.push("/gameshosted");
 	};
 };
 
