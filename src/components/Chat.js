@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from "react-router-dom";
 import { getMessages, createMessage } from '../store/messages';
+import moment from 'moment';
 
 class Chat extends Component{
   constructor(){
@@ -21,40 +21,12 @@ class Chat extends Component{
     const { gameId } = this.props.location.state;
     this.props.getMessages(gameId);
     const chatId = window.location.hash.slice(7);
-    // const chatWindow = document.getElementById(this.state.gameId + '');
-
-    // const url = window.document.location.origin.replace('http', 'ws');
-    // const socket = new WebSocket(url);
-
     
     this.setState({
-    //   socket: socket,
       gameId: gameId,
       chatId: chatId,
       sender: this.props.user.name,
-    //   messageHistory: this.props.messages
     });
-    
-
-    // this handles receiving the message 
-    // socket.addEventListener('message', (ev)=> {
-    //   const message = JSON.parse(ev.data);
-
-    //   if(message.chatId === this.state.chatId){
-    //     if(message.socket !== this.state.socket){
-    //       // message.forEach(_message => {
-    //         const bottom = chatWindow.innerHTML;
-    //         chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
-    //         chatWindow.innerHTML += bottom;
-    //       // });
-    //     } 
-    //     // else {
-    //     //   const bottom = chatWindow.innerHTML;
-    //     //   chatWindow.innerHTML = `<li>${ message.sender }: ${ message.content }<span class='date'>${ message.date }<span></li>`;
-    //     //   chatWindow.innerHTML += bottom;
-    //     // };
-    //   };
-    // });
   };
 
 
@@ -71,8 +43,7 @@ class Chat extends Component{
     const { content, gameId, chatId, sender } = this.state;
     const userId = this.props.user.id;
     // CHANGE DATE TO MOMENT ************************************************
-    let date = new Date();
-    date = (date += '').slice(0,25);
+    let date = moment();;
     
     // this is storing the message in the db
     this.props._createMessage({ content, gameId, date, userId });

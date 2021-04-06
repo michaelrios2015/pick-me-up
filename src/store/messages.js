@@ -5,6 +5,7 @@ import store from './index';
 
 const SET_MESSAGES = 'SET_MESSAGES';
 const CREATE_MESSAGE = 'CREATE_MESSAGE';
+let _gameId;
 
 // sets up socket on client side
 const socket = new WebSocket(window.document.location.origin.replace('http', 'ws'));
@@ -43,13 +44,14 @@ export const postMessage = (message) => {
 //thunks
 
 export const getMessages = (gameId) => {
+  _gameId = gameId;
   return async (dispatch)=>{
     const messages = (await axios.get(`/api/messages/${ gameId }`)).data;
     dispatch(setMessages(messages))
   }
 };
 
-// this handles creating message in the db, adding to state, and broadcasting message to other useres
+// this handles creating message in the db, adding to state, and broadcasting message to other users
 export const createMessage = (message) => {
   return async (dispatch)=>{
     const createdMessage = (await axios.post('/api/messages', message)).data;
@@ -68,9 +70,11 @@ const messagesReducer = (state=[], action) => {
   };
   if(action.type === CREATE_MESSAGE){
     // this is filtering out duplicate messages for the user that sends a new message
-    if(!state.find(message => message.id === action.message.id)){
-      state = [...state, action.message];
-    };
+    if(action.message.gameId === _gameId){
+      if(!state.find(message => message.id === action.message.id)){
+        state = [...state, action.message];
+      };
+    }
   };
 
   return state;
