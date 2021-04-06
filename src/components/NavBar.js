@@ -68,6 +68,9 @@ const Navbar = (props) => {
         </IconContext.Provider>
     <div className='nav nav-tabs justify-content-around'>      
 			<Link className='nav-link text-dark' to='/'>Home</Link>
+			<Link className='nav-link text-dark' to='/request'>Pick Up</Link>
+			<Link className='nav-link text-dark' to='/games'>Find a Game</Link>
+			<Link className='nav-link text-dark' to='/mygames'>My Games</Link>
 			<Link className='nav-link text-dark' to="/login">Login</Link>
 		</div>
 		</div>

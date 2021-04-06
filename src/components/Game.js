@@ -29,7 +29,7 @@ componentDidUpdate(prevProps){
   //does not mater for the moment as refresh just logs you off
   if (!prevProps.game.id && this.props.game.id){
       this.setState({ location: this.props.game.location, dateAndTime: this.props.game.dateAndTime, time: this.props.game.time, finalScore: this.props.game.finalScore, winner: this.props.game.winner, done: this.props.game.done });
-      console.log(this.props);
+      // console.log(this.props);
   }
 }
 onChange(ev){
@@ -43,7 +43,7 @@ async onSave(ev){
       await this.props.update(this.props.game.id, this.state);
   }
   catch(ex){
-      console.log(ex);
+      // console.log(ex);
       this.setState({ error: ex.response});
   }
 }

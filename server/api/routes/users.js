@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const { models: { User }  } = require('../../db');
+const passport = require("passport");
+
+require("../middleware/auth");
 
 
 //gets all users
@@ -15,6 +18,20 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
 	try {
 		res.send(await User.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
+});
+
+
+//gets a user with token
+router.get("/token/:id", 
+passport.authenticate("jwt", { session: false }), 
+async (req, res, next) => {
+	try {
+		// console.log('------------in user/token api-----------')
+		// console.log(req.user.id)
+		res.send(await User.findByPk(req.user.id));
 	} catch (ex) {
 		next(ex);
 	}
