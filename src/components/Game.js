@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { destroyGame, updateGame } from '../store/';
+import { destroyGame, updateGame, loadHostedGames, loadSingleGame } from '../store/';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -13,25 +13,52 @@ export class Game extends Component{
   constructor(props){
     super(props);
     this.state = {
-      location: this.props.game.location ? this.props.game.location : '',
-      dateAndTime: this.props.game.dateAndTime ? this.props.game.dateAndTime : '',
-      time: this.props.game.time ? this.props.game.time : '',
-      finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
-      winner: this.props.game.winner ? this.props.game.winner : '',
-      done: this.props.game.done ? this.props.game.done : '',
+      id: this.props.games.single.id ? this.props.games.single.id : '',
+      location: this.props.games.single.location ? this.props.games.single.location : '',
+      dateAndTime: this.props.games.single.dateAndTime ? this.props.games.single.dateAndTime : '',
+      time: this.props.games.single.time ? this.props.games.single.time : '',
+      finalScore: this.props.games.single.finalScore ? this.props.games.single.finalScore : '',
+      winner: this.props.games.single.winner ? this.props.games.single.winner : '',
+      done: this.props.games.single.done ? this.props.games.single.done : '',
+      maxPlayerCount: this.props.games.single.maxPlayerCount ? this.props.games.single.maxPlayerCount : '',
       error: ''
   };
 
   this.onChange = this.onChange.bind(this);
   this.onSave = this.onSave.bind(this);
 }
-componentDidUpdate(prevProps){
-  //does not mater for the moment as refresh just logs you off
-  if (!prevProps.game.id && this.props.game.id){
-      this.setState({ location: this.props.game.location, dateAndTime: this.props.game.dateAndTime, time: this.props.game.time, finalScore: this.props.game.finalScore, winner: this.props.game.winner, done: this.props.game.done });
-      // console.log(this.props);
-  }
+
+componentDidMount(prevProps){
+
+  this.props.bootstrap();
+  console.log(this.props);
+  console.log(prevProps);
+ 
 }
+
+componentDidUpdate(prevProps, prevState){
+
+
+  console.log(this.props);
+  console.log(prevProps);
+  console.log(prevState.id);
+  console.log(this.state.id);
+  if (prevState.id === '' && this.state.id === ''){
+      //does not mater for the moment as refresh just logs you off
+    // const token = localStorage.getItem("pickmeup-token");
+  // console.log(token)
+    // if(token){
+    // this.props.loadUserWToken(null, token);
+    // let user = this.props.users.single;
+    // console.log(user.id)
+    // this.props.bootstrap(null, token);
+    // }
+      // this.setState({ location: this.props.games.single.location, dateAndTime: this.props.games.single.dateAndTime, time: this.props.games.single.time, finalScore: this.props.games.single.finalScore, winner: this.props.games.single.winner, done: this.props.games.single.done });
+      console.log(this.props);
+      this.setState({ id: this.props.games.single.id, location: this.props.games.single.location, dateAndTime: this.props.games.single.dateAndTime, time: this.props.games.single.time, finalScore: this.props.games.single.finalScore, winner: this.props.games.single.winner, done: this.props.games.single.done });
+    }
+}
+
 onChange(ev){
   const change = {};
   change[ev.target.name] = ev.target.value;
@@ -40,7 +67,7 @@ onChange(ev){
 async onSave(ev){
   ev.preventDefault();
   try {
-      await this.props.update(this.props.game.id, this.state);
+      await this.props.update(this.props.games.single.id, this.state);
   }
   catch(ex){
       // console.log(ex);
@@ -49,11 +76,13 @@ async onSave(ev){
 }
 
   render(){
-    const { game, destroy } = this.props;
-    const { location, finalScore, error, winner, time } = this.state;
+    const { destroy } = this.props;
+    console.log(this.props.games.single);
+    const game = this.props.games.single;
+    const { location, finalScore, error, winner, maxPlayerCount } = this.state;
     let { dateAndTime } = this.state;
     const { onChange, onSave} = this;
-    // console.log(this.state)
+    console.log(this.state)
     //for some reason there ar strange end characters being added to the date and time 
     // this is a temporary way of dealing with them :)
     dateAndTime = dateAndTime.slice(0, 16);
@@ -78,13 +107,16 @@ async onSave(ev){
                 <p>Location</p>  
                 <input name='location' value={ location } onChange = { onChange }/>
                 <br/>
+                <p>Max number of players</p>  
+                <input name='maxPlayerCount' value={ maxPlayerCount } onChange = { onChange }/>
+                <br/>
                 <label htmlFor='date'>Date and Time:</label>
                 <br/>
                 {/* Time is a pain, there is a weird extra character on ours */}
                 <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
                 <br/>
                 <h4>Please change the Time or Location</h4>
-                <button disabled = { !location || !dateAndTime } >SAVE</button>
+                <button disabled = { !location || !dateAndTime || !maxPlayerCount } >SAVE</button>
                 <br/>
                 {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div> 
@@ -129,21 +161,16 @@ async onSave(ev){
           </div>         
         </div>            
     );
-  
+ 
   }
 }
 
-const mapStateToProps = (state, otherProps) => {
-  // console.log(otherProps.match);
-  // console.log(state)
-  const game = state.games.hosted.find(game => game.id === otherProps.match.params.id * 1) || {};
-  //console.log(game)
-  return {
-    game, 
-  };
+const mapStateToProps = ( state ) => {
+  return state;
 }
 
-const mapDispatchToProps = (dispatch, { history }) => {
+const mapDispatchToProps = (dispatch, { history, match }) => {
+  console.log(match.params.id)
   return {
     destroy: (game)=> {
       dispatch(destroyGame(game, history));
@@ -152,7 +179,10 @@ const mapDispatchToProps = (dispatch, { history }) => {
     update: (id, state)=> {
       // console.log('hi');
       dispatch(updateGame(id, state, history));
-    }
+    },
+    bootstrap: ()=> {
+      dispatch(loadSingleGame(match.params.id * 1));
+    }  
   };
 }
 

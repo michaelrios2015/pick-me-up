@@ -22,7 +22,8 @@ class Home extends Component{
     // console.log(Object.values(users));
     return (
       <div >
-        Hello User!! { user.email }
+        <p>Hello User!! { user.name }</p>
+        <p>Welcome to Pick Me Up!!!</p>
         {/* <GamesHosted /> */}
       </div>
     );

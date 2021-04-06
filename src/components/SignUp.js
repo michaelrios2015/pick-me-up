@@ -36,7 +36,7 @@ function SignUp() {
       window.alert('Sorry this game has already started. Please select another game.');
       await axios.put(`/api/games/${game.id}`, { open: false });
     }
-    this.props.loadOpenGames();
+    // this.props.loadOpenGames();
   };
 
 

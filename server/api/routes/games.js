@@ -12,6 +12,15 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
+// get an individual game
+router.get("/:id", async (req, res, next) => {
+	try {
+		res.send(await Game.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
+});
+
 //gets all open games
 router.get('/open/:zipcode', async(req, res, next)=> {
   try {
