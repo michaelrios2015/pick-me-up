@@ -31,31 +31,29 @@ export class Game extends Component{
 componentDidMount(prevProps){
 
   this.props.bootstrap();
-  console.log(this.props);
-  console.log(prevProps);
+  // console.log(this.props);
+  // console.log(prevProps);
+
+  
  
 }
 
 componentDidUpdate(prevProps, prevState){
-
-
-  console.log(this.props);
+  // console.log(this.props);
   console.log(prevProps);
   console.log(prevState.id);
   console.log(this.state.id);
-  if (prevState.id === '' && this.state.id === ''){
-      //does not mater for the moment as refresh just logs you off
-    // const token = localStorage.getItem("pickmeup-token");
-  // console.log(token)
-    // if(token){
-    // this.props.loadUserWToken(null, token);
-    // let user = this.props.users.single;
-    // console.log(user.id)
-    // this.props.bootstrap(null, token);
-    // }
-      // this.setState({ location: this.props.games.single.location, dateAndTime: this.props.games.single.dateAndTime, time: this.props.games.single.time, finalScore: this.props.games.single.finalScore, winner: this.props.games.single.winner, done: this.props.games.single.done });
-      console.log(this.props);
-      this.setState({ id: this.props.games.single.id, location: this.props.games.single.location, dateAndTime: this.props.games.single.dateAndTime, time: this.props.games.single.time, finalScore: this.props.games.single.finalScore, winner: this.props.games.single.winner, done: this.props.games.single.done });
+  if (prevState.id === ''){
+   
+      console.log(this.props.games.single);
+      this.setState({ id: this.props.games.single.id, 
+        location: this.props.games.single.location, 
+        dateAndTime: this.props.games.single.dateAndTime, 
+        time: this.props.games.single.time, 
+        finalScore: this.props.games.single.finalScore, 
+        winner: this.props.games.single.winner, 
+        done: this.props.games.single.done,
+        maxPlayerCount: this.props.games.single.maxPlayerCount });
     }
 }
 
@@ -66,8 +64,11 @@ onChange(ev){
 }
 async onSave(ev){
   ev.preventDefault();
+  this.setState({ id: '' }); 
   try {
-      await this.props.update(this.props.games.single.id, this.state);
+     
+    await this.props.update(this.props.games.single.id, this.state);
+      
   }
   catch(ex){
       // console.log(ex);
@@ -77,12 +78,12 @@ async onSave(ev){
 
   render(){
     const { destroy } = this.props;
-    console.log(this.props.games.single);
+    // console.log(this.props.games.single);
     const game = this.props.games.single;
     const { location, finalScore, error, winner, maxPlayerCount } = this.state;
     let { dateAndTime } = this.state;
     const { onChange, onSave} = this;
-    console.log(this.state)
+    // console.log(this.state)
     //for some reason there ar strange end characters being added to the date and time 
     // this is a temporary way of dealing with them :)
     dateAndTime = dateAndTime.slice(0, 16);
@@ -148,12 +149,7 @@ async onSave(ev){
                 <br/>
                 {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div>
-              
-              
-              
             )  }
-            
-            
           </form>
           <div className='container'>
           <h4>This will permanately delete your game</h4>  
@@ -170,7 +166,7 @@ const mapStateToProps = ( state ) => {
 }
 
 const mapDispatchToProps = (dispatch, { history, match }) => {
-  console.log(match.params.id)
+  // console.log(match.params.id)
   return {
     destroy: (game)=> {
       dispatch(destroyGame(game, history));
@@ -178,6 +174,7 @@ const mapDispatchToProps = (dispatch, { history, match }) => {
     },
     update: (id, state)=> {
       // console.log('hi');
+     
       dispatch(updateGame(id, state, history));
     },
     bootstrap: ()=> {
