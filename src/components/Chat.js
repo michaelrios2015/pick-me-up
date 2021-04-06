@@ -47,11 +47,6 @@ class Chat extends Component{
     
     // this is storing the message in the db
     this.props._createMessage({ content, gameId, date, userId });
-    
-    // this puts new messages on top and pushes old messages down
-    // const oldMessages = chatWindow.innerHTML;
-    // chatWindow.innerHTML = `<li>${ sender }: ${ content }<span>${ date }</span></li>`;
-    // chatWindow.innerHTML += oldMessages;
 
     // this is clearing the text from the form box after sending message
     document.getElementById('content').value = ''; 
@@ -65,24 +60,39 @@ class Chat extends Component{
     const { sendMessage, handleChange } = this;
 
     return (
-      <div className='container'>
-        <div >
-          <form onSubmit={ sendMessage } >
-            <label htmlFor='content'></label>
-            <input type='text' onChange={ handleChange } id='content' name='content' /><br/>
-            <button type='submit'>Send</button>
-          </form>
-        </div>
+      <div className='chat-container'>
         <div>
-          <ul id={ gameId + '' }>
-            { 
-              messages.map(message => {
-                return (
-                  <li key={message.id}>{ message.user.name }: { message.content }<span>{ message.date }</span></li>
-                )
-              })
-            }
-          </ul>
+          <div className='chat-messages'>
+            <ul id={ gameId + '' }>
+              { 
+                messages.map(message => {
+                  return (
+                    <li key={message.id}>
+                      <div className='chat-single-message'>
+                        <div className='chat-date'>
+                          { moment(message.date).format("MMMM Do, h:mm a") }
+                        </div>
+                        <div>
+                          <div className='chat-Sender'>
+                            { message.user.name }:
+                          </div> 
+                          <div className='chat-Message'>
+                            { message.content }
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })
+              }
+            </ul>
+          </div>
+          <form id='chat-input' onSubmit={ sendMessage } >
+            <input type='text' onChange={ handleChange } id='content' name='content'/>
+            <button type='submit'>
+              Send
+            </button>
+          </form>
         </div>
       </div>
     );

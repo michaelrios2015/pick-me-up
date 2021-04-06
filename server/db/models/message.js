@@ -6,9 +6,6 @@ const Message = db.define('message', {
   content: {
     type: STRING(1000)
   },
-  sender: {
-    type: STRING
-  },
   date: {
     type: STRING
   }
