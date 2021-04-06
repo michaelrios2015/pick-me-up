@@ -59,7 +59,7 @@ class MyGames extends Component {
 
 const mapState = ({ games, users }) => {
 	return {
-		games: games.open,
+		games: games.openForUser,
 		user: users.single,
 	};
 };

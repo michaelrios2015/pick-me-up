@@ -40,8 +40,8 @@ class FindGame extends Component{
       teamToJoin = 'TEAM B';
     }
     if(Date.now() < game.time * 1){
-      console.log(game.users.length)
-      console.log(teamToJoin)
+      // console.log(game.users.length)
+      // console.log(teamToJoin)
         const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id, team: teamToJoin })).data;
       if(!addPlayer.created){
         window.alert('You have already joined this game.');
@@ -59,7 +59,7 @@ class FindGame extends Component{
   render(){
     const { games } = this.props;
     const { joinGame } = this;
-    console.log(games)
+    // console.log(games)
     if(games.length === 0 ){
       return (
         <div>

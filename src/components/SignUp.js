@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 function SignUp() {
 	const [email, setEmail] = useState("");
@@ -24,6 +25,11 @@ function SignUp() {
 			console.log("Failed");
 		}
 	};
+
+	// history, this will be useful once user is automatically logged in
+	// after creating am account
+	const history = useHistory();
+	// console.log(history)
 
 	return (
 		<div>
