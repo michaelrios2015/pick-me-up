@@ -41,20 +41,23 @@ componentDidMount(prevProps){
 componentDidUpdate(prevProps, prevState){
   // console.log(this.props);
   console.log(prevProps);
-  console.log(prevState.id);
+  console.log(this.props);
+  console.log(prevState);
   console.log(this.state.id);
-  if (prevState.id === ''){
+  //this.props.bootstrap();
+  //not catching it when  
+  // if (prevState.users.single.id !== this.state){
    
-      console.log(this.props.games.single);
-      this.setState({ id: this.props.games.single.id, 
-        location: this.props.games.single.location, 
-        dateAndTime: this.props.games.single.dateAndTime, 
-        time: this.props.games.single.time, 
-        finalScore: this.props.games.single.finalScore, 
-        winner: this.props.games.single.winner, 
-        done: this.props.games.single.done,
-        maxPlayerCount: this.props.games.single.maxPlayerCount });
-    }
+  //     console.log(this.props.games.single);
+  //     this.setState({ id: this.props.games.single.id, 
+  //       location: this.props.games.single.location, 
+  //       dateAndTime: this.props.games.single.dateAndTime, 
+  //       time: this.props.games.single.time, 
+  //       finalScore: this.props.games.single.finalScore, 
+  //       winner: this.props.games.single.winner, 
+  //       done: this.props.games.single.done,
+  //       maxPlayerCount: this.props.games.single.maxPlayerCount });
+  //   }
 }
 
 onChange(ev){
