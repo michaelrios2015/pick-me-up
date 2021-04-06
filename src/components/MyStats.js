@@ -1,28 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-import { loadClosedGamesForUser, loadUser } from '../store/';
+import { loadClosedGamesForUser, loadUserWToken } from '../store/';
 
 export class MyStats extends Component{
-  constructor(){
-    super();
-    this.state = {};
+  constructor(props){
+    super(props);
+    this.state = {
+      loaded: false
+    };
+    // console.log(this.props);
   }
 
   componentDidMount(){
     
-    let user = this.props.users.single;
-    console.log(user.id)
-    // if(user.id){
-      this.props.bootstrap(user.id);
-    // }
+    const token = localStorage.getItem("pickmeup-token");
+		// console.log(token)
+		if(token){
+			// this.props.loadUserWToken(null, token);
+      let user = this.props.users.single;
+      // console.log(user.id)
+      this.props.bootstrap(user.id, token);
+		}
    
   }
 
   render(){
+    
     let user = this.props.users.single;
     let games = this.props.games.closed
-
+  
     let wins = [];
     let loses = [];
 
@@ -91,10 +98,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bootstrap: (userId)=> {
+    bootstrap: (userId, token)=> {
       // dispatch(loadUser(4));
-      dispatch(loadClosedGamesForUser(userId));
-    }
+      dispatch(loadClosedGamesForUser(userId, token));
+    },
+    		loadUserWToken: (userId, token) =>
+			dispatch(loadUserWToken(userId, token)),
   };
 }
 

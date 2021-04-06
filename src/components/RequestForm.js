@@ -6,6 +6,7 @@ import {loadUser} from '../store/users'
 import CourtMap from './CourtMap'
 
 const COURT_API = process.env.COURT_API
+// git console.log(process.env.COURT_API);
 
 export class RequestForm extends React.Component {
   constructor(props){
@@ -53,7 +54,7 @@ export class RequestForm extends React.Component {
       // winner: 'tbd',
       // finalScore: 'tbd',
       done: false,
-      host: 13, //need to change to user.id
+      host: user.id, //need to change to user.id
       zipcode: this.state.zipcode,
       long:`${this.state.courts[courtidx].the_geom.coordinates[0][0][0][0]}`,
       lat: `${this.state.courts[courtidx].the_geom.coordinates[0][0][0][1]}`,

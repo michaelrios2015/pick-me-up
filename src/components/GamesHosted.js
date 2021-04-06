@@ -10,20 +10,24 @@ import GameCard from './GameCard';
 //just let you change everything 
 
 export class GamesHosted extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {};
   }
 
   componentDidMount(){
     
     // just hard coding it in for convience at the moment 
-    this.props.bootstrap(1);
+    // this.props.bootstrap(1);
 
-    // console.log(this.props.users.single);
-    // if (this.props.users.single){
-    //   this.props.bootstrap(this.props.users.single.id);
-    // }
+    const token = localStorage.getItem("pickmeup-token");
+		// console.log(token)
+		if(token){
+			// this.props.loadUserWToken(null, token);
+      let user = this.props.users.single;
+      // console.log(user.id)
+      this.props.bootstrap(user.id, token);
+		}
 
   }
 
@@ -45,10 +49,10 @@ export class GamesHosted extends Component{
         futureGames.push(game)
       }
     });
-    console.log(games)
-    console.log(futureGames)
-    console.log(pastGames)
-    console.log(scoredGames)  
+    // console.log(games)
+    // console.log(futureGames)
+    // console.log(pastGames)
+    // console.log(scoredGames)  
    
 
     //idealy would also be able to enter teams for players of done games or have the computer 
@@ -66,6 +70,7 @@ export class GamesHosted extends Component{
           </div>
           <div>
             <h3>Games you will Host: { futureGames.length }</h3>
+            <hr/>
               {  
                 futureGames.map( game => { 
                   const players = game.users;
@@ -77,9 +82,13 @@ export class GamesHosted extends Component{
                   );
                 })
               }
+              <br/>
           </div>
+          
           <div>
+          
             <h3>Games that need to be scored: { pastGames.length }</h3>
+            <hr/>
               {  
                 pastGames.map( game => { 
                   const players = game.users;
@@ -93,7 +102,9 @@ export class GamesHosted extends Component{
               }
           </div>
           <div>
+            <br/>
             <h3>Games Hosted: { scoredGames.length }</h3>
+            <hr/>
               {  
                 scoredGames.map( game => { 
                   const players = game.users;
@@ -118,8 +129,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    bootstrap: (userId)=> {
-      dispatch(loadHostedGames(userId));
+    bootstrap: (userId, token)=> {
+      dispatch(loadHostedGames(userId, token));
     }
   };
 }

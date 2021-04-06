@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../store/users";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 const Login = () => {
 	// state
@@ -13,8 +14,17 @@ const Login = () => {
 	// Redux
 	const dispatch = useDispatch();
 
+
+	// history 
+	const history = useHistory();
+	// console.log(history)
+	// console.log(props)
+
 	// form submit
 	const login = async () => {
+		
+
+
 		if (!email || !password) {
 			setError("Error: Please fill out both email and password fields");
 		} else {
@@ -27,6 +37,8 @@ const Login = () => {
 				localStorage.setItem("pickmeup-token", response.data.token);
 				dispatch(loadUser(response.data.id));
 				setError("Success");
+				history.push('/');
+
 			} catch (er) {
 				console.log(er);
 				setError("Error: Invalid email or password. Please try again.");
