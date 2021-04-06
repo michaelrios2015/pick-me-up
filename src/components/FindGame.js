@@ -58,7 +58,7 @@ class FindGame extends Component{
   };
 
   guestUser(game){
-    this.props.history.push('/login')
+    this.props.history.push('/signup')
     localStorage.setItem('game', JSON.stringify(game));
     console.log(game);
   }
