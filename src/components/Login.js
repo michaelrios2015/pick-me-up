@@ -46,26 +46,33 @@ const Login = () => {
 	};
 
 	return (
-		<div>
-			<form>
+		<div className='container justify-content-center'  > 
+			
+			<form> 
+				<div className='form-group'> 
 				<label htmlFor="email">Email Address</label>
 				<input
 					type="text"
 					id="email"
 					value={email}
+					className='form-control'
 					onChange={(ev) => {
 						setEmail(ev.target.value);
 					}}
 				/>
+				</div>
+				<div className='form-group'>
 				<label htmlFor="password">Password</label>
 				<input
 					type="text"
 					id="password"
 					value={password}
+					className='form-control'
 					onChange={(ev) => {
 						setPassword(ev.target.value);
 					}}
 				/>
+				</div>
 			</form>
 			<button onClick={login}>Log In</button>
 			{error && <p>{error}</p>}

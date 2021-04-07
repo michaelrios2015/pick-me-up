@@ -85,19 +85,19 @@ export class RequestForm extends React.Component {
   render(){
     if(!this.state.finished){
       return(
-        <div id='requestBox'>
+        <div id='requestBox' className='container justify-content-center' >
           <h1>Pick Up a Game</h1>
-          <h2>Pull name and display here</h2>
+          <hr></hr>
           <form>
             {!this.state.showCourts ? (
-              <div>
+              <div className='form-group'>
                 <label htmlFor='zipcode'>Zipcode:</label>
-                <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-                <button onClick={this.courtSubmit}>Find Courts</button>
+                <input type="text" id="zipcode" name="zipcode" className='form-control' onChange={this.handleInputs}/>
+                <button type='submit' className='btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
               </div>
             ) : (
-              <div className='courtFinder'>
-                <div className= 'courtForm'>
+              <div className='courtFinder' >
+                <div className= 'courtForm' >
                   <label htmlFor='court'>Court:</label>
                   <select onChange={this.handleInputs} name='chosenCourt'>
                     <option>Select One</option>
@@ -110,7 +110,7 @@ export class RequestForm extends React.Component {
                   <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>
                   {/* <label htmlFor='time'>Time:</label>
                   <input type="datetime-local" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/> */}
-                  <button onClick={this.submitRequest}>Pick Up!</button>
+                  <button className='btn btn-primary' onClick={this.submitRequest}>Pick Up!</button>
                 </div>
                 <div className='courtMap'>
                   <CourtMap courts={this.state.courts}/>

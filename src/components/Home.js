@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { AdminUsers, GamesHosted } from '.';
 import { loadUser } from '../store/';
+import { Link, useLocation } from "react-router-dom";
+
 
 class Home extends Component{
   constructor(){
@@ -10,11 +12,10 @@ class Home extends Component{
   }
 
   componentDidMount(){
-    // this.props.bootstrap();
-   
+    //this.props.bootstrap();   
   }
 
-  render(){
+  render(){    
     const { users } = this.props;
     // console.log(Object.values(users))
     // console.log(users.single)
@@ -22,8 +23,20 @@ class Home extends Component{
     // console.log(Object.values(users));
     return (
       <div >
-        Hello User!! { user.email }
+        <center>
+        Hello, { user.name }!
         {/* <GamesHosted /> */}
+        </center>
+        <center>
+        <div id= 'pick-up'className='border text-center mb-3 home-hover' style={{ width: 275 + 'px' }, {fontSize: 3 + 'rem'}} > 
+        <Link className='nav nav-link text-dark card-body '  to='/request'>Pick Up</Link>
+      </div>
+      </center>
+      <div className='border text-center mb-3 home home-hover' > 
+      <Link className=' border nav-link text-dark card-body ' to='/games'>Find a Game</Link>
+			<Link  className=' border nav-link text-dark card-body ' to='/mygames'>My Games</Link>
+      
+      </div>
       </div>
     );
   }

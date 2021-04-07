@@ -72,48 +72,52 @@ async onSave(ev){
                 }
             </pre>
             {willPlay ? (
-              <div className='container'>
+              <div className='container justify-content-center'>
                 <h4>This Game will be played on :</h4>
-                {/* ideally this would bring up the map again not a clue how to do that might ask Taylor */}
+                {/* ideally this would hring up the map again not a clue how to do that might ask Taylor */}
                 <p>Location</p>  
-                <input name='location' value={ location } onChange = { onChange }/>
-                <br/>
+                <input name='location' value={ location }  className='form-control' onChange = { onChange }/>
+                <hr/> 
                 <label htmlFor='date'>Date and Time:</label>
-                <br/>
+                <hr/>
                 {/* Time is a pain, there is a weird extra character on ours */}
-                <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
-                <br/>
+                <input type="dateTime-local" value={ dateAndTime }  className='form-control' name="dateAndTime" onChange={ onChange }/>   
+                <hr></hr>
                 <h4>Please change the Time or Location</h4>
-                <button disabled = { !location || !dateAndTime } >SAVE</button>
-                <br/>
+                <button className='btn btn-primary' disabled = { !location || !dateAndTime } >SAVE</button>
+                
                 {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div> 
 
             ) :  (
               
-              <div className='container'>
+              <div className='container justify-content-center'>
                 <h4>This game was played on: </h4> 
+                <hr></hr>
                 <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
+                <hr></hr>
                 <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
+                <hr></hr>
                 <h4>number of players: {game.users ? game.users.length : 0}</h4>               
+                <hr></hr>
                 <h4>Please update the final score and winner: </h4> 
-                
+                <hr></hr>
                 <p>Final Score</p> 
                 {/* would be better if there was error checking */}
-                <input name='finalScore' value={ finalScore } onChange = { onChange }/>
-                <br/>
+                <input name='finalScore' value={ finalScore } className = 'form-control' onChange = { onChange }/>
+                <hr/>
                 {/* will make this a drop down menu of just TEAM A and TEAM B for the moment */}
                 <p>Winner</p> 
                 {/* <input name='winner' value={ winner } onChange = { onChange }/> */}
-                <select name='winner' value={ winner } onChange = { onChange }>
+                <select name='winner' value={ winner } className = 'form-control' onChange = { onChange }>
                     {/* so this need to be linked with the the actual schools and I need to figure 
                     out how to do the update but one step at a time */}
                     <option value = ''>How won??</option>
                     <option value = 'TEAM A'>TEAM A</option>
                     <option value = 'TEAM B'>TEAM B</option>
                 </select>
-                <button disabled = { !finalScore || !winner }>SAVE</button>
-                <br/>
+                <button className='btn btn-primary' disabled = { !finalScore || !winner }>SAVE</button>
+                <hr/>
                 {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div>
               
@@ -121,11 +125,11 @@ async onSave(ev){
               
             )  }
             
-            
+
           </form>
-          <div className='container'>
+          <div className='container justify-content-center'>
           <h4>This will permanately delete your game</h4>  
-          <button onClick={()=>destroy(game)}>delete this game</button>
+          <button className='btn btn-danger' onClick={()=>destroy(game)}>delete this game</button>
           </div>         
         </div>            
     );

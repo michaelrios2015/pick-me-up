@@ -63,10 +63,12 @@ class FindGame extends Component{
     // console.log(games)
     if(games.length === 0 ){
       return (
-        <div>
+        <div className='container justify-content-center' >
+          <div className='form-group'>
           <label htmlFor='zipcode'>Zipcode:</label>
-          <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-          <button onClick={this.courtSubmit}>Find Courts</button>
+          <input type="text" id="zipcode" name="zipcode" className='form-control' onChange={this.handleInputs}/>
+          <button type='submit' className='btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
+          </div> 
         </div>
       )
     }
@@ -83,7 +85,7 @@ class FindGame extends Component{
             }
           </div>
           <div>
-            <div>
+            <div className='card-body'>
               {
                 games.map(game => {
                   const players = game.users;
@@ -91,9 +93,9 @@ class FindGame extends Component{
                   return (
                     <div key={game.id} >
                       <GameCard game={game} players={players} openGame={true}/>
-                      <div>
-                        <button onClick={()=>joinGame(game)}>Join this game</button>
-                      </div>
+                      <center>
+                    <button type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
+                    </center>
                     </div>
                   )
                 })
@@ -109,6 +111,7 @@ class FindGame extends Component{
   
   }
 };
+
 
 const mapState = ({ games, users }) => {
   return {

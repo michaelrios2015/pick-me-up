@@ -4,8 +4,9 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "reac
 
 const MAP_API = process.env.MAP_API
 
-const Map = withScriptjs(withGoogleMap((props) =>{
-  const courts = props.courts
+const Map = withScriptjs(withGoogleMap((props) =>{  
+  const courts = props.courts  
+  console.log("COURTS", courts);
   const center = courts[0].the_geom.coordinates[0][0][0]
     return (
       <GoogleMap zoom={14} center={ { lat:  center[1]*1, lng: center[0]*1 } } >
@@ -58,6 +59,8 @@ export default class CourtMap extends React.Component{
     }
     this.setState({selectedCourt: court, selectedMarker: ev.target})
   }
+
+  
 
   render(){
     return (
