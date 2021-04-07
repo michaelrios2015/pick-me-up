@@ -87,7 +87,7 @@ class FindGame extends Component{
                       const players = game.users;
       
                       return (
-                        <div key={game.id} >
+                        <div key={game.id} className='cardAndButton'>
                           <GameCard game={game} players={players} openGame={true}/>
                           <div>
                             <button onClick={()=>joinGame(game)}>Join this game</button>

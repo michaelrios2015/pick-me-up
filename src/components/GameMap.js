@@ -29,11 +29,11 @@ const Map = withScriptjs(withGoogleMap((props) =>{
                  }}
               >
                 <div>
-                  <h1>Game: {court.id}</h1>
-                  <h3>Court: Court {court.location}</h3>
-                  <h3>Zip Code: {court.zipcode}</h3>
-                  <h3>Date: {moment(court.dateAndTime).format('MMM D, YYYY')}</h3>
-                  <h3>Time: { moment(court.dateAndTime).format('h:mm a') }</h3>
+                  <h5>Game: {court.id}</h5>
+                  <p>Court: Court {court.location}</p>
+                  <p>Zip Code: {court.zipcode}</p>
+                  <p>Date: {moment(court.dateAndTime).format('MMM D, YYYY')}</p>
+                  <p>Time: { moment(court.dateAndTime).format('h:mm a') }</p>
                 </div>
               </InfoWindow>
               )}

@@ -59,25 +59,25 @@ export class GamesHosted extends Component{
     //do it
     if(games.length > 0){
       return (
-          <div className='container'>
-            <div>
-  
-              <div>
-              {
-                games.length > 0 ? (
-                  <h1>You have {games.length} hosted games!</h1>
-                ) : (
-                  <h1>You have no upcoming games.</h1>
-                )
-              }
-              </div>
-              <div>
+        <div className= 'container'>
+          <div className= "gamesHostedHeader">
+            {
+              games.length > 0 ? (
+                <h1>You have {games.length} hosted games!</h1>
+              ) : (
+                <h1>You have no upcoming games.</h1>
+              )
+            }
+          </div>
+          <div className='courtFinder'>
+            <div className= 'myGamesList'>
+              <div className='listOfGames'>
                 <h3>Games you will Host: { futureGames.length }</h3>
                   {  
                     futureGames.map( game => { 
                       const players = game.users;
                       return (
-                        <div key={game.id}>
+                        <div key={game.id} >
                           <a href={`#/games/${game.id}`}>{game.id}</a>
                           <GameCard game={game} players={players} openGame={true}/>
                         </div>
@@ -85,7 +85,7 @@ export class GamesHosted extends Component{
                     })
                   }
               </div>
-              <div>
+              <div className='listOfGames'>
                 <h3>Games that need to be scored: { pastGames.length }</h3>
                   {  
                     pastGames.map( game => { 
@@ -99,7 +99,7 @@ export class GamesHosted extends Component{
                     })
                   }
               </div>
-              <div>
+              <div className='listOfGames'>
                 <h3>Games Hosted: { scoredGames.length }</h3>
                   {  
                     scoredGames.map( game => { 
@@ -113,67 +113,16 @@ export class GamesHosted extends Component{
                     })
                   }
               </div>
-              <div className='courtMap'>
-                <GameMap courts={games}/>
-              </div>
+            </div>
+            <div className='courtMap'>
+              <GameMap courts={games}/>
             </div>
           </div>
+        </div>
       );
     }else{
       return (
-        <div className='container'>
-            <div>
-            {
-              games.length > 0 ? (
-                <h1>You have {games.length} hosted games!</h1>
-              ) : (
-                <h1>You have no upcoming games.</h1>
-              )
-            }
-            </div>
-            <div>
-              <h3>Games you will Host: { futureGames.length }</h3>
-                {  
-                  futureGames.map( game => { 
-                    const players = game.users;
-                    return (
-                      <div key={game.id}>
-                        <a href={`#/games/${game.id}`}>{game.id}</a>
-                        <GameCard game={game} players={players} openGame={true}/>
-                      </div>
-                    );
-                  })
-                }
-            </div>
-            <div>
-              <h3>Games that need to be scored: { pastGames.length }</h3>
-                {  
-                  pastGames.map( game => { 
-                    const players = game.users;
-                    return (
-                      <div key={game.id}>
-                      <a href={`#/games/${game.id}`}>{game.id}</a>
-                      <GameCard game={game} players={players} openGame={false}/>
-                      </div>
-                    );
-                  })
-                }
-            </div>
-            <div>
-              <h3>Games Hosted: { scoredGames.length }</h3>
-                {  
-                  scoredGames.map( game => { 
-                    const players = game.users;
-                    return (
-                      <div key={game.id}>
-                      <a href={`#/games/${game.id}`}>{game.id}</a>
-                      <GameCard game={game} players={players} openGame={false}/>
-                      </div>
-                    );
-                  })
-                }
-            </div>
-        </div>
+        <h1>You have {games.length} hosted games!</h1>
     );
     }
   

@@ -1,7 +1,11 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin-top: 100px;
+  margin-top: 20px;
+}
+
+.gamesHostedHeader {
+  margin-bottom: 40px;
 }
 
 .header {
@@ -94,6 +98,7 @@ h1 {
 
 .courtMap {
   width: 50%;
+  margin-top: 20px;
 }
 
 .navbar {
@@ -195,4 +200,26 @@ span {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.myGamesHeader {
+  padding: 10px;
+}
+
+.myGamesList {
+  display: flex;
+  width: 40%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardAndButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.listOfGames {
+  width: 100%;
 }

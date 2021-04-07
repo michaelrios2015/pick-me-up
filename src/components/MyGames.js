@@ -28,47 +28,49 @@ class MyGames extends Component {
 		const { leaveGame } = this;
 		if(games.length >0){
 				return (
-					<div className='courtFinder'>
-						<div>
-							<div>
+					<div>
+						<div className='myGamesHeader'>
 								{games.length > 0 ? (
 									<h1>You have {games.length} upcoming games!</h1>
 								) : (
 									<h1>You have no upcoming games.</h1>
 								)}
 							</div>
+						<div className='courtFinder'>
 							<div>
-								{games.map((game) => {
-									const players = game.users;
-									return (
-										<div key={game.id}>
-											<GameCard game={game} players={players} openGame={true} />
-											<div>
-												<button onClick={() => leaveGame(game)}>
-													Leave this game
-												</button>
+								<div className='myGamesList'>
+									{games.map((game) => {
+										const players = game.users;
+										return (
+											<div key={game.id} className='cardAndButton'>
+												<GameCard game={game} players={players} openGame={true} />
+												<div>
+													<button onClick={() => leaveGame(game)}>
+														Leave this game
+													</button>
+												</div>
 											</div>
-										</div>
-									);
-								})}
+										);
+									})}
+								</div>
 							</div>
-						</div>
-						<div className='courtMap'>
-									<GameMap courts={games}/>
+							<div className='courtMap'>
+										<GameMap courts={games}/>
+							</div>
 						</div>
 					</div>
 				);
 		}else{
 			return(
 				<div>
-					<div>
+					<div className='myGamesHeader'>
 						{games.length > 0 ? (
 							<h1>You have {games.length} upcoming games!</h1>
 						) : (
 							<h1>You have no upcoming games.</h1>
 						)}
 					</div>
-					<div>
+					{/* <div>
 						{games.map((game) => {
 							const players = game.users;
 
@@ -83,7 +85,7 @@ class MyGames extends Component {
 								</div>
 							);
 						})}
-					</div>
+					</div> */}
 				</div>
 			)
 		}
