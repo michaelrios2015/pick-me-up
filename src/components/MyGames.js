@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import GameCard from "./GameCard";
 import { loadOpenGamesForUser } from "../store/games";
 import axios from "axios";
+import GameMap from './GameMap'
 
 class MyGames extends Component {
 	constructor() {
@@ -25,34 +26,67 @@ class MyGames extends Component {
 	render() {
 		const { games, user } = this.props;
 		const { leaveGame } = this;
-
-		return (
-			<div>
-				<div>
-					{games.length > 0 ? (
-						<h1>You have {games.length} upcoming games!</h1>
-					) : (
-						<h1>You have no upcoming games.</h1>
-					)}
-				</div>
-				<div>
-					{games.map((game) => {
-						const players = game.users;
-
-						return (
-							<div key={game.id}>
-								<GameCard game={game} players={players} openGame={true} />
-								<div>
-									<button onClick={() => leaveGame(game)}>
-										Leave this game
-									</button>
-								</div>
+		if(games.length >0){
+				return (
+					<div className='courtFinder'>
+						<div>
+							<div>
+								{games.length > 0 ? (
+									<h1>You have {games.length} upcoming games!</h1>
+								) : (
+									<h1>You have no upcoming games.</h1>
+								)}
 							</div>
-						);
-					})}
+							<div>
+								{games.map((game) => {
+									const players = game.users;
+									return (
+										<div key={game.id}>
+											<GameCard game={game} players={players} openGame={true} />
+											<div>
+												<button onClick={() => leaveGame(game)}>
+													Leave this game
+												</button>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+						</div>
+						<div className='courtMap'>
+									<GameMap courts={games}/>
+						</div>
+					</div>
+				);
+		}else{
+			return(
+				<div>
+					<div>
+						{games.length > 0 ? (
+							<h1>You have {games.length} upcoming games!</h1>
+						) : (
+							<h1>You have no upcoming games.</h1>
+						)}
+					</div>
+					<div>
+						{games.map((game) => {
+							const players = game.users;
+
+							return (
+								<div key={game.id}>
+									<GameCard game={game} players={players} openGame={true} />
+									<div>
+										<button onClick={() => leaveGame(game)}>
+											Leave this game
+										</button>
+									</div>
+								</div>
+							);
+						})}
+					</div>
 				</div>
-			</div>
-		);
+			)
+		}
 	}
 }
 

@@ -83,11 +83,11 @@ export class RequestForm extends React.Component {
   }
   }
   render(){
+    console.log(this.props.user)
     if(!this.state.finished){
       return(
         <div id='requestBox'>
-          <h1>Pick Up a Game</h1>
-          <h2>Pull name and display here</h2>
+          <h1>Pick Up a Game {this.props.user.name}</h1>
           <form>
             {!this.state.showCourts ? (
               <div>

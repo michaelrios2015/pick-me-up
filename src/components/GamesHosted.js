@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadHostedGames } from '../store/';
 import GameCard from './GameCard';
-
+import GameMap from './GameMap'
 
 //this will list the games a user is hosting, they will be able to update the time, location, delete the game
 //they will also be able to add a winner and update the score, not sure if these two things should be seperated out 
@@ -57,61 +57,125 @@ export class GamesHosted extends Component{
 
     //idealy would also be able to enter teams for players of done games or have the computer 
     //do it
-    return (
+    if(games.length > 0){
+      return (
+          <div className='container'>
+            <div>
+  
+              <div>
+              {
+                games.length > 0 ? (
+                  <h1>You have {games.length} hosted games!</h1>
+                ) : (
+                  <h1>You have no upcoming games.</h1>
+                )
+              }
+              </div>
+              <div>
+                <h3>Games you will Host: { futureGames.length }</h3>
+                  {  
+                    futureGames.map( game => { 
+                      const players = game.users;
+                      return (
+                        <div key={game.id}>
+                          <a href={`#/games/${game.id}`}>{game.id}</a>
+                          <GameCard game={game} players={players} openGame={true}/>
+                        </div>
+                      );
+                    })
+                  }
+              </div>
+              <div>
+                <h3>Games that need to be scored: { pastGames.length }</h3>
+                  {  
+                    pastGames.map( game => { 
+                      const players = game.users;
+                      return (
+                        <div key={game.id}>
+                        <a href={`#/games/${game.id}`}>{game.id}</a>
+                        <GameCard game={game} players={players} openGame={false}/>
+                        </div>
+                      );
+                    })
+                  }
+              </div>
+              <div>
+                <h3>Games Hosted: { scoredGames.length }</h3>
+                  {  
+                    scoredGames.map( game => { 
+                      const players = game.users;
+                      return (
+                        <div key={game.id}>
+                        <a href={`#/games/${game.id}`}>{game.id}</a>
+                        <GameCard game={game} players={players} openGame={false}/>
+                        </div>
+                      );
+                    })
+                  }
+              </div>
+              <div className='courtMap'>
+                <GameMap courts={games}/>
+              </div>
+            </div>
+          </div>
+      );
+    }else{
+      return (
         <div className='container'>
-          <div>
-          {
-            games.length > 0 ? (
-              <h1>You have {games.length} hosted games!</h1>
-            ) : (
-              <h1>You have no upcoming games.</h1>
-            )
-          }
-          </div>
-          <div>
-            <h3>Games you will Host: { futureGames.length }</h3>
-              {  
-                futureGames.map( game => { 
-                  const players = game.users;
-                  return (
-                    <div key={game.id}>
+            <div>
+            {
+              games.length > 0 ? (
+                <h1>You have {games.length} hosted games!</h1>
+              ) : (
+                <h1>You have no upcoming games.</h1>
+              )
+            }
+            </div>
+            <div>
+              <h3>Games you will Host: { futureGames.length }</h3>
+                {  
+                  futureGames.map( game => { 
+                    const players = game.users;
+                    return (
+                      <div key={game.id}>
+                        <a href={`#/games/${game.id}`}>{game.id}</a>
+                        <GameCard game={game} players={players} openGame={true}/>
+                      </div>
+                    );
+                  })
+                }
+            </div>
+            <div>
+              <h3>Games that need to be scored: { pastGames.length }</h3>
+                {  
+                  pastGames.map( game => { 
+                    const players = game.users;
+                    return (
+                      <div key={game.id}>
                       <a href={`#/games/${game.id}`}>{game.id}</a>
-                      <GameCard game={game} players={players} openGame={true}/>
-                    </div>
-                  );
-                })
-              }
-          </div>
-          <div>
-            <h3>Games that need to be scored: { pastGames.length }</h3>
-              {  
-                pastGames.map( game => { 
-                  const players = game.users;
-                  return (
-                    <div key={game.id}>
-                     <a href={`#/games/${game.id}`}>{game.id}</a>
-                     <GameCard game={game} players={players} openGame={false}/>
-                    </div>
-                  );
-                })
-              }
-          </div>
-          <div>
-            <h3>Games Hosted: { scoredGames.length }</h3>
-              {  
-                scoredGames.map( game => { 
-                  const players = game.users;
-                  return (
-                    <div key={game.id}>
-                     <a href={`#/games/${game.id}`}>{game.id}</a>
-                     <GameCard game={game} players={players} openGame={false}/>
-                    </div>
-                  );
-                })
-              }
-          </div>
+                      <GameCard game={game} players={players} openGame={false}/>
+                      </div>
+                    );
+                  })
+                }
+            </div>
+            <div>
+              <h3>Games Hosted: { scoredGames.length }</h3>
+                {  
+                  scoredGames.map( game => { 
+                    const players = game.users;
+                    return (
+                      <div key={game.id}>
+                      <a href={`#/games/${game.id}`}>{game.id}</a>
+                      <GameCard game={game} players={players} openGame={false}/>
+                      </div>
+                    );
+                  })
+                }
+            </div>
         </div>
     );
+    }
   
   }
 }

@@ -19,7 +19,9 @@ const Map = withScriptjs(withGoogleMap((props) =>{
                 <InfoWindow
                 // marker= {props.marker}
                  onCloseClick={() => {
-                   this.setState({selectedCourt: null})
+                   if(this.state.selectedCourt){
+                     this.setState({selectedCourt: null})
+                   }
                  }}
                  position={{
                     lat: court.lat * 1,
