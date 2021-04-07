@@ -32,7 +32,7 @@ class Home extends Component{
         <Link className='nav nav-link text-dark card-body '  to='/request'>Pick Up</Link>
       </div>
       </center>
-      <div className='border text-center mb-3 gor home-hover' > 
+      <div className='border text-center mb-3 home home-hover' > 
       <Link className=' border nav-link text-dark card-body ' to='/games'>Find a Game</Link>
 			<Link  className=' border nav-link text-dark card-body ' to='/mygames'>My Games</Link>
       

@@ -7,12 +7,12 @@ export class MyProfile extends Component{
   constructor(props) {
 		super(props);
 		this.state = {
-			email: this.props.users.single ? this.props.users.single.email : '',
-			name: this.props.users.single ? this.props.users.single.name : '' ,
-			age: this.props.users.single ? this.props.users.single.age : '' ,
-      height: this.props.users.single ? this.props.users.single.height : '',
-      description: this.props.users.single ? this.props.users.single.description : '',
-      photo: this.props.users.single ? this.props.users.single.photo : ''
+			email: this.props.user ? this.props.user.email : '',
+			name: this.props.user ? this.props.user.name : '' ,
+			age: this.props.user ? this.props.user.age : '' ,
+      height: this.props.user ? this.props.user.height : '',
+      description: this.props.user ? this.props.user.description : '',
+      photo: this.props.user ? this.props.user.photo : ''
       
 		}
 		this.onChange = this.onChange.bind(this);
@@ -28,32 +28,11 @@ export class MyProfile extends Component{
   async handleSubmit(e) {
     // console.log(e)
     
-
-    //console.log(e.target[0].defaultValue)
-    //console.log(e.target[1].defaultValue);
-    // if(e.target[0].defaultValue !== ""){
-    // user.email = e.target[0].defaultValue;  
-    // }
-    // if(e.target[1].defaultValue !== ""){
-    // user.name = e.target[1].defaultValue;
-    // }
-    // if(e.target[2].defaultValue !== ""){
-    // user.height = e.target[2].defaultValue;
-    // }
-    // if(e.target[3].defaultValue !== ""){
-    // user.description = e.target[3].defaultValue;
-    // }
-    // if(e.target[4].defaultValue !== ""){
-    // user.photo = e.target[4].defaultValue;
-    // }
-    //console.log(user);
-    
     e.preventDefault();
     
     const { users, history } = this.props;
     let user = users.single;
-    //console.log(history);
-    //console.log("PROPS FOR MY PROFILE", this.props);
+    // console.log(history);
     
     //TODO : perform some sort of update to selected user through redux thunks
     //await axios.update("/user/:id", {...this.state})
@@ -77,7 +56,7 @@ export class MyProfile extends Component{
    
      const { users } = this.props;
     let user = users.single;
-    console.log(users)
+    // console.log(users)
     const { email, name, age, height, description, photo } = this.state;
     return (
         <div id='user-form' className='container justify-content-center'>
@@ -183,4 +162,3 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
-

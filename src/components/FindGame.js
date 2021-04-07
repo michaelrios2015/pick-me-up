@@ -63,10 +63,12 @@ class FindGame extends Component{
     // console.log(games)
     if(games.length === 0 ){
       return (
-        <div>
+        <div className='container justify-content-center' >
+          <div className='form-group'>
           <label htmlFor='zipcode'>Zipcode:</label>
-          <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-          <button onClick={this.courtSubmit}>Find Courts</button>
+          <input type="text" id="zipcode" name="zipcode" className='form-control' onChange={this.handleInputs}/>
+          <button type='submit' className='btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
+          </div> 
         </div>
       )
     }

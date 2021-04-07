@@ -5,8 +5,11 @@ import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import { SideBarData } from './SideBarData'
 import { IconContext } from 'react-icons'
-import { loadUser, usersReducer } from "../store";
+// import { loadUser, usersReducer } from "../store";
 
+
+import { clearUser } from "../store/users";
+import { useHistory } from "react-router";
 
 const Navbar = (props) => {
   // we got location is a different way in class but could not replicate so used this
@@ -16,18 +19,12 @@ const Navbar = (props) => {
     
 
   const showSidebar = () => setSidebar(!sidebar) 
+  
+  // console.log(props.users.single);
+  const user = props.users.single;
+  const history = useHistory();
+  // console.log(history)
 
-    
-  useEffect(()=>{    
-    props.getUser()
-  }, [])
-  
-
-  console.log(props, "NAVBAR PROPS");
-  
-  
-  
-  
   return (
    
     <div className='bg-danger text-center'>
@@ -35,6 +32,9 @@ const Navbar = (props) => {
     <header>
         <h1 className='display-1 text-dark'>PICK ME UP</h1>
     </header> 
+    {user.id ? (
+    <div>
+		
     <IconContext.Provider value={{ color: 'white'}}>
     <div className='navbar'>
     <Link className='menu-bars' > 
@@ -66,29 +66,35 @@ const Navbar = (props) => {
           </ul> 
         </nav>
         </IconContext.Provider>
-    <div className='nav nav-tabs justify-content-around'>      
-			<Link className='nav-link text-dark' to='/'>Home</Link>
-			<Link className='nav-link text-dark' to='/request'>Pick Up</Link>
-			<Link className='nav-link text-dark' to='/games'>Find a Game</Link>
-			<Link className='nav-link text-dark' to='/mygames'>My Games</Link>
-			<Link className='nav-link text-dark' to="/login">Login</Link>
-		</div>
-		</div>
+    
+      <div className=' nav nav-tabs justify-content-around'>
+        <Link className='nav-link text-dark' to='/'>Home</Link>
+        <button className = "nav-link btn btn-danger text-dark" onClick={()=>props.logout(history)}>logout</button>
+      </div>
+      </div>
+      ) :
+      (
+        <Link className='nav-link text-dark' to="/login">Login</Link>
+      )
+      }
+      </div>
 	)
 }
 
-
-
-// const mapState = (state) => {
-// 	return state;
-// };
-const mapState = ({users}) => {
-  return {users};
-}
-const mapDispatch = (dispatch) => {
-	return {
-     getUser: () => dispatch(loadUser(21))
-  };
+const mapState = (state ) => {
+ 	return state;
 };
+const mapDispatch = (dispatch) => {
+	return {    
+    logout(history) {
+      // console.log(history)
+      localStorage.clear();
+      dispatch(clearUser());
+      history.push('/');
+    }
+  }   
+
+};
+
 
 export default connect(mapState, mapDispatch)(Navbar);
