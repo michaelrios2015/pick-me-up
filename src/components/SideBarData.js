@@ -7,6 +7,7 @@ import * as IoIcons from "react-icons/io"
 import * as IconName  from "react-icons/bs";
 
 export const SideBarData = [
+  
   {
     title: 'home',
     path: '/',
@@ -17,6 +18,12 @@ export const SideBarData = [
     title: 'mystats',
     path: '/stats',
     icon: <IoIcons.IoIosPaper />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'GamesHosted',
+    path: '/gameshosted',
+    icon: <AiIcons.AiFillDatabase /> ,
     cName: 'nav-text'
   },
   {
@@ -31,5 +38,6 @@ export const SideBarData = [
     icon: <IconName.BsFillXCircleFill /> ,
     cName: 'nav-text'
   }
+  
   
 ]

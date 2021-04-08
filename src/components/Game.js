@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { destroyGame, updateGame } from '../store/';
 import moment from 'moment';
 import axios from 'axios';
+import CourtMap from './CourtMap'
+
+const COURT_API = process.env.COURT_API
 
 //this will list the games a user is hosting, they will be able to update the time, location, delete the game
 //they will also be able to add a winner and update the score, not sure if these two things should be seperated out 
@@ -19,11 +22,16 @@ export class Game extends Component{
       finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
       winner: this.props.game.winner ? this.props.game.winner : '',
       done: this.props.game.done ? this.props.game.done : '',
-      error: ''
+      error: '',
+      zipcode: '',
+      courts: [],
+      searched: false
   };
 
   this.onChange = this.onChange.bind(this);
   this.onSave = this.onSave.bind(this);
+  this.courtSubmit = this.courtSubmit.bind(this)
+  this.handleInputs = this.handleInputs.bind(this)
 }
 componentDidUpdate(prevProps){
   //does not mater for the moment as refresh just logs you off
@@ -48,6 +56,16 @@ async onSave(ev){
   }
 }
 
+async courtSubmit(ev){
+  ev.preventDefault()
+  const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${COURT_API}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
+  this.setState({courts: courts, searched: true})
+}
+handleInputs(ev){
+  const {name, value} = ev.target
+  this.setState({[name] : value})
+}
+
   render(){
     const { game, destroy } = this.props;
     const { location, finalScore, error, winner, time } = this.state;
@@ -62,7 +80,7 @@ async onSave(ev){
     if(Date.now() > game.time * 1){
       willPlay = false;
     } 
-        
+    console.log(this.props)
     return (
         <div>
           <form onSubmit = { onSave }>
@@ -72,48 +90,75 @@ async onSave(ev){
                 }
             </pre>
             {willPlay ? (
-              <div className='container'>
+              <div className='container justify-content-center'>
                 <h4>This Game will be played on :</h4>
-                {/* ideally this would bring up the map again not a clue how to do that might ask Taylor */}
+                {/* ideally this would hring up the map again not a clue how to do that might ask Taylor */}
                 <p>Location</p>  
+                {!this.state.searched ? (
+                  <div>
+                    <label htmlFor='zipcode'>Zipcode:</label>
+                    <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+                    <button onClick={this.courtSubmit}>Find Courts</button>
+                  </div>
+                ): (
+                  <div className='courtFinder'>
+                    <div className= 'courtForm'>
+                      <label htmlFor='court'>Court:</label>
+                      <select onChange={this.handleInputs} name='location' value={ location }>
+                        <option>Select One</option>
+                        {this.state.courts.map((court, idx)=>{
+                          return(<option key={idx} value={idx} >Court: {court.objectid}</option>)
+                        })}
+                      </select>      
+                    </div>
+                    <div className='courtMap'>
+                      <CourtMap courts={this.state.courts}/>
+                    </div>
+                  </div>
+                )}
+                <label>Current Location:</label>
                 <input name='location' value={ location } onChange = { onChange }/>
                 <br/>
                 <label htmlFor='date'>Date and Time:</label>
-                <br/>
+                <hr/>
                 {/* Time is a pain, there is a weird extra character on ours */}
-                <input type="dateTime-local" value={ dateAndTime } name="dateAndTime" onChange={ onChange }/>   
-                <br/>
+                <input type="dateTime-local" value={ dateAndTime }  className='form-control' name="dateAndTime" onChange={ onChange }/>   
+                <hr></hr>
                 <h4>Please change the Time or Location</h4>
-                <button disabled = { !location || !dateAndTime } >SAVE</button>
-                <br/>
+                <button className='btn btn-primary' disabled = { !location || !dateAndTime } >SAVE</button>
+                
                 {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div> 
 
             ) :  (
               
-              <div className='container'>
+              <div className='container justify-content-center'>
                 <h4>This game was played on: </h4> 
+                <hr></hr>
                 <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
+                <hr></hr>
                 <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
+                <hr></hr>
                 <h4>number of players: {game.users ? game.users.length : 0}</h4>               
+                <hr></hr>
                 <h4>Please update the final score and winner: </h4> 
-                
+                <hr></hr>
                 <p>Final Score</p> 
                 {/* would be better if there was error checking */}
-                <input name='finalScore' value={ finalScore } onChange = { onChange }/>
-                <br/>
+                <input name='finalScore' value={ finalScore } className = 'form-control' onChange = { onChange }/>
+                <hr/>
                 {/* will make this a drop down menu of just TEAM A and TEAM B for the moment */}
                 <p>Winner</p> 
                 {/* <input name='winner' value={ winner } onChange = { onChange }/> */}
-                <select name='winner' value={ winner } onChange = { onChange }>
+                <select name='winner' value={ winner } className = 'form-control' onChange = { onChange }>
                     {/* so this need to be linked with the the actual schools and I need to figure 
                     out how to do the update but one step at a time */}
                     <option value = ''>How won??</option>
                     <option value = 'TEAM A'>TEAM A</option>
                     <option value = 'TEAM B'>TEAM B</option>
                 </select>
-                <button disabled = { !finalScore || !winner }>SAVE</button>
-                <br/>
+                <button className='btn btn-primary' disabled = { !finalScore || !winner }>SAVE</button>
+                <hr/>
                 {/* <button onClick={()=>destroy(game)}>delete this game</button> */}
               </div>
               
@@ -121,11 +166,11 @@ async onSave(ev){
               
             )  }
             
-            
+
           </form>
-          <div className='container'>
+          <div className='container justify-content-center'>
           <h4>This will permanately delete your game</h4>  
-          <button onClick={()=>destroy(game)}>delete this game</button>
+          <button className='btn btn-danger' onClick={()=>destroy(game)}>delete this game</button>
           </div>         
         </div>            
     );

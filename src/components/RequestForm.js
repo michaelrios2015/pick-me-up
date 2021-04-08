@@ -33,6 +33,7 @@ export class RequestForm extends React.Component {
     const {name, value} = ev.target
     this.setState({[name] : value})
   }
+  
   async courtSubmit(ev){
     ev.preventDefault()
     const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${COURT_API}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
@@ -83,11 +84,11 @@ export class RequestForm extends React.Component {
   }
   }
   render(){
+    console.log(this.props.user)
     if(!this.state.finished){
       return(
         <div id='requestBox'>
-          <h1>Pick Up a Game</h1>
-          <h2>Pull name and display here</h2>
+          <h1>Pick Up a Game {this.props.user.name}</h1>
           <form>
             {!this.state.showCourts ? (
               <div>

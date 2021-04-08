@@ -32,36 +32,45 @@ function SignUp() {
 	// console.log(history)
 
 	return (
-		<div>
-			<h2>New User Sign Up</h2>
+		<div className='container justify-content-center'>
+			<h2 className='text-center'>New User Sign Up</h2>
 			<form>
+				<div className="form-group">
 				<label htmlFor="name">Full Name</label>
 				<input
 					type="text"
 					id="name"
 					value={name}
+					className="form-control"
 					onChange={(ev) => {
 						setName(ev.target.value);
 					}}
 				/>
+				</div>
+					<div className="form-group">
 				<label htmlFor="email">Email Address</label>
 				<input
 					type="text"
 					id="email"
 					value={email}
+					className="form-control"
 					onChange={(ev) => {
 						setEmail(ev.target.value);
 					}}
 				/>
+				</div>
+				<div className="form-group">
 				<label htmlFor="password">Password</label>
 				<input
 					type="text"
 					id="password"
 					value={password}
+					className="form-control"
 					onChange={(ev) => {
 						setPassword(ev.target.value);
 					}}
 				/>
+				</div>
 			</form>
 			<button onClick={createUser}>Sign Up</button>
 			<p>
