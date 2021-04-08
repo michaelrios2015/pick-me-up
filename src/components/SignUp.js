@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import { loadUser } from "../store/users";
 import { useDispatch } from "react-redux";
 
+
 function SignUp() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -39,6 +40,14 @@ function SignUp() {
     // this.props.loadOpenGames();
   };
 
+	const joinNewGame = async (newGame, userId) =>{
+		newGame.host = userId;
+    console.log('newGame: ', newGame);
+		const game = (await axios.post('/api/games', newGame)).data
+      //added TEAM just assinging first player to TEAM A, hardcoded in user 13 for testing purposes
+      // await axios.post('/api/user_games', { gameId: newGame.id, userId: 13, team: 'TEAM A' });
+      await axios.post('/api/user_games', { gameId: game.id, userId: userId, team: 'TEAM A' });
+  };
 
 	// Create user
 	const createUser = async () => {
@@ -62,11 +71,15 @@ function SignUp() {
 			localStorage.setItem("pickmeup-token", response2.data.token);
 			dispatch(loadUser(response2.data.id));
 			const game = JSON.parse(localStorage.getItem("game"))
+			const newGame = JSON.parse(localStorage.getItem("newGame"))
 			console.log('game: ', game);
-			console.log(game)
+			
 			if (game){
 				joinGame(game, response2.data.id);
 			}
+			if (newGame) {
+				joinNewGame(newGame, response2.data.id)	
+			} 
 			history.push('/');
 
 		} else {
