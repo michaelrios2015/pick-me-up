@@ -18,6 +18,7 @@ const Map = withScriptjs(withGoogleMap((props) =>{
               {props.selectedCourt === court && (
                 <InfoWindow
                 // marker= {props.marker}
+                
                  onCloseClick={() => {
                    this.setState({selectedCourt: null})
                  }}
@@ -27,9 +28,9 @@ const Map = withScriptjs(withGoogleMap((props) =>{
                  }}
               >
                 <div>
-                  <h1>Court: {court.objectid}</h1>
-                  <h3>Court Type: {court.dimensions}</h3>
-                  <h3>Zip Code: {court.zipcode}</h3>
+                  <h5>Court: {court.objectid}</h5>
+                  <p>Court Type: {court.dimensions}</p>
+                  <p>Zip Code: {court.zipcode}</p>
                 </div>
               </InfoWindow>
               )}

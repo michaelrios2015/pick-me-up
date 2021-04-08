@@ -82,6 +82,13 @@ export const loadOpenGames = (zipcode) => {
 	};
 };
 
+export const loadAllOpenGames = () => {
+	return async (dispatch) => {
+		const games = (await axios.get(`/api/games/open/`)).data;
+		dispatch(_loadGames(games));
+	};
+};
+
 export const loadClosedGames = () => {
 	return async (dispatch) => {
 		const games = (await axios.get("/api/games/closed")).data;

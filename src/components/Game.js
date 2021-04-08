@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { destroyGame, updateGame } from '../store/';
 import moment from 'moment';
 import axios from 'axios';
+import CourtMap from './CourtMap'
+
+const COURT_API = process.env.COURT_API
 
 //this will list the games a user is hosting, they will be able to update the time, location, delete the game
 //they will also be able to add a winner and update the score, not sure if these two things should be seperated out 
@@ -19,11 +22,16 @@ export class Game extends Component{
       finalScore: this.props.game.finalScore ? this.props.game.finalScore : '',
       winner: this.props.game.winner ? this.props.game.winner : '',
       done: this.props.game.done ? this.props.game.done : '',
-      error: ''
+      error: '',
+      zipcode: '',
+      courts: [],
+      searched: false
   };
 
   this.onChange = this.onChange.bind(this);
   this.onSave = this.onSave.bind(this);
+  this.courtSubmit = this.courtSubmit.bind(this)
+  this.handleInputs = this.handleInputs.bind(this)
 }
 componentDidUpdate(prevProps){
   //does not mater for the moment as refresh just logs you off
@@ -48,6 +56,16 @@ async onSave(ev){
   }
 }
 
+async courtSubmit(ev){
+  ev.preventDefault()
+  const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${COURT_API}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
+  this.setState({courts: courts, searched: true})
+}
+handleInputs(ev){
+  const {name, value} = ev.target
+  this.setState({[name] : value})
+}
+
   render(){
     const { game, destroy } = this.props;
     const { location, finalScore, error, winner, time } = this.state;
@@ -62,7 +80,7 @@ async onSave(ev){
     if(Date.now() > game.time * 1){
       willPlay = false;
     } 
-        
+    console.log(this.props)
     return (
         <div>
           <form onSubmit = { onSave }>
@@ -76,8 +94,31 @@ async onSave(ev){
                 <h4>This Game will be played on :</h4>
                 {/* ideally this would hring up the map again not a clue how to do that might ask Taylor */}
                 <p>Location</p>  
-                <input name='location' value={ location }  className='form-control' onChange = { onChange }/>
-                <hr/> 
+                {!this.state.searched ? (
+                  <div>
+                    <label htmlFor='zipcode'>Zipcode:</label>
+                    <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+                    <button onClick={this.courtSubmit}>Find Courts</button>
+                  </div>
+                ): (
+                  <div className='courtFinder'>
+                    <div className= 'courtForm'>
+                      <label htmlFor='court'>Court:</label>
+                      <select onChange={this.handleInputs} name='location' value={ location }>
+                        <option>Select One</option>
+                        {this.state.courts.map((court, idx)=>{
+                          return(<option key={idx} value={idx} >Court: {court.objectid}</option>)
+                        })}
+                      </select>      
+                    </div>
+                    <div className='courtMap'>
+                      <CourtMap courts={this.state.courts}/>
+                    </div>
+                  </div>
+                )}
+                <label>Current Location:</label>
+                <input name='location' value={ location } onChange = { onChange }/>
+                <br/>
                 <label htmlFor='date'>Date and Time:</label>
                 <hr/>
                 {/* Time is a pain, there is a weird extra character on ours */}
