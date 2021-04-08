@@ -114,7 +114,7 @@ class FindGame extends Component{
                             </div> ) : (
                               <button type='button' className='text-center btn btn-primary' onClick={()=>guestUser(game)}>Sign up for an account</button>
                           )
-                        }
+                          }
                         </div>
                       )
                     })
