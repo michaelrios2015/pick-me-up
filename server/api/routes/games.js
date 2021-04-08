@@ -41,6 +41,24 @@ router.get('/open/:zipcode', async(req, res, next)=> {
   }
 });
 
+router.get('/open/', async(req, res, next)=> {
+  try {
+    let games = await Game.findAll({
+      where: {
+        open: true,
+      },
+			include: [ User ]
+    });
+		console.log(games);
+
+		res.send(games)
+
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
 //gets all closed games
 router.get('/closed', async(req, res, next)=> {
   try {

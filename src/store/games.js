@@ -97,6 +97,13 @@ export const loadSingleGame = (userId) => {
 	return async (dispatch) => {
 		const game = (await axios.get(`/api/games/${userId}`)).data;
 		dispatch(_loadSingleGame(game));
+	}
+}
+
+export const loadAllOpenGames = () => {
+	return async (dispatch) => {
+		const games = (await axios.get(`/api/games/open/`)).data;
+		dispatch(_loadGames(games));
 	};
 };
 
