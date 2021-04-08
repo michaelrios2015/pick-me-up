@@ -68,19 +68,39 @@ class Chat extends Component{
                 messages.map(message => {
                   return (
                     <li key={message.id}>
-                      <div className='chat-single-message'>
-                        <div className='chat-date'>
-                          { moment(message.date).format("MMMM Do, h:mm a") }
-                        </div>
-                        <div>
-                          <div className='chat-Sender'>
-                            { message.user.name }:
-                          </div> 
-                          <div className='chat-Message'>
-                            { message.content }
+                      {
+                        message.userId === user.id ? (
+                          <div className='chat-single-message-send'>
+                            <div className='chat-message-send'>
+                              { message.content }
+                            </div>
+                            <div className='chat-name-date-send'>
+                              <div className='chat-name-send'>
+                                { message.user.name }
+                              </div> 
+                              <div className='chat-date-send'>
+                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                                <div>{ moment(message.date).format("h:mm a") }</div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        ) : (
+                          <div className='chat-single-message-receive'>
+                            <div className='chat-name-date-receive'>
+                              <div className='chat-name-receive'>
+                                { message.user.name }
+                              </div> 
+                              <div className='chat-date-receive'>
+                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                                <div>{ moment(message.date).format("h:mm a") }</div>
+                              </div>
+                            </div>
+                            <div className='chat-message-receive'>
+                              { message.content }
+                            </div>
+                          </div>
+                        )
+                      }
                     </li>
                   )
                 })
