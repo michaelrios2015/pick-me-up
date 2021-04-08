@@ -7,12 +7,13 @@ import GameMap from './GameMap'
 
 
 class FindGame extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       zipcode: '',
       showCourts: false
     }
+    this.guestUser = this.guestUser.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.courtSubmit = this.courtSubmit.bind(this)
     this.handleInputs = this.handleInputs.bind(this)
@@ -39,7 +40,6 @@ class FindGame extends Component{
     else {
       teamToJoin = 'TEAM B';
     }
-
     if(Date.now() < game.time * 1){
       // console.log(game.users.length)
       // console.log(teamToJoin)
@@ -56,10 +56,16 @@ class FindGame extends Component{
     this.props.loadOpenGames();
   };
 
+  guestUser(game){
+    this.props.history.push('/signup')
+    localStorage.setItem('game', JSON.stringify(game));
+    console.log(game);
+  }
+
   
   render(){
-    const { games } = this.props;
-    const { joinGame } = this;
+    const { games, user } = this.props;
+    const { joinGame, guestUser } = this;
     console.log(games)
       return (
         <div className='findGame'>
@@ -81,7 +87,7 @@ class FindGame extends Component{
 
             {games.length > 0 ? (
               <div className='courtFinder'>
-                <div >
+                <div>
                   {
                     games.map(game => {
                       const players = game.users;
@@ -89,9 +95,13 @@ class FindGame extends Component{
                       return (
                         <div key={game.id} className='cardAndButton'>
                           <GameCard game={game} players={players} openGame={true}/>
-                          <div>
-                            <button  type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
-                          </div>
+                          { user.id ? 
+                          ( <div>
+                              <button type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
+                            </div> ) : (
+                              <button type='button' className='text-center btn btn-primary' onClick={()=>guestUser(game)}>Sign up for an account</button>
+                          )
+                        }
                         </div>
                       )
                     })

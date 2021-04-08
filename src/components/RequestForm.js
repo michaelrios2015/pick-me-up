@@ -55,7 +55,7 @@ export class RequestForm extends React.Component {
       // winner: 'tbd',
       // finalScore: 'tbd',
       done: false,
-      host: 13, //need to change to user.id
+      host: user.id, //need to change to user.id
       zipcode: this.state.zipcode,
       long:`${this.state.courts[courtidx].the_geom.coordinates[0][0][0][0]}`,
       lat: `${this.state.courts[courtidx].the_geom.coordinates[0][0][0][1]}`,
@@ -84,6 +84,7 @@ export class RequestForm extends React.Component {
   }
   }
   render(){
+    console.log(this.props.user)
     if(!this.state.finished){
       return(
         <div id='requestBox' className='container justify-content-center' >
