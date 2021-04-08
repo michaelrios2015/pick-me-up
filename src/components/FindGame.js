@@ -72,7 +72,7 @@ class FindGame extends Component{
           <div className='filterZip'>
             <h3>Filter by Zipcode</h3>
             <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-            <button onClick={this.courtSubmit}>Find Courts</button>
+            <button  type='button' className='text-center btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
             <div className='card-body'>
@@ -97,12 +97,12 @@ class FindGame extends Component{
                           <GameCard game={game} players={players} openGame={true}/>
                           { user.id ? 
                           ( <div>
-                              <button onClick={()=>joinGame(game)}>Join this game</button>
+                              <button type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
                             </div> ) : (
-                              <button onClick={()=>guestUser(game)}>Sign up for an account</button>
+                              <button type='button' className='text-center btn btn-primary' onClick={()=>guestUser(game)}>Sign up for an account</button>
                           )
                         }
-                          </div>
+                        </div>
                       )
                     })
                   }
