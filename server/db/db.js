@@ -36,7 +36,7 @@ if(process.env.LOGGING){
 // const db = new Sequelize('basketball', 'postgres', 'master', {
 //   dialect: 'postgres'
 // })
-// MAC
+MAC
 const db = new Sequelize(
 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
 );
