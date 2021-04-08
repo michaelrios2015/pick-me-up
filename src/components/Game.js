@@ -31,7 +31,7 @@ export class Game extends Component{
 componentDidMount(prevProps){
 
   this.props.bootstrap();
-  console.log(this.props);
+  console.log(this.props.location.pathname);
   // console.log(prevProps);
 
   
