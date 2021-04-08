@@ -65,7 +65,7 @@ class FindGame extends Component{
           <div className='filterZip'>
             <h3>Filter by Zipcode</h3>
             <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-            <button onClick={this.courtSubmit}>Find Courts</button>
+            <button  type='button' className='text-center btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
             <div className='card-body'>
@@ -80,7 +80,7 @@ class FindGame extends Component{
 
             {games.length > 0 ? (
               <div className='courtFinder'>
-                <div>
+                <div >
                   {
                     games.map(game => {
                       const players = game.users;
@@ -89,7 +89,7 @@ class FindGame extends Component{
                         <div key={game.id} className='cardAndButton'>
                           <GameCard game={game} players={players} openGame={true}/>
                           <div>
-                            <button onClick={()=>joinGame(game)}>Join this game</button>
+                            <button  type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
                           </div>
                         </div>
                       )

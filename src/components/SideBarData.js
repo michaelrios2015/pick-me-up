@@ -9,13 +9,13 @@ import * as IconName  from "react-icons/bs";
 export const SideBarData = [
   
   {
-    title: 'home',
+    title: 'Home',
     path: '/',
     icon: <AiIcons.AiFillHome />,
     cName: 'nav-text'
   },
   {
-    title: 'mystats',
+    title: 'MyStats',
     path: '/stats',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'
@@ -27,13 +27,13 @@ export const SideBarData = [
     cName: 'nav-text'
   },
   {
-    title: 'account',
+    title: 'Account',
     path: '/account',
     icon: <FaIcons.FaEnvelopeOpenText />,
     cName: 'nav-text'
   },
   {
-    title: 'logout',
+    title: 'Logout',
     path: '/login',
     icon: <IconName.BsFillXCircleFill /> ,
     cName: 'nav-text'
