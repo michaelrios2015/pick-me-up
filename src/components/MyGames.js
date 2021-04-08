@@ -46,21 +46,23 @@ class MyGames extends Component {
 		if(games.length >0){
 				return (
 					<div>
-						<div className='myGamesHeader'>
+						<div className='myGamesHeader' >
 							<h1>You have {games.length} upcoming games!</h1>
 						</div>
 						<div className='courtFinder'>
-							<div>
-								<div className='myGamesList'>
+							<div > 
+								<div className='myGamesList' className = 'container justify-content-center'>
 									{games.map((game) => {
 										const players = game.users;
 										return (
-											<div key={game.id} className='cardAndButton'>
+											<div key={game.id} className='card-body' style={{ width: 375 + 'px' }}>
 												<GameCard game={game} players={players} openGame={true} />
-												<div>
-													<button onClick={() => leaveGame(game)}>
+												<div >
+													<center>
+													<button type='button' className='text-center btn btn-primary' onClick={() => leaveGame(game)}>
 														Leave this game
 													</button>
+													</center>
 												</div>
 											</div>
 										);
