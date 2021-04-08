@@ -69,7 +69,7 @@ class FindGame extends Component{
             <button onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
-            <div>
+            <div className='card-body'>
               {
                 games.length > 0 ? (
                   <h1>{games.length} Games are currently open!</h1>
@@ -109,6 +109,7 @@ class FindGame extends Component{
   
   }
 };
+
 
 const mapState = ({ games, users }) => {
   return {

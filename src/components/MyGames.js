@@ -23,6 +23,23 @@ class MyGames extends Component {
 		this.props.loadOpenGamesForUser(this.props.user.id, token);
 	}
 
+//               return (
+//                 <div key={game.id} className='card-body' >
+//                   <GameCard game={game} players={players} openGame={true}/>
+//                   <div>
+//                     <center> 
+//                       <button type='button' className='text-center btn btn-primary' onClick={()=>leaveGame(game)}>Leave this game</button> 
+//                       </center>
+//                   </div>
+//                 </div>
+//               )
+//             })
+//           }
+//         </div>
+//       </div>
+//     );
+//   }
+// };
 	render() {
 		const { games, user } = this.props;
 		const { leaveGame } = this;
@@ -30,12 +47,8 @@ class MyGames extends Component {
 				return (
 					<div>
 						<div className='myGamesHeader'>
-								{games.length > 0 ? (
-									<h1>You have {games.length} upcoming games!</h1>
-								) : (
-									<h1>You have no upcoming games.</h1>
-								)}
-							</div>
+							<h1>You have {games.length} upcoming games!</h1>
+						</div>
 						<div className='courtFinder'>
 							<div>
 								<div className='myGamesList'>
@@ -63,29 +76,7 @@ class MyGames extends Component {
 		}else{
 			return(
 				<div>
-					<div className='myGamesHeader'>
-						{games.length > 0 ? (
-							<h1>You have {games.length} upcoming games!</h1>
-						) : (
-							<h1>You have no upcoming games.</h1>
-						)}
-					</div>
-					{/* <div>
-						{games.map((game) => {
-							const players = game.users;
-
-							return (
-								<div key={game.id}>
-									<GameCard game={game} players={players} openGame={true} />
-									<div>
-										<button onClick={() => leaveGame(game)}>
-											Leave this game
-										</button>
-									</div>
-								</div>
-							);
-						})}
-					</div> */}
+					<h1>You have no upcoming games.</h1>
 				</div>
 			)
 		}
