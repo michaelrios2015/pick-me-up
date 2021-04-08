@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import GameCard from "./GameCard";
 import { loadOpenGamesForUser } from "../store/games";
 import axios from "axios";
+import GameMap from './GameMap'
 
 class MyGames extends Component {
 	constructor() {
@@ -42,36 +43,43 @@ class MyGames extends Component {
 	render() {
 		const { games, user } = this.props;
 		const { leaveGame } = this;
-
-		return (
-			<div>
-				<div >
-					{games.length > 0 ? (
-						<h1>You have {games.length} upcoming games!</h1>
-					) : (
-						<h1>You have no upcoming games.</h1>
-					)}
-				</div>
-				<div>
-					{games.map((game) => {
-						const players = game.users;
-
-						return (
-							<div key={game.id} className='card-body'>
-								<GameCard game={game} players={players} openGame={true} />
-								<div>
-                  <center>
-									<button type='button' className='text-center btn btn-primary' onClick={() => leaveGame(game)}>
-										Leave this game
-									</button>
-                  </center>
-                </div>
+		if(games.length >0){
+				return (
+					<div>
+						<div className='myGamesHeader'>
+							<h1>You have {games.length} upcoming games!</h1>
+						</div>
+						<div className='courtFinder'>
+							<div>
+								<div className='myGamesList'>
+									{games.map((game) => {
+										const players = game.users;
+										return (
+											<div key={game.id} className='cardAndButton'>
+												<GameCard game={game} players={players} openGame={true} />
+												<div>
+													<button onClick={() => leaveGame(game)}>
+														Leave this game
+													</button>
+												</div>
+											</div>
+										);
+									})}
+								</div>
 							</div>
-						);
-					})}
+							<div className='courtMap'>
+										<GameMap courts={games}/>
+							</div>
+						</div>
+					</div>
+				);
+		}else{
+			return(
+				<div>
+					<h1>You have no upcoming games.</h1>
 				</div>
-			</div>
-		);
+			)
+		}
 	}
 }
 

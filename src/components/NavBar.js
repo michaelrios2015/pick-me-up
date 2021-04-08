@@ -5,11 +5,10 @@ import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import { SideBarData } from './SideBarData'
 import { IconContext } from 'react-icons'
-// import { loadUser, usersReducer } from "../store";
-
 
 import { clearUser } from "../store/users";
 import { useHistory } from "react-router";
+
 
 const Navbar = (props) => {
   // we got location is a different way in class but could not replicate so used this
@@ -67,6 +66,7 @@ const Navbar = (props) => {
         </nav>
         </IconContext.Provider>
     
+
       <div className=' nav nav-tabs justify-content-around'>
         <Link className='nav-link text-dark' to='/'>Home</Link>
         <button className = "nav-link btn btn-danger text-dark" onClick={()=>props.logout(history)}>logout</button>

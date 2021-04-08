@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-import { loadOpenGames } from '../store/games';
+import { loadOpenGames, loadAllOpenGames } from '../store/games';
 import axios from 'axios';
 import GameMap from './GameMap'
 
@@ -19,7 +19,7 @@ class FindGame extends Component{
   };
 
   componentDidMount(){
-    // this.props.loadOpenGames();
+    this.props.loadAllOpenGames();
   };
   async courtSubmit(ev){
     ev.preventDefault()
@@ -60,54 +60,52 @@ class FindGame extends Component{
   render(){
     const { games } = this.props;
     const { joinGame } = this;
-    // console.log(games)
-    if(games.length === 0 ){
+    console.log(games)
       return (
-        <div className='container justify-content-center' >
-          <div className='form-group'>
-          <label htmlFor='zipcode'>Zipcode:</label>
-          <input type="text" id="zipcode" name="zipcode" className='form-control' onChange={this.handleInputs}/>
-          <button type='submit' className='btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
-          </div> 
-        </div>
-      )
-    }
-    if(games.length > 0){
-      return (
-        <div>
-          <div>
-            {
-              games.length > 0 ? (
-                <h1>{games.length} Games are currently open!</h1>
-              ) : (
-                <h1>Sorry, there are no open games. Please Check back later.</h1>
-              )
-            }
+        <div className='findGame'>
+          <div className='filterZip'>
+            <h3>Filter by Zipcode</h3>
+            <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+            <button onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
             <div className='card-body'>
               {
-                games.map(game => {
-                  const players = game.users;
-  
-                  return (
-                    <div key={game.id} >
-                      <GameCard game={game} players={players} openGame={true}/>
-                      <center>
-                    <button type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
-                    </center>
-                    </div>
-                  )
-                })
+                games.length > 0 ? (
+                  <h1>{games.length} Games are currently open!</h1>
+                ) : (
+                  <h1>Sorry, there are no open games. Please Check back later.</h1>
+                )
               }
             </div>
-            <div className='courtMap'>
-              <GameMap courts={games}/>
-            </div>
+
+            {games.length > 0 ? (
+              <div className='courtFinder'>
+                <div>
+                  {
+                    games.map(game => {
+                      const players = game.users;
+      
+                      return (
+                        <div key={game.id} className='cardAndButton'>
+                          <GameCard game={game} players={players} openGame={true}/>
+                          <div>
+                            <button onClick={()=>joinGame(game)}>Join this game</button>
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+                <div className='courtMap'>
+                  <GameMap courts={games}/>
+                </div>
+              </div>
+            ): ''}
           </div>
         </div>
         )
-    }
+    
   
   }
 };
@@ -122,7 +120,8 @@ const mapState = ({ games, users }) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: (zipcode)=> dispatch(loadOpenGames(zipcode))
+    loadOpenGames: (zipcode)=> dispatch(loadOpenGames(zipcode)),
+    loadAllOpenGames: ()=> dispatch(loadAllOpenGames())
   }
 };
 
