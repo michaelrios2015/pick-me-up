@@ -23,17 +23,17 @@ export class RequestForm extends React.Component {
     this.handleInputs = this.handleInputs.bind(this)
     this.courtSubmit = this.courtSubmit.bind(this)
     this.submitRequest = this.submitRequest.bind(this)
+    this.handleMarkers = this.handleMarkers.bind(this)
   }
-  componentDidMount(){
-    // this.props.loadUser()
-    console.log(COURT_API)
-  }
-
+ 
   handleInputs(ev){
     const {name, value} = ev.target
     this.setState({[name] : value})
   }
   
+  handleMarkers(court){
+    this.setState({chosenCourt: court.objectid})
+  }
   async courtSubmit(ev){
     ev.preventDefault()
     const courts =  (await axios.get(`https://data.cityofnewyork.us/resource/9wwi-sb8x.json?$$app_token=${COURT_API}&basketball=Yes&zipcode=${this.state.zipcode}`)).data
@@ -44,10 +44,10 @@ export class RequestForm extends React.Component {
     ev.preventDefault()
     const user = this.props.user
     // const user = (await axios.get('/api/users/13')).data
-    const courtidx = this.state.chosenCourt
-    console.log(this.state.courts[courtidx].the_geom)
+    const court = this.state.courts.filter((court)=> court.objectid === this.state.chosenCourt)
+    console.log(court[0])
     const game = {
-      location: this.state.courts[courtidx].objectid,
+      location: this.state.chosenCourt,
       // time: new Date(this.state.time).getTime(),
       dateAndTime: this.state.date,
       open: true,
@@ -57,8 +57,8 @@ export class RequestForm extends React.Component {
       done: false,
       host: 13, //need to change to user.id
       zipcode: this.state.zipcode,
-      long:`${this.state.courts[courtidx].the_geom.coordinates[0][0][0][0]}`,
-      lat: `${this.state.courts[courtidx].the_geom.coordinates[0][0][0][1]}`,
+      long:`${court[0].the_geom.coordinates[0][0][0][0]}`,
+      lat: `${court[0].the_geom.coordinates[0][0][0][1]}`,
     }
     const alerts = []
     for(const [key,val] of Object.entries(game)){
@@ -84,7 +84,6 @@ export class RequestForm extends React.Component {
   }
   }
   render(){
-    console.log(this.props.user)
     if(!this.state.finished){
       return(
         <div id='requestBox'>
@@ -100,10 +99,18 @@ export class RequestForm extends React.Component {
               <div className='courtFinder'>
                 <div className= 'courtForm'>
                   <label htmlFor='court'>Court:</label>
-                  <select onChange={this.handleInputs} name='chosenCourt'>
-                    <option>Select One</option>
+                  <select onChange={this.handleInputs} name='chosenCourt' >
+                    {this.state.chosenCourt ? (
+                      <option value={this.state.chosenCourt} >Court: {this.state.chosenCourt}</option>
+                    ): (
+                      <option>Select One</option>
+                    )}
                     {this.state.courts.map((court, idx)=>{
-                      return(<option key={idx} value={idx} >Court: {court.objectid}</option>)
+                      if(court.objectid === this.state.chosenCourt){
+                        return
+                      }else{
+                        return(<option key={idx} value={court.objectid} >Court: {court.objectid}</option>)
+                      }
                     })}
                   </select>
                   {/* Jason- changed Game model to take date and time as game.dateAndTime and use that to calculate milliseconds for game.time so we can expire old games */}
@@ -114,7 +121,7 @@ export class RequestForm extends React.Component {
                   <button onClick={this.submitRequest}>Pick Up!</button>
                 </div>
                 <div className='courtMap'>
-                  <CourtMap courts={this.state.courts}/>
+                  <CourtMap courts={this.state.courts} handleMarkers={this.handleMarkers}/>
                 </div>
               </div>
             )}

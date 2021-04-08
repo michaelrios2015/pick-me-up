@@ -11,15 +11,17 @@ class FindGame extends Component{
     super();
     this.state = {
       zipcode: '',
-      showCourts: false
+      showCourts: false,
+      allGames: []
     }
     this.joinGame = this.joinGame.bind(this);
     this.courtSubmit = this.courtSubmit.bind(this)
     this.handleInputs = this.handleInputs.bind(this)
   };
 
-  componentDidMount(){
-    this.props.loadAllOpenGames();
+  async componentDidMount(){
+    await this.props.loadAllOpenGames();
+    this.setState({allGames: this.props.games})
   };
   async courtSubmit(ev){
     ev.preventDefault()
@@ -60,12 +62,23 @@ class FindGame extends Component{
   render(){
     const { games } = this.props;
     const { joinGame } = this;
-    console.log(games)
+    const zipcodes = []
+    console.log(this.state)
       return (
         <div className='findGame'>
           <div className='filterZip'>
             <h3>Filter by Zipcode</h3>
-            <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
+            <select onChange={this.handleInputs} name='zipcode'>
+              <option>Choose a Zipcode</option>
+              {this.state.allGames.map((game,idx)=>{
+                if(!zipcodes.includes(game.zipcode)){
+                  zipcodes.push(game.zipcode)
+                  return(
+                    <option key={idx} value={game.zipcode}>{game.zipcode}</option>
+                  )
+                }
+              })}
+            </select>
             <button onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
