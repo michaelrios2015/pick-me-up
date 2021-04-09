@@ -1,9 +1,9 @@
 const db = require("./db");
 const Game = require("./models/Game");
+const Message = require("./models/Message");
 const Request = require("./models/Request");
 const UserGame = require("./models/UserGame");
 const User = require("./models/User");
-const Message = require("./models/Message");
 require('dotenv').config();
 
 module.exports = {
