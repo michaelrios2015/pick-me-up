@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../store/users";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 
 const Login = () => {
 	// state
@@ -12,8 +14,17 @@ const Login = () => {
 	// Redux
 	const dispatch = useDispatch();
 
+
+	// history 
+	const history = useHistory();
+	// console.log(history)
+	// console.log(props)
+
 	// form submit
 	const login = async () => {
+		
+
+
 		if (!email || !password) {
 			setError("Error: Please fill out both email and password fields");
 		} else {
@@ -22,9 +33,12 @@ const Login = () => {
 				const request = { email, password };
 				console.log(request);
 				const response = await axios.post("/api/login", request);
+				// console.log(response.data);
 				localStorage.setItem("pickmeup-token", response.data.token);
 				dispatch(loadUser(response.data.id));
 				setError("Success");
+				history.push('/');
+
 			} catch (er) {
 				console.log(er);
 				setError("Error: Invalid email or password. Please try again.");
@@ -33,27 +47,39 @@ const Login = () => {
 	};
 
 	return (
-		<div>
-			<form>
+		<div className='container justify-content-center'  > 
+			
+			<form> 
+				<div className='form-group'> 
+				<label htmlFor="email">Email Address</label>
 				<input
 					type="text"
 					id="email"
 					value={email}
+					className='form-control'
 					onChange={(ev) => {
 						setEmail(ev.target.value);
 					}}
 				/>
+				</div>
+				<div className='form-group'>
+				<label htmlFor="password">Password</label>
 				<input
 					type="text"
 					id="password"
 					value={password}
+					className='form-control'
 					onChange={(ev) => {
 						setPassword(ev.target.value);
 					}}
 				/>
+				</div>
 			</form>
 			<button onClick={login}>Log In</button>
 			{error && <p>{error}</p>}
+			<p>
+				Not a user yet? <Link to="/signup">Sign up for a new account.</Link>
+			</p>
 		</div>
 	);
 };

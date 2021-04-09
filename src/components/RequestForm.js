@@ -6,6 +6,7 @@ import {loadUser} from '../store/users'
 import CourtMap from './CourtMap'
 
 const COURT_API = process.env.COURT_API
+// git console.log(process.env.COURT_API);
 
 export class RequestForm extends React.Component {
   constructor(props){
@@ -22,15 +23,16 @@ export class RequestForm extends React.Component {
     this.handleInputs = this.handleInputs.bind(this)
     this.courtSubmit = this.courtSubmit.bind(this)
     this.submitRequest = this.submitRequest.bind(this)
+    this.handleMarkers = this.handleMarkers.bind(this)
   }
-  componentDidMount(){
-    // this.props.loadUser()
-    console.log(COURT_API)
-  }
-
+ 
   handleInputs(ev){
     const {name, value} = ev.target
     this.setState({[name] : value})
+  }
+  
+  handleMarkers(court){
+    this.setState({chosenCourt: court.objectid})
   }
   async courtSubmit(ev){
     ev.preventDefault()
@@ -42,10 +44,10 @@ export class RequestForm extends React.Component {
     ev.preventDefault()
     const user = this.props.user
     // const user = (await axios.get('/api/users/13')).data
-    const courtidx = this.state.chosenCourt
-    console.log(this.state.courts[courtidx].the_geom)
+    const court = this.state.courts.filter((court)=> court.objectid === this.state.chosenCourt)
+    console.log(court[0])
     const game = {
-      location: this.state.courts[courtidx].objectid,
+      location: this.state.chosenCourt,
       // time: new Date(this.state.time).getTime(),
       dateAndTime: this.state.date,
       open: true,
@@ -53,10 +55,10 @@ export class RequestForm extends React.Component {
       // winner: 'tbd',
       // finalScore: 'tbd',
       done: false,
-      host: 13, //need to change to user.id
+      host: user.id, //need to change to user.id
       zipcode: this.state.zipcode,
-      long:`${this.state.courts[courtidx].the_geom.coordinates[0][0][0][0]}`,
-      lat: `${this.state.courts[courtidx].the_geom.coordinates[0][0][0][1]}`,
+      long:`${court[0].the_geom.coordinates[0][0][0][0]}`,
+      lat: `${court[0].the_geom.coordinates[0][0][0][1]}`,
     }
     const alerts = []
     for(const [key,val] of Object.entries(game)){
@@ -84,24 +86,32 @@ export class RequestForm extends React.Component {
   render(){
     if(!this.state.finished){
       return(
-        <div id='requestBox'>
+        <div id='requestBox' className='container justify-content-center' >
           <h1>Pick Up a Game</h1>
-          <h2>Pull name and display here</h2>
+          <hr></hr>
           <form>
             {!this.state.showCourts ? (
-              <div>
+              <div className='form-group'>
                 <label htmlFor='zipcode'>Zipcode:</label>
-                <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-                <button onClick={this.courtSubmit}>Find Courts</button>
+                <input type="text" id="zipcode" name="zipcode" className='form-control' onChange={this.handleInputs}/>
+                <button type='submit' className='btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
               </div>
             ) : (
-              <div className='courtFinder'>
-                <div className= 'courtForm'>
+              <div className='courtFinder' >
+                <div className= 'courtForm' >
                   <label htmlFor='court'>Court:</label>
-                  <select onChange={this.handleInputs} name='chosenCourt'>
-                    <option>Select One</option>
+                  <select onChange={this.handleInputs} name='chosenCourt' >
+                    {this.state.chosenCourt ? (
+                      <option value={this.state.chosenCourt} >Court: {this.state.chosenCourt}</option>
+                    ): (
+                      <option>Select One</option>
+                    )}
                     {this.state.courts.map((court, idx)=>{
-                      return(<option key={idx} value={idx} >Court: {court.objectid}</option>)
+                      if(court.objectid === this.state.chosenCourt){
+                        return
+                      }else{
+                        return(<option key={idx} value={court.objectid} >Court: {court.objectid}</option>)
+                      }
                     })}
                   </select>
                   {/* Jason- changed Game model to take date and time as game.dateAndTime and use that to calculate milliseconds for game.time so we can expire old games */}
@@ -109,10 +119,10 @@ export class RequestForm extends React.Component {
                   <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>
                   {/* <label htmlFor='time'>Time:</label>
                   <input type="datetime-local" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/> */}
-                  <button onClick={this.submitRequest}>Pick Up!</button>
+                  <button className='btn btn-primary' onClick={this.submitRequest}>Pick Up!</button>
                 </div>
                 <div className='courtMap'>
-                  <CourtMap courts={this.state.courts}/>
+                  <CourtMap courts={this.state.courts} handleMarkers={this.handleMarkers}/>
                 </div>
               </div>
             )}
@@ -128,6 +138,7 @@ export class RequestForm extends React.Component {
     }
   }
 }
+
 
 const mapState = ({ users }) => {
   return {

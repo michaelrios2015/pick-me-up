@@ -1,89 +1,112 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import GameCard from "./GameCard";
+import { loadOpenGamesForUser } from "../store/games";
+import axios from "axios";
+import GameMap from './GameMap';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import GameCard from './GameCard';
-import { loadOpenGamesForUser } from '../store/games';
-import axios from 'axios';
 
-class MyGames extends Component{
-  constructor(){
-    super();
+class MyGames extends Component {
+	constructor() {
+		super();
 
-    this.leaveGame = this.leaveGame.bind(this);
-  };
+		this.leaveGame = this.leaveGame.bind(this);
+	}
 
-  componentDidMount(){
-    this.props.loadOpenGamesForUser(this.props.user.id);
-  };
-  
-  async leaveGame(game) {
-    const token = localStorage.getItem("pickmeup-token");
-    await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
-    this.props.loadOpenGamesForUser(this.props.user.id, token);
-  }
-  // async leaveGame(game){
-  //   await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
-  //   this.props.loadOpenGamesForUser(this.props.user.id);
-  // };
+	componentDidMount() {
+		const token = localStorage.getItem("pickmeup-token");
+		this.props.loadOpenGamesForUser(this.props.user.id, token);
+	}
 
-  
-  render(){
-    const { games, user } = this.props;
-    const { leaveGame } = this;
-    
-    return (
-      <div>
-        <div>
-          {
-            games.length > 0 ? (
-              <h1>You have {games.length} upcoming games!</h1>
-            ) : (
-              <h1>You have no upcoming games.</h1>
-            )
-          }
-        </div>
-        <div>
-          {
-            games.map(game => {
-              const players = game.users;
+	async leaveGame(game) {
+		const token = localStorage.getItem("pickmeup-token");
+		await axios.delete(`/api/user_games/${game.id}/${this.props.user.id}`);
+		this.props.loadOpenGamesForUser(this.props.user.id, token);
+	}
 
-              return (
-                <div key={game.id} >
-                  <GameCard game={game} players={players} openGame={true}/>
-                  <div>
-                    <button onClick={()=>leaveGame(game)}>Leave this game</button>
-                    <Link 
-                      to={{ 
-                        pathname:`/chat/${game.chatId}`,
-                        state: { gameId: game.id }
-                      }}
-                    >
-                      Chat
-                    </Link>
-                  </div>
-                </div>
-              )
-            })
-          }
-        </div>
-      </div>
-    );
-  }
-};
+//               return (
+//                 <div key={game.id} className='card-body' >
+//                   <GameCard game={game} players={players} openGame={true}/>
+//                   <div>
+//                     <center> 
+//                       <button type='button' className='text-center btn btn-primary' onClick={()=>leaveGame(game)}>Leave this game</button> 
+//                       </center>
+//                   </div>
+//                 </div>
+//               )
+//             })
+//           }
+//         </div>
+//       </div>
+//     );
+//   }
+// };
+	render() {
+		const { games, user } = this.props;
+		const { leaveGame } = this;
+		if(games.length >0){
+				return (
+					<div>
+						<div className='myGamesHeader' >
+							<h1>You have {games.length} upcoming games!</h1>
+						</div>
+						<div className='courtFinder'>
+							<div > 
+								<div className='myGamesList' className = 'container justify-content-center'>
+									{games.map((game) => {
+										const players = game.users;
+										return (
+											<div key={game.id} className='card-body' style={{ width: 375 + 'px' }}>
+												<GameCard game={game} players={players} openGame={true} />
+												<div >
+													<center>
+													<button type='button' className='text-center btn btn-primary' onClick={() => leaveGame(game)}>
+														Leave this game
+													</button>
+													<Link 
+														//this is setting the url path and persisting gameid in state when chat loads
+														to={{ 
+															pathname:`/chat/${game.chatId}`,
+															state: { gameId: game.id }
+														}}
+													>
+														Chat
+													</Link>
+													</center>
+												</div>
+											</div>
+										);
+									})}
+								</div>
+							</div>
+							<div className='courtMap'>
+										<GameMap courts={games}/>
+							</div>
+						</div>
+					</div>
+				);
+		}else{
+			return(
+				<div>
+					<h1>You have no upcoming games.</h1>
+				</div>
+			)
+		}
+	}
+}
 
 const mapState = ({ games, users }) => {
-  return {
-    games: games.open,
-    user: users.single
-  }
+	return {
+		games: games.openForUser,
+		user: users.single,
+	};
 };
 
-const mapDispatch = dispatch => {
-  return {
-    loadOpenGamesForUser: (userId)=> dispatch(loadOpenGamesForUser(userId))
-  }
+const mapDispatch = (dispatch) => {
+	return {
+		loadOpenGamesForUser: (userId, token) =>
+			dispatch(loadOpenGamesForUser(userId, token)),
+	};
 };
-
 
 export default connect(mapState, mapDispatch)(MyGames);
-

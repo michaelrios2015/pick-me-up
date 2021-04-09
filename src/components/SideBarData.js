@@ -7,29 +7,37 @@ import * as IoIcons from "react-icons/io"
 import * as IconName  from "react-icons/bs";
 
 export const SideBarData = [
+  
   {
-    title: 'home',
+    title: 'Home',
     path: '/',
     icon: <AiIcons.AiFillHome />,
     cName: 'nav-text'
   },
   {
-    title: 'mystats',
+    title: 'MyStats',
     path: '/stats',
     icon: <IoIcons.IoIosPaper />,
     cName: 'nav-text'
   },
   {
-    title: 'account',
+    title: 'GamesHosted',
+    path: '/gameshosted',
+    icon: <AiIcons.AiFillDatabase /> ,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Account',
     path: '/account',
     icon: <FaIcons.FaEnvelopeOpenText />,
     cName: 'nav-text'
   },
   {
-    title: 'logout',
+    title: 'Logout',
     path: '/login',
     icon: <IconName.BsFillXCircleFill /> ,
     cName: 'nav-text'
   }
+  
   
 ]

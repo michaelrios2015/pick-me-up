@@ -79,8 +79,8 @@ class Chat extends Component{
                                 { message.user.name }
                               </div> 
                               <div className='chat-date-send'>
-                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
                                 <div>{ moment(message.date).format("h:mm a") }</div>
+                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
                               </div>
                             </div>
                           </div>

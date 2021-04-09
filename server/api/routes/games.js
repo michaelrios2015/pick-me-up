@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { models: {User, Game}  } = require('../../db');
 const { Op } = require("sequelize");
+const passport = require("passport");
 
 //gets all games
 router.get("/", async (req, res, next) => {
@@ -11,16 +12,47 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
+// get an individual game
+router.get("/:id", async (req, res, next) => {
+	try {
+		res.send(await Game.findByPk(req.params.id));
+	} catch (ex) {
+		next(ex);
+	}
+});
+
 //gets all open games
 router.get('/open/:zipcode', async(req, res, next)=> {
   try {
-    res.send(await Game.findAll({
+    let games = await Game.findAll({
       where: {
         open: true,
 				zipcode: req.params.zipcode
       },
 			include: [ User ]
-    }));
+    });
+		console.log(games);
+
+		res.send(games)
+
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+router.get('/open/', async(req, res, next)=> {
+  try {
+    let games = await Game.findAll({
+      where: {
+        open: true,
+      },
+			include: [ User ]
+    });
+		console.log(games);
+
+		res.send(games)
+
   }
   catch(ex){
     next(ex);
@@ -47,12 +79,52 @@ router.get('/closed', async(req, res, next)=> {
   }
 });
 
-//gets all closed games
-router.get('/hosted/:id', async(req, res, next)=> {
+//gets all closed games for user
+router.get('/closed/:id', 
+passport.authenticate("jwt", { session: false }),
+async(req, res, next)=> {
+  try {
+    let games = await Game.findAll({
+			where: {
+				[Op.and]: [
+					{ open: false },
+					{ finalScore: { [Op.not]: null } }
+				],
+			},
+			include: { 
+				model: User,
+			} 
+    });
+		// console.log(games)
+		let closedGames = [];
+		for (let i = 0; i < games.length; i++) {
+			if (games[i].finalScore !== null) {	
+				for (let j = 0; j < games[i].users.length; j++) {
+					if (games[i].users[j].id === req.user.id) {
+						// console.log(games[i]);
+						closedGames.push(games[i]);
+					}
+				}
+			}
+		}
+		// console.log(closedGames)
+		res.send(closedGames);
+  }
+  catch(ex){
+    next(ex);
+  }
+});
+
+
+//gets all hosted games for a user
+router.get('/hosted/:id', 
+passport.authenticate("jwt", { session: false }),
+async(req, res, next)=> {
+	
   try {
     res.send(await Game.findAll({
 			where: {
-				host: req.params.id
+				host: req.user.id
 			},
 			include: { 
 				model: User,

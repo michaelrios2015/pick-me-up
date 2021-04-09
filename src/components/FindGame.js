@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GameCard from './GameCard';
-import { loadOpenGames } from '../store/games';
+import { loadOpenGames, loadAllOpenGames } from '../store/games';
 import axios from 'axios';
 import GameMap from './GameMap'
 
 
 class FindGame extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       zipcode: '',
-      showCourts: false
+      showCourts: false,
+      allGames: []
     }
+    this.guestUser = this.guestUser.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.courtSubmit = this.courtSubmit.bind(this)
     this.handleInputs = this.handleInputs.bind(this)
   };
 
-  componentDidMount(){
-    // this.props.loadOpenGames();
+  async componentDidMount(){
+    await this.props.loadAllOpenGames();
+    this.setState({allGames: this.props.games})
   };
   async courtSubmit(ev){
     ev.preventDefault()
@@ -39,10 +42,9 @@ class FindGame extends Component{
     else {
       teamToJoin = 'TEAM B';
     }
-
     if(Date.now() < game.time * 1){
-      console.log(game.users.length)
-      console.log(teamToJoin)
+      // console.log(game.users.length)
+      // console.log(teamToJoin)
         const addPlayer = (await axios.post('/api/user_games', { gameId: game.id, userId: this.props.user.id, team: teamToJoin })).data;
       if(!addPlayer.created){
         window.alert('You have already joined this game.');
@@ -56,59 +58,81 @@ class FindGame extends Component{
     this.props.loadOpenGames();
   };
 
+  guestUser(game){
+    this.props.history.push('/signup')
+    localStorage.setItem('game', JSON.stringify(game));
+    console.log(game);
+  }
+
   
   render(){
-    const { games } = this.props;
-    const { joinGame } = this;
-    console.log(games)
-    if(games.length === 0 ){
+    const { games, user } = this.props;
+    const { joinGame, guestUser } = this;
+    const zipcodes = []
+
       return (
-        <div>
-          <label htmlFor='zipcode'>Zipcode:</label>
-          <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-          <button onClick={this.courtSubmit}>Find Courts</button>
-        </div>
-      )
-    }
-    if(games.length > 0){
-      return (
-        <div>
-          <div>
-            {
-              games.length > 0 ? (
-                <h1>{games.length} Games are currently open!</h1>
-              ) : (
-                <h1>Sorry, there are no open games. Please Check back later.</h1>
-              )
-            }
+        <div className='findGame'>
+          <div className='filterZip'>
+            <h3>Filter by Zipcode</h3>
+            <select onChange={this.handleInputs} name='zipcode'>
+              <option>Choose a Zipcode</option>
+              {this.state.allGames.map((game,idx)=>{
+                if(!zipcodes.includes(game.zipcode)){
+                  zipcodes.push(game.zipcode)
+                  return(
+                    <option key={idx} value={game.zipcode}>{game.zipcode}</option>
+                  )
+                }
+              })}
+            </select>
+            <button onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
-            <div>
+            <div className='card-body'>
               {
-                games.map(game => {
-                  const players = game.users;
-  
-                  return (
-                    <div key={game.id} >
-                      <GameCard game={game} players={players} openGame={true}/>
-                      <div>
-                        <button onClick={()=>joinGame(game)}>Join this game</button>
-                      </div>
-                    </div>
-                  )
-                })
+                games.length > 0 ? (
+                  <h1>{games.length} Games are currently open!</h1>
+                ) : (
+                  <h1>Sorry, there are no open games. Please Check back later.</h1>
+                )
               }
             </div>
-            <div className='courtMap'>
-              <GameMap courts={games}/>
-            </div>
+
+            {games.length > 0 ? (
+              <div className='courtFinder'>
+                <div>
+                  {
+                    games.map(game => {
+                      const players = game.users;
+      
+                      return (
+                        <div key={game.id} className='cardAndButton'>
+                          <GameCard game={game} players={players} openGame={true}/>
+                          { user.id ? 
+                          ( <div>
+                              <button type='button' className='text-center btn btn-primary' onClick={()=>joinGame(game)}>Join this game</button>
+                            </div> ) : (
+                              <button type='button' className='text-center btn btn-primary' onClick={()=>guestUser(game)}>Sign up for an account</button>
+                          )
+                        }
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+                <div className='courtMap'>
+                  <GameMap courts={games}/>
+                </div>
+              </div>
+            ): ''}
           </div>
         </div>
         )
-    }
+    
   
   }
 };
+
 
 const mapState = ({ games, users }) => {
   return {
@@ -119,7 +143,8 @@ const mapState = ({ games, users }) => {
 
 const mapDispatch = dispatch => {
   return {
-    loadOpenGames: (zipcode)=> dispatch(loadOpenGames(zipcode))
+    loadOpenGames: (zipcode)=> dispatch(loadOpenGames(zipcode)),
+    loadAllOpenGames: ()=> dispatch(loadAllOpenGames())
   }
 };
 

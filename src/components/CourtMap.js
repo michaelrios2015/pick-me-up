@@ -4,8 +4,8 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "reac
 
 const MAP_API = process.env.MAP_API
 
-const Map = withScriptjs(withGoogleMap((props) =>{
-  const courts = props.courts
+const Map = withScriptjs(withGoogleMap((props) =>{  
+  const courts = props.courts  
   const center = courts[0].the_geom.coordinates[0][0][0]
     return (
       <GoogleMap zoom={14} center={ { lat:  center[1]*1, lng: center[0]*1 } } >
@@ -13,10 +13,15 @@ const Map = withScriptjs(withGoogleMap((props) =>{
           const coord = court.the_geom.coordinates[0][0][0]
           return(
             <div>
-              <Marker key={court.objectid} position={{lat: coord[1]*1, lng: coord[0]*1}} onClick={(ev)=>props.setCourt(ev,court)}/>
+              <Marker key={court.objectid} position={{lat: coord[1]*1, lng: coord[0]*1}} onClick={(ev)=>{
+                props.setCourt(ev,court)
+                props.handleMarkers(court)
+              }}
+              />
               {props.selectedCourt === court && (
                 <InfoWindow
                 // marker= {props.marker}
+                
                  onCloseClick={() => {
                    this.setState({selectedCourt: null})
                  }}
@@ -26,9 +31,9 @@ const Map = withScriptjs(withGoogleMap((props) =>{
                  }}
               >
                 <div>
-                  <h1>Court: {court.objectid}</h1>
-                  <h3>Court Type: {court.dimensions}</h3>
-                  <h3>Zip Code: {court.zipcode}</h3>
+                  <h5>Court: {court.objectid}</h5>
+                  <p>Court Type: {court.dimensions}</p>
+                  <p>Zip Code: {court.zipcode}</p>
                 </div>
               </InfoWindow>
               )}
@@ -59,11 +64,14 @@ export default class CourtMap extends React.Component{
     this.setState({selectedCourt: court, selectedMarker: ev.target})
   }
 
+  
+
   render(){
     return (
       <div className="map-container">
         <Map
            courts={this.props.courts}
+           handleMarkers = {this.props.handleMarkers}
            marker= {this.state.selectedMarker}
            selectedCourt={this.state.selectedCourt}
            setCourt={this.setCourt}
