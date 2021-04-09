@@ -24,6 +24,7 @@ export class RequestForm extends React.Component {
     this.courtSubmit = this.courtSubmit.bind(this)
     this.submitRequest = this.submitRequest.bind(this)
     this.handleMarkers = this.handleMarkers.bind(this)
+    this.guestUser = this.guestUser.bind(this);
   }
  
   handleInputs(ev){
@@ -82,8 +83,52 @@ export class RequestForm extends React.Component {
       this.setState({finished: true})
 
   }
+
+  }
+  guestUser(ev){
+    ev.preventDefault()
+    const user = this.props.user;
+    // const user = (await axios.get('/api/users/13')).data
+    const court = this.state.courts.filter((court)=> court.objectid === this.state.chosenCourt)
+    console.log(court[0])
+    const game = {
+      location: this.state.chosenCourt,
+      // time: new Date(this.state.time).getTime(),
+      dateAndTime: this.state.date,
+      open: true,
+      // using null values to determine that no winner has been declared so commited these out 
+      // winner: 'tbd',
+      // finalScore: 'tbd',
+      done: false,
+      host: user.id, //need to change to user.id
+      zipcode: this.state.zipcode,
+      long:`${court[0].the_geom.coordinates[0][0][0][0]}`,
+      lat: `${court[0].the_geom.coordinates[0][0][0][1]}`,
+    }
+    const alerts = []
+    for(const [key,val] of Object.entries(game)){
+        if(val === ''){
+            alerts.push(key)
+        }
+    }
+    if(alerts.length > 0){
+        const string = alerts.reduce((acc,item)=>{
+            acc += `${item}\n`
+            return acc
+        },'Please fill out the following:\n')
+        alert(string)
+    }
+    if(alerts.length === 0){
+      console.log(game)
+    }
+    this.props.history.push('/signup')
+    localStorage.setItem('newGame', JSON.stringify(game));
+    console.log('hi');
+
+
   }
   render(){
+    const { user } = this.props;
     if(!this.state.finished){
       return(
         <div id='requestBox' className='container justify-content-center' >
@@ -119,7 +164,13 @@ export class RequestForm extends React.Component {
                   <input type="dateTime-local" id="date" name="date" onChange={this.handleInputs}/>
                   {/* <label htmlFor='time'>Time:</label>
                   <input type="datetime-local" id="time" name="time" min="06:00" max="20:00" onChange={this.handleInputs}/> */}
-                  <button className='btn btn-primary' onClick={this.submitRequest}>Pick Up!</button>
+                  { user.id ? 
+                    ( <div>
+                        <button className='btn btn-primary' onClick={this.submitRequest}>Pick Up!</button>
+                      </div> ) : (
+                        <button className='btn btn-primary' onClick={this.guestUser}>Sign up for an account</button>
+                      )
+                  }
                 </div>
                 <div className='courtMap'>
                   <CourtMap courts={this.state.courts} handleMarkers={this.handleMarkers}/>
