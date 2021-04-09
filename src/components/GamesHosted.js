@@ -78,7 +78,7 @@ export class GamesHosted extends Component{
                       const players = game.users;
                       return (
                         <div key={game.id} >
-                          <a href={`#/games/${game.id}`}>{game.id}</a>
+                          <a href={`#/games/${game.id}`}><h4>Edit game {game.id}</h4></a>
                           <GameCard game={game} players={players} openGame={true}/>
                         </div>
                       );
@@ -92,7 +92,7 @@ export class GamesHosted extends Component{
                       const players = game.users;
                       return (
                         <div key={game.id}>
-                        <a href={`#/games/${game.id}`}>{game.id}</a>
+                        <a href={`#/games/${game.id}`}><h4>Edit game {game.id}</h4></a>
                         <GameCard game={game} players={players} openGame={false}/>
                         </div>
                       );
@@ -106,7 +106,7 @@ export class GamesHosted extends Component{
                       const players = game.users;
                       return (
                         <div key={game.id}>
-                        <a href={`#/games/${game.id}`}>{game.id}</a>
+                        <a href={`#/games/${game.id}`}><h4>Edit game {game.id}</h4></a>
                         <GameCard game={game} players={players} openGame={false}/>
                         </div>
                       );
