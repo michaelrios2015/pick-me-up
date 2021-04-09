@@ -50,6 +50,8 @@ class Chat extends Component{
 
     // this is clearing the text from the form box after sending message
     document.getElementById('content').value = ''; 
+
+    
     
   };
 
@@ -62,7 +64,7 @@ class Chat extends Component{
     return (
       <div className='chat-container'>
         <div>
-          <div className='chat-messages'>
+          <div className='chatmessages'>
             <ul id={ gameId + '' }>
               { 
                 messages.map(message => {
@@ -70,17 +72,19 @@ class Chat extends Component{
                     <li key={message.id}>
                       {
                         message.userId === user.id ? (
-                          <div className='chat-single-message-send'>
-                            <div className='chat-message-send'>
-                              { message.content }
-                            </div>
-                            <div className='chat-name-date-send'>
-                              <div className='chat-name-send'>
-                                { message.user.name }
-                              </div> 
-                              <div className='chat-date-send'>
-                                <div>{ moment(message.date).format("h:mm a") }</div>
-                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                          <div className='chat-message-right'>
+                            <div className='chat-single-message-send'>
+                              <div className='chat-message-send'>
+                                { message.content }
+                              </div>
+                              <div className='chat-name-date-send'>
+                                <div className='chat-name-send'>
+                                  { message.user.name }
+                                </div> 
+                                <div className='chat-date-send'>
+                                  <div>{ moment(message.date).format("h:mm a") }</div>
+                                  <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -91,8 +95,8 @@ class Chat extends Component{
                                 { message.user.name }
                               </div> 
                               <div className='chat-date-receive'>
+                              <div>{ moment(message.date).format("h:mm a") }</div>
                                 <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
-                                <div>{ moment(message.date).format("h:mm a") }</div>
                               </div>
                             </div>
                             <div className='chat-message-receive'>

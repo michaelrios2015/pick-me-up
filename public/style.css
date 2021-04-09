@@ -256,58 +256,65 @@ span {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.chat-messages {
-  display: flex;
-  justify-content: space-between;
+.chatmessages {
+  /* display: flex;
+  justify-content: space-between; */
   height: 400px;
   width: 400px;
-  overflow: auto;
+  overflow: scroll;
   background-color: rgba(255, 255, 255, 0.845);
   border-radius: 3px;
   padding: 1rem;
 }
 
+.chat-message-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .chat-single-message-send {
   display: flex;
   flex-direction: row;
-  margin: 0 0 0.5rem 0;
+  margin-bottom: 0.5rem;
   border-top: .5px solid black;
   border-top-left-radius: 5px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  /* width: 100%; */
 }
 
 .chat-single-message-receive {
   display: flex;
   flex-direction: row;
-  margin: 0 0 0.5rem 0;
+  margin: 0 2rem 0.5rem 0;
   padding: 0 0 0 0.2rem;
   border-top: .5px solid black;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  /* width: 100%; */
 }
 
 .chat-message-send {
-  width: 100%;
-  background-color: dodgerblue;
-  color: cornsilk;
+  width: 75%;
+  background-color: #dc3545;
+  color: white;
   border-radius: 5px;
   padding: 5px;
   text-align: right;
 }
 
 .chat-message-receive {
-  width: 100%;
+  width: 75%;
   background-color:rgb(125, 125, 125);
   color: white;
   border-radius: 5px;
   padding: 5px;
 }
 
-.chat-messages ul > li {
+.chatmessages ul > li {
   list-style-type: none;
 }
 
@@ -325,6 +332,7 @@ span {
   padding: 2px 3px 2px 2px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  color: cornsilk;
 }
 
 #chat-input > input {
@@ -352,9 +360,11 @@ span {
 }
 
 .chat-name-date-send {
-  margin: 0 0.2rem 0 3rem;
+  width: 100px;
+  padding-right: 5px;
 }
 
 .chat-name-date-receive {
-  margin: 0 .5rem 0 0;
+  width: 100px;
+  padding-left: 5px;
 }
