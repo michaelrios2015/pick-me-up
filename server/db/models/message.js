@@ -8,7 +8,7 @@ const Message = db.define('message', {
   },
   date: {
     type: STRING
-  }
+  },
 });
 
 module.exports = Message;
