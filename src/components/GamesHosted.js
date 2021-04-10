@@ -49,11 +49,13 @@ export class GamesHosted extends Component{
         futureGames.push(game)
       }
     });
-    // console.log(games)
+    console.log(games.sort((a, b) => a.time - b.time))
     // console.log(futureGames)
     // console.log(pastGames)
-    // console.log(scoredGames)  
-   
+    // console.log(scoredGames)
+    futureGames.sort((a, b) => a.time - b.time);
+    pastGames.sort((a, b) => a.time - b.time);  
+    scoredGames.sort((a, b) => a.time - b.time);
 
     //idealy would also be able to enter teams for players of done games or have the computer 
     //do it
@@ -73,6 +75,7 @@ export class GamesHosted extends Component{
             <div className= 'myGamesList'>
               <div className='listOfGames'>
                 <h3>Games you will Host: { futureGames.length }</h3>
+                <hr></hr>
                   {  
                     futureGames.map( game => { 
                       const players = game.users;
@@ -84,9 +87,11 @@ export class GamesHosted extends Component{
                       );
                     })
                   }
+                  <br></br>
               </div>
               <div className='listOfGames'>
                 <h3>Games that need to be scored: { pastGames.length }</h3>
+                <hr></hr>
                   {  
                     pastGames.map( game => { 
                       const players = game.users;
@@ -98,9 +103,11 @@ export class GamesHosted extends Component{
                       );
                     })
                   }
+                  <br></br>
               </div>
               <div className='listOfGames'>
                 <h3>Games Hosted: { scoredGames.length }</h3>
+                <hr></hr>
                   {  
                     scoredGames.map( game => { 
                       const players = game.users;
