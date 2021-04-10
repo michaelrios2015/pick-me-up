@@ -11,7 +11,8 @@ class FindGame extends Component{
     super(props);
     this.state = {
       zipcode: '',
-      showCourts: false
+      showCourts: false,
+      allGames: []
     }
     this.guestUser = this.guestUser.bind(this);
     this.joinGame = this.joinGame.bind(this);
@@ -19,8 +20,9 @@ class FindGame extends Component{
     this.handleInputs = this.handleInputs.bind(this)
   };
 
-  componentDidMount(){
-    this.props.loadAllOpenGames();
+  async componentDidMount(){
+    await this.props.loadAllOpenGames();
+    this.setState({allGames: this.props.games})
   };
   async courtSubmit(ev){
     ev.preventDefault()
@@ -66,13 +68,24 @@ class FindGame extends Component{
   render(){
     const { games, user } = this.props;
     const { joinGame, guestUser } = this;
-    console.log(games)
+    const zipcodes = []
+
       return (
         <div className='findGame'>
           <div className='filterZip'>
             <h3>Filter by Zipcode</h3>
-            <input type="text" id="zipcode" name="zipcode" onChange={this.handleInputs}/>
-            <button  type='button' className='text-center btn btn-primary' onClick={this.courtSubmit}>Find Courts</button>
+            <select onChange={this.handleInputs} name='zipcode'>
+              <option>Choose a Zipcode</option>
+              {this.state.allGames.map((game,idx)=>{
+                if(!zipcodes.includes(game.zipcode)){
+                  zipcodes.push(game.zipcode)
+                  return(
+                    <option key={idx} value={game.zipcode}>{game.zipcode}</option>
+                  )
+                }
+              })}
+            </select>
+            <button onClick={this.courtSubmit}>Find Courts</button>
           </div>
           <div>
             <div className='card-body'>
@@ -101,7 +114,7 @@ class FindGame extends Component{
                             </div> ) : (
                               <button type='button' className='text-center btn btn-primary' onClick={()=>guestUser(game)}>Sign up for an account</button>
                           )
-                        }
+                          }
                         </div>
                       )
                     })
@@ -137,4 +150,3 @@ const mapDispatch = dispatch => {
 
 
 export default connect(mapState, mapDispatch)(FindGame);
-
