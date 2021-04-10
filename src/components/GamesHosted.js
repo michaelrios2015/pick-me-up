@@ -83,7 +83,9 @@ export class GamesHosted extends Component{
                         <div key={game.id} >
                           <a href={`#/games/${game.id}`}><h4>Edit game {game.id}</h4></a>
                           <GameCard game={game} players={players} openGame={true}/>
+                          <br></br>
                         </div>
+                        
                       );
                     })
                   }
@@ -99,6 +101,7 @@ export class GamesHosted extends Component{
                         <div key={game.id}>
                         <a href={`#/games/${game.id}`}><h4>Edit game {game.id}</h4></a>
                         <GameCard game={game} players={players} openGame={false}/>
+                        <br></br>
                         </div>
                       );
                     })
@@ -115,6 +118,7 @@ export class GamesHosted extends Component{
                         <div key={game.id}>
                         <a href={`#/games/${game.id}`}><h4>Edit game {game.id}</h4></a>
                         <GameCard game={game} players={players} openGame={false}/>
+                        <br></br>
                         </div>
                       );
                     })
