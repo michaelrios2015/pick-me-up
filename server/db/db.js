@@ -31,14 +31,14 @@ if(process.env.LOGGING){
 }
 
 // MIKE
-  const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
+  // const db = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/basketball', config);
 // JASON
 // const db = new Sequelize('basketball', 'postgres', 'master', {
 //   dialect: 'postgres'
 // })
 // MAC
-// const db = new Sequelize(
-// 	process.env.DATABASE_URL || "postgres://localhost/basketball", config
-// );
+const db = new Sequelize(
+	process.env.DATABASE_URL || "postgres://localhost/basketball", config
+);
 
 module.exports = db;
