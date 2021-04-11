@@ -18,15 +18,21 @@ class Chat extends Component{
   };
 
   async componentDidMount(){
-    const { gameId } = this.props.location.state;
-    this.props.getMessages(gameId);
+    const token = localStorage.getItem("pickmeup-token");
+    if(this.props.location.state) { 
+      let passedGameId = this.props.location.state.gameId;
+      localStorage.setItem('gameId', passedGameId)
+    }
+    const gameId = localStorage.getItem('gameId') * 1;
     const chatId = window.location.hash.slice(7);
-    
+
     this.setState({
       gameId: gameId,
       chatId: chatId,
       sender: this.props.user.name,
     });
+
+    this.props.getMessages(gameId, token);
   };
 
 
@@ -133,7 +139,7 @@ const mapState = ({ users, messages }) => {
 const mapDispatch = dispatch => {
   return {
     _createMessage: (message) => dispatch(createMessage(message)),
-    getMessages: (gameId) => dispatch(getMessages(gameId))
+    getMessages: (gameId, token) => dispatch(getMessages(gameId, token))
   }
 }
 

@@ -43,10 +43,10 @@ export const postMessage = (message) => {
 
 //thunks
 
-export const getMessages = (gameId) => {
+export const getMessages = (gameId, token) => {
   _gameId = gameId;
   return async (dispatch)=>{
-    const messages = (await axios.get(`/api/messages/${ gameId }`)).data;
+    const messages = (await axios.get(`/api/messages/${ gameId }?pickmeup-token=${token}`)).data;
     dispatch(setMessages(messages))
   }
 };
