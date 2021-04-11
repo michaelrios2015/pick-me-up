@@ -18,15 +18,22 @@ class Chat extends Component{
   };
 
   async componentDidMount(){
-    const { gameId } = this.props.location.state;
-    this.props.getMessages(gameId);
+    const token = localStorage.getItem("pickmeup-token");
+    if(this.props.location.state) { 
+      let passedGameId = this.props.location.state.gameId;
+      localStorage.setItem('gameId', passedGameId)
+    }
+    const gameId = localStorage.getItem('gameId') * 1;
     const chatId = window.location.hash.slice(7);
-    
+
     this.setState({
       gameId: gameId,
       chatId: chatId,
       sender: this.props.user.name,
     });
+
+    this.props.getMessages(gameId, token);
+    
   };
 
 
@@ -51,8 +58,9 @@ class Chat extends Component{
     // this is clearing the text from the form box after sending message
     document.getElementById('content').value = ''; 
 
-    
-    
+    let messageBox = document.getElementById('messageBox');
+    // making the chat window scroll down to display newest message
+    await setTimeout(()=>{messageBox.scrollTo(0, messageBox.scrollHeight - messageBox.clientHeight)}, 100);
   };
 
 
@@ -64,7 +72,7 @@ class Chat extends Component{
     return (
       <div className='chat-container'>
         <div>
-          <div className='chatmessages'>
+          <div className='chatmessages' id='messageBox'>
             <ul id={ gameId + '' }>
               { 
                 messages.map(message => {
@@ -89,18 +97,20 @@ class Chat extends Component{
                             </div>
                           </div>
                         ) : (
-                          <div className='chat-single-message-receive'>
-                            <div className='chat-name-date-receive'>
-                              <div className='chat-name-receive'>
-                                { message.user.name }
-                              </div> 
-                              <div className='chat-date-receive'>
-                              <div>{ moment(message.date).format("h:mm a") }</div>
-                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                          <div className='chat-message-left'>
+                            <div className='chat-single-message-receive'>
+                              <div className='chat-name-date-receive'>
+                                <div className='chat-name-receive'>
+                                  { message.user.name }
+                                </div> 
+                                <div className='chat-date-receive'>
+                                <div>{ moment(message.date).format("h:mm a") }</div>
+                                  <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                                </div>
                               </div>
-                            </div>
-                            <div className='chat-message-receive'>
-                              { message.content }
+                              <div className='chat-message-receive'>
+                                { message.content }
+                              </div>
                             </div>
                           </div>
                         )
@@ -133,7 +143,7 @@ const mapState = ({ users, messages }) => {
 const mapDispatch = dispatch => {
   return {
     _createMessage: (message) => dispatch(createMessage(message)),
-    getMessages: (gameId) => dispatch(getMessages(gameId))
+    getMessages: (gameId, token) => dispatch(getMessages(gameId, token))
   }
 }
 
