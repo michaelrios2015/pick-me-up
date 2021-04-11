@@ -97,18 +97,20 @@ class Chat extends Component{
                             </div>
                           </div>
                         ) : (
-                          <div className='chat-single-message-receive'>
-                            <div className='chat-name-date-receive'>
-                              <div className='chat-name-receive'>
-                                { message.user.name }
-                              </div> 
-                              <div className='chat-date-receive'>
-                              <div>{ moment(message.date).format("h:mm a") }</div>
-                                <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                          <div className='chat-message-left'>
+                            <div className='chat-single-message-receive'>
+                              <div className='chat-name-date-receive'>
+                                <div className='chat-name-receive'>
+                                  { message.user.name }
+                                </div> 
+                                <div className='chat-date-receive'>
+                                <div>{ moment(message.date).format("h:mm a") }</div>
+                                  <div>{ moment(message.date).format("MMM Do, YYYY") }</div>
+                                </div>
                               </div>
-                            </div>
-                            <div className='chat-message-receive'>
-                              { message.content }
+                              <div className='chat-message-receive'>
+                                { message.content }
+                              </div>
                             </div>
                           </div>
                         )
