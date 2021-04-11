@@ -33,6 +33,7 @@ class Chat extends Component{
     });
 
     this.props.getMessages(gameId, token);
+    
   };
 
 
@@ -57,8 +58,9 @@ class Chat extends Component{
     // this is clearing the text from the form box after sending message
     document.getElementById('content').value = ''; 
 
-    
-    
+    let messageBox = document.getElementById('messageBox');
+    // making the chat window scroll down to display newest message
+    await setTimeout(()=>{messageBox.scrollTo(0, messageBox.scrollHeight - messageBox.clientHeight)}, 100);
   };
 
 
@@ -70,7 +72,7 @@ class Chat extends Component{
     return (
       <div className='chat-container'>
         <div>
-          <div className='chatmessages'>
+          <div className='chatmessages' id='messageBox'>
             <ul id={ gameId + '' }>
               { 
                 messages.map(message => {
