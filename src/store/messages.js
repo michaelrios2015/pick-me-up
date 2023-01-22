@@ -11,11 +11,15 @@ let _gameId;
 const socket = new WebSocket(window.document.location.origin.replace('http', 'ws'));
 
 // this handles received messsages
-socket.addEventListener('message', (ev)=> {
+socket.addEventListener('message', async (ev)=> {
   try{
     const action = JSON.parse(ev.data);
     if(action.type){
       store.dispatch(action);
+      
+      let messageBox = document.getElementById('messageBox');
+      // making the chat window scroll down to display newest message
+      await setTimeout(()=>{messageBox.scrollTo(0, messageBox.scrollHeight - messageBox.clientHeight)}, 100);
     }
   }
   catch(ex){
@@ -43,10 +47,10 @@ export const postMessage = (message) => {
 
 //thunks
 
-export const getMessages = (gameId) => {
+export const getMessages = (gameId, token) => {
   _gameId = gameId;
   return async (dispatch)=>{
-    const messages = (await axios.get(`/api/messages/${ gameId }`)).data;
+    const messages = (await axios.get(`/api/messages/${ gameId }?pickmeup-token=${token}`)).data;
     dispatch(setMessages(messages))
   }
 };

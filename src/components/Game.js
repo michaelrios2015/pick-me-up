@@ -148,7 +148,7 @@ handleMarkers(court){
               <div className='container justify-content-center'>
                 <h4>This game was played on: </h4> 
                 <hr></hr>
-                <h4>Date: { moment(game.dateAndTime).format('MMM D, YYYY') }</h4>
+                <h4>Date: { moment(game.dateAndTime).format('MM DD, YYYY') }</h4>
                 <hr></hr>
                 <h4>Time: { moment(game.dateAndTime).format('h:mm a') }</h4>
                 <hr></hr>
